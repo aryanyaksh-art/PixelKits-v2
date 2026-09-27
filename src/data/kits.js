@@ -23,6 +23,23 @@
   // ---- Brookhollow reeds ----
   K(10, 'Rushkin', ['Plain'], 1, L(11, 18), 'fast', 'e1', 'Reed Mouse', { design: 'rushkin' }, 'It climbs reeds to nibble the seeds at the top. Its fuzzy cattail tail makes a warm pillow.');
   K(11, 'Bulrusher', ['Plain', 'Leaf'], 2, null, 'phys', 'e2', 'Marsh Brawler', { design: 'bulrusher' }, 'It weaves itself a hood of reeds and guards its patch of riverbank with a sharpened reed staff.');
+  // ---- Willow Trail ----
+  K(12, 'Kitefinch', ['Plain', 'Gale'], 1, L(13, 14), 'fast', 'e1', 'Kite Bird', { design: 'kitefinch' }, 'Its diamond-shaped wings catch the wind like a paper kite. Flocks of them dot the sky on breezy days.');
+  K(13, 'Streamlark', ['Plain', 'Gale'], 2, L(14, 32), 'fast', 'b1', 'Streamer Bird', { design: 'streamlark' }, 'It trails long ribbon feathers when it flies. Villages hang ribbons on their gates to welcome it.');
+  K(14, 'Festivane', ['Plain', 'Gale'], 3, null, 'phys', 'b2', 'Festival Kite', { design: 'festivane' }, 'Its great kite wings are painted in bright festival colors. When it circles overhead, a harvest is said to be coming.');
+  K(15, 'Caddle', ['Swarm'], 1, L(16, 7), 'tank', 'bug1', 'Case Grub', { design: 'caddle' }, 'It glues river pebbles and twigs into a tube and lives inside. It only pokes its head out to eat.');
+  K(16, 'Stonesheath', ['Swarm', 'Terra'], 2, L(17, 11), 'wall', 'bug2', 'Stone Case', { design: 'stonesheath' }, 'It seals its case shut and waits. Anyone who kicks it learns very quickly that it is made of stone.');
+  K(17, 'Caddira', ['Swarm', 'Leaf'], 3, null, 'spec', 'bug3', 'Moss Moth', { design: 'caddira' }, 'It keeps one pebble from its old case pinned to its chest. Its mossy wings hum softly over the water at dusk.');
+  K(18, 'Puffhop', ['Leaf'], 1, L(19, 20), 'fast', 'b1', 'Dandelion Hare', { design: 'puffhop' }, 'Its tail is a giant dandelion puff. When it sneezes, seeds scatter everywhere and new flowers sprout.');
+  K(19, 'Dandeloft', ['Leaf', 'Gale'], 2, null, 'spec', 'b2', 'Seed Glider', { design: 'dandeloft', float: 1 }, 'Its ears grew into a dandelion parachute. It drifts over the valley for days, planting meadows as it goes.');
+  K(20, 'Acornet', ['Swarm'], 1, L(21, 22), 'tank', 'b1', 'Acorn Beetle', { design: 'acornet' }, 'It wears a fallen acorn cap as a helmet. It will fight anything, even a leaf, if the leaf looks at it wrong.');
+  K(21, 'Oaknight', ['Swarm', 'Metal'], 2, null, 'phys', 'b2', 'Knight Beetle', { design: 'oaknight' }, 'It forges armor from acorn shells and carries a twig lance. It swears an oath to protect one tree for life.');
+  K(22, 'Skimble', ['Tide'], 1, L(23, 24), 'fast', 'b1', 'Skip Fish', { design: 'skimble', float: 1 }, 'It is round and flat like a smooth river stone. It skips across the water to escape, up to twenty hops at a time.');
+  K(23, 'Rapidfin', ['Tide', 'Terra'], 2, null, 'phys', 'b2', 'Rapids Fish', { design: 'rapidfin', float: 1 }, 'Stone plates cover its back. It leaps up waterfalls that no other fish can climb.');
+  K(24, 'Nocturr', ['Shade'], 1, L(25, 26), 'spec', 'b1', 'Owl Cat', { design: 'nocturr' }, 'It purrs like a cat and hoots like an owl. Its glowing eyes are the last lights you see on the trail at night.');
+  K(25, 'Umbrowl', ['Shade', 'Gale'], 2, null, 'spec', 'b2', 'Night Stalker', { design: 'umbrowl' }, 'It wraps its wings around itself like a cloak and vanishes into the dark. A crescent moon glows on its chest.');
+  K(26, 'Geodrop', ['Terra', 'Lumen'], 1, L(27, 30), 'wall', 'rare', 'Geode Snail', { design: 'geodrop' }, 'Its shell looks like a plain rock, but a crack in its side shows crystals glittering inside.');
+  K(27, 'Amethell', ['Terra', 'Lumen'], 2, null, 'wall', 'b2', 'Crystal Snail', { design: 'amethell' }, 'A spire of purple crystal grows from its shell and glows in dark caves. It moves very slowly, and very proudly.');
 
   // ---------- stats ----------
   var BST = { st1: 315, st2: 410, st3: 530, e1: 255, e2: 420, b1: 310, b2: 480, bug1: 200, bug2: 285, bug3: 420, ps1: 300, ps2: 420, ps3: 600, single: 455, rare: 500, legend: 620, myth: 600 };

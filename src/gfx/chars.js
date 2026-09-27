@@ -134,6 +134,12 @@
     villager2: { head: 'curly', h: '#141418', H: '#000000', s: '#6e4428', S: '#4e2e18', c: '#e07830', C: '#a8501a', a: '#f4f4f4', p: '#384058', P: '#242a3c', k: '#e07830' },
     villager3: { head: 'swept', h: '#e8c060', H: '#b89030', c: '#3a9a50', C: '#246a34', a: '#f4f4f4', p: '#6a5a4a', P: '#4a3e30', k: '#3a9a50' },
     kid2: { head: 'braids', h: '#6a4020', H: '#44260e', s: '#e0a878', S: '#b88050', c: '#f070a8', C: '#b84478', a: '#f4f4f4', p: '#4a78c8', P: '#2e4e90', k: '#f8d040', shorts: 1 },
+    // Ashen Accord: grey cloaks with an ember trim
+    cinder: { head: 'hood', b: '#6e6c74', B: '#4a484e', h: '#2a2628', s: '#e8c8a8', S: '#c09878', c: '#6e6c74', C: '#4a484e', a: '#f07a2a', p: '#3a383e', P: '#26242a', f: '#2a2628', k: '#6e6c74' },
+    cinder2: { head: 'hood', b: '#6e6c74', B: '#4a484e', h: '#2a2628', s: '#9a6440', S: '#744626', c: '#6e6c74', C: '#4a484e', a: '#f07a2a', p: '#3a383e', P: '#26242a', f: '#2a2628', k: '#6e6c74' },
+    hiker2: { head: 'curly', hat: 'cap', b: '#4a8a4a', B: '#2e5e2e', w: '#f4f4f4', h: '#3a2418', H: '#241208', s: '#c68a5a', S: '#9a6438', c: '#d88a3a', C: '#a0602a', a: '#5a4424', p: '#5a5a3a', P: '#3a3a24', k: '#6a8a40' },
+    birder: { head: 'ponytail', hat: 'cap', b: '#e8d060', B: '#b09a30', w: '#3a6ab0', h: '#8a4a20', H: '#5a2a10', c: '#6a8a5a', C: '#4a6a3a', a: '#e8d060', p: '#6a5a4a', P: '#4a3e30', k: '#e8d060' },
+    angler: { head: 'short', hat: 'beanie', b: '#3a6ab0', B: '#264a80', h: '#6a4020', H: '#44260e', s: '#e0a878', S: '#b88050', c: '#8a9a5a', C: '#5a6a3a', a: '#4a3a2a', p: '#3a4a6a', P: '#24304a', f: '#2a2a2a', k: '#8a9a5a' },
     miller: { head: 'short', hat: 'cap', b: '#8a8a8a', B: '#5a5a5a', w: '#f4f4f4', h: '#6a4020', H: '#44260e', c: '#e8e0d0', C: '#b8b0a0', a: '#7a5230', p: '#5a6a8a', P: '#3a4a6a', k: '#e8e0d0' },
     mom: { head: 'bun', dress: 1, h: '#a0522d', H: '#6e3418', c: '#e87a9a', C: '#b8506e' },
     prof: { head: 'long', h: '#c8c8d4', H: '#9090a4', c: '#f4f4f8', C: '#c0c4d4', a: '#4a8a78', p: '#4a5a7a', P: '#34405a', f: '#3a3a44', k: '#f4f4f8' },

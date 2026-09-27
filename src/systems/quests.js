@@ -75,7 +75,8 @@
         var cur = Q.current();
         if (cur) {
           var maxW = Math.min(PK.W - 8, 200);
-          var txt = F().fit(cur.text, maxW - 18);
+          var full = PK.ui.fmt(cur.text), txt = F().fit(full, maxW - 18);
+          if (txt !== full) txt = F().fit(full, maxW - 24) + '…';
           var w = F().width(txt) + 18;
           ctx.globalAlpha = 0.9;
           PK.ui.box(ctx, 4, 4, w, 15);
@@ -143,7 +144,7 @@
       var id = L[this.i], d = PK.QUESTS[id], q = st[id];
       PK.ui.box(ctx, 6, 24, PK.W - 12, PK.H - 30);
       F().draw(ctx, d.title, 14, 30, t.text, t.shadow);
-      var lines = F().wrap(d.desc || '', PK.W - 30);
+      var lines = F().wrap(PK.ui.fmt(d.desc || ''), PK.W - 30);
       var yy = 42;
       lines.forEach(function (ln) { F().draw(ctx, ln, 14, yy, t.dim); yy += 10; });
       yy += 4;
@@ -151,7 +152,7 @@
         if (s > q.step && !q.done) break;
         var fin = q.done || s < q.step;
         F().draw(ctx, fin ? '✓' : '▶', 14, yy, fin ? '#2a9a50' : '#d08a10');
-        F().draw(ctx, F().fit(d.steps[s].text, PK.W - 40), 24, yy, fin ? t.dim : t.text, fin ? null : t.shadow);
+        F().draw(ctx, F().fit(PK.ui.fmt(d.steps[s].text), PK.W - 40), 24, yy, fin ? t.dim : t.text, fin ? null : t.shadow);
         yy += 11;
       }
       if (d.reward) F().draw(ctx, 'Reward: ' + d.reward, 14, PK.H - 16, '#8a6a20');
@@ -168,7 +169,7 @@
       PK.ui.box(ctx, 6, yb, PK.W - 12, 18, sel ? { frame: '#28304c', frame2: '#f0a040', fill: '#fff4dc' } : null);
       F().draw(ctx, qd.kind === 'main' ? '★' : '◆', 12, yb + 5, qd.kind === 'main' ? '#e0a020' : '#4a9ad8');
       F().draw(ctx, F().fit(qd.title, 120), 22, yb + 5, t.text, t.shadow);
-      var sub = qq.done ? 'Complete' : qd.steps[qq.step].text;
+      var sub = qq.done ? 'Complete' : PK.ui.fmt(qd.steps[qq.step].text);
       F().right(ctx, F().fit(sub, PK.W - 160), PK.W - 12, yb + 5, t.dim);
     }
   };

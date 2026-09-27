@@ -529,6 +529,344 @@
     }
   };
 
+  // ===== Willow Trail: kite bird line (Plain/Gale) =====
+  DESIGNS.kitefinch = {
+    pal: { body: '#5aa8e8', belly: '#f8f0e0', wing: '#f0c040', ribbon: '#e84848', beak: '#f0a030', iris: '#1c2a4a' },
+    draw: function (d) {
+      d.cv(38, 51, 47, 59, 55, 53, 'ribbon', 1.3, 0.7);
+      d.cv(38, 49, 48, 45, 56, 45, 'ribbon', 1.3, 0.7);
+      d.ln(29, 57, 28, 61, 'beak', 0.6); d.ln(34, 57, 35, 61, 'beak', 0.6);
+      d.el(32, 50, 9, 8, 'body');
+      d.el(29.5, 53.5, 5.5, 4.5, 'belly', { clip: function (x, y) { return y > 50; } });
+      d.el(26.5, 40.5, 7, 6.5, 'body');
+      d.px(27, 33, 'body'); d.px(28, 32.5, 'body');
+      d.po([[18.5, 41.5], [21.5, 39], [22, 43.5]], 'beak', { edge: true });
+      if (!d.back) d.eye(24.5, 39.5, 2, 2.4, { look: [-0.4, 0] });
+      d.po([[33, 43], [42, 48], [35.5, 57.5], [28, 50]], 'wing', { edge: true });
+      d.ln(33, 43.5, 35.5, 57, 'ribbon', 0.5); d.ln(28.5, 50, 41.5, 48, 'wing', 0.4, 0.4, { light: 0.3 });
+    }
+  };
+  DESIGNS.streamlark = {
+    pal: { body: '#3e8ad8', belly: '#f8f0e0', wing: '#f4c43a', wing2: '#ec7a3a', ribbon: '#e03a4a', beak: '#f0a030', iris: '#1c2a4a' },
+    draw: function (d) {
+      d.cv(40, 48, 52, 59, 61, 51, 'ribbon', 1.6, 0.8);
+      d.cv(40, 46, 53, 44, 61, 37, 'ribbon', 1.6, 0.8);
+      d.po([[60, 50], [63, 48], [63, 54]], 'ribbon'); d.po([[60, 37], [63, 34], [63, 40]], 'ribbon');
+      d.po([[37, 26], [53, 28], [44, 41], [35, 36]], 'wing2', { bias: -0.1 });
+      d.ln(28, 52, 26, 60, 'beak', 0.8); d.ln(34, 52, 35, 60, 'beak', 0.8);
+      d.el(25, 60.5, 3, 1.2, 'beak'); d.el(36, 60.5, 3, 1.2, 'beak');
+      d.el(32, 44, 10.5, 9, 'body');
+      d.el(29, 48, 6.5, 5.5, 'belly', { clip: function (x, y) { return y > 44; } });
+      d.ln(29, 38, 25, 32, 'body', 5, 4.5);
+      d.el(23.5, 29.5, 7, 6, 'body');
+      d.ln(26, 24, 32, 19, 'ribbon', 0.8, 0.5); d.ln(27, 24, 34, 23, 'ribbon', 0.7, 0.4);
+      d.po([[14.5, 30.5], [18.5, 28], [18.5, 33]], 'beak', { edge: true });
+      if (!d.back) d.eye(21.5, 28.5, 2, 2.2, { look: [-0.5, 0], lid: 0.3, lidMat: 'body' });
+      d.po([[29, 33], [46, 38], [37, 53], [24, 43]], 'wing', { edge: true });
+      d.po([[29, 33], [46, 38], [35.5, 43]], 'wing2', { edge: true });
+      d.ln(29, 33.5, 37, 52.5, 'ribbon', 0.5); d.ln(24.5, 43, 45.5, 38, 'ribbon', 0.5);
+    }
+  };
+  DESIGNS.festivane = {
+    pal: { body: '#2a6ac0', belly: '#f4ead8', wing: '#f4c43a', wing2: '#e8583a', wing3: '#3aa88a', ribbon: '#d8304a', ribbon2: '#f0d060', beak: '#f0a030', talon: '#3a3040', iris: '#f0c030' },
+    draw: function (d) {
+      // long streamers trailing behind
+      d.cv(44, 46, 56, 38, 63, 30, 'ribbon', 1.8, 0.8);
+      d.cv(44, 48, 56, 50, 63, 46, 'ribbon2', 1.6, 0.8);
+      d.cv(42, 50, 52, 60, 63, 60, 'ribbon', 1.6, 0.8);
+      // far wing: a big kite
+      d.po([[36, 26], [52, 2], [63, 10], [50, 34]], 'wing3', { bias: -0.12 });
+      d.ln(36, 26, 63, 10, 'talon', 0.4); d.ln(52, 2.5, 50, 33.5, 'talon', 0.4);
+      // tail fan, legs and body
+      d.po([[40, 46], [54, 52], [50, 60], [38, 54]], 'body', { bias: -0.08 });
+      d.ln(30, 50, 28, 59, 'beak', 1.3, 1); d.ln(37, 50, 38, 59, 'beak', 1.3, 1);
+      [[24.5, 61], [28, 61.5], [34, 61], [38, 61.5], [41.5, 61]].forEach(function (p) { d.px(p[0], p[1], 'talon'); });
+      d.el(26.5, 60, 3.4, 1.5, 'beak'); d.el(39, 60, 3.4, 1.5, 'beak');
+      d.el(34, 40, 11.5, 12, 'body');
+      d.el(31, 45, 7, 8, 'belly', { clip: function (x, y) { return y > 38; } });
+      d.speckle('belly', 'body', 10, 25, 38, 37, 52, 0.55);
+      // neck and hooked beak
+      d.ln(30, 32, 25, 26, 'body', 6, 5.5);
+      d.el(23, 23, 8, 7, 'body');
+      d.po([[11, 24.5], [16.5, 20], [18, 27.5], [13, 27.5]], 'beak', { edge: true });
+      d.px(11.5, 26.5, 'beak', 0.3);
+      [[27, 17, 35, 6], [29, 18, 39, 11], [26, 16, 29, 4]].forEach(function (l, j) { d.ln(l[0], l[1], l[2], l[3], j === 1 ? 'ribbon2' : 'ribbon', 0.9, 0.5); });
+      if (!d.back) {
+        d.eye(20, 22, 2.3, 2.2, { look: [-0.6, 0], lid: 0.35, lidMat: 'body' });
+        d.ln(16.5, 19.5, 24, 19.5, 'talon', 0.5);
+      }
+      // near wing: festival kite with spars
+      d.po([[28, 30], [12, 4], [2, 16], [22, 42]], 'wing', { edge: true });
+      d.po([[28, 30], [12, 4], [14, 22]], 'wing2', { edge: true });
+      d.po([[2, 16], [14, 22], [22, 42]], 'wing3', { edge: true });
+      d.ln(28, 30, 2.5, 16, 'talon', 0.45); d.ln(12, 4.5, 22, 41.5, 'talon', 0.45);
+    }
+  };
+
+  // ===== Willow Trail: caddisfly line (Swarm) =====
+  DESIGNS.caddle = {
+    pal: { case: '#9a8a78', pebble: '#bcae96', pebble2: '#7a8a8e', twig: '#7a5230', grub: '#dcecac', iris: '#1a2a14' },
+    draw: function (d) {
+      d.el(36, 54, 12.5, 6.5, 'case');
+      [[28, 51, 2.6], [33, 50, 2.2], [38, 51, 2.8], [44, 52, 2.4], [31, 56, 2.4], [37, 57, 2.6], [43, 56.5, 2.2], [46, 55, 1.8]].forEach(function (p, i) {
+        d.el(p[0], p[1], p[2], p[2] * 0.8, i % 3 ? 'pebble' : 'pebble2', { edge: true });
+      });
+      d.ln(30, 48.5, 44, 47.5, 'twig', 0.7); d.ln(40, 60, 49, 58, 'twig', 0.6);
+      d.el(22.5, 53.5, 6.2, 5.5, 'grub');
+      d.ln(18, 58, 16, 60, 'grub', 0.6); d.ln(21, 59, 20, 61, 'grub', 0.6); d.ln(24, 59, 24, 61, 'grub', 0.6);
+      if (!d.back) {
+        d.eye(19.5, 52, 1.9, 2.3, { look: [-0.4, 0] });
+        d.eye(24.5, 52, 1.9, 2.3, { look: [-0.4, 0] });
+        d.px(19, 56, 'twig'); d.px(21, 56, 'twig');
+      }
+    }
+  };
+  DESIGNS.stonesheath = {
+    pal: { case: '#8a8070', pebble: '#b4a890', pebble2: '#7a8a8e', moss: '#5a9a44', twig: '#7a5230', glow: '=#f0e070' },
+    draw: function (d) {
+      d.ln(27, 30, 22, 20, 'twig', 0.8, 0.5); d.ln(37, 29, 42, 18, 'twig', 0.8, 0.5);
+      d.el(32, 44, 11, 18, 'case');
+      var r = [[27, 32, 3], [34, 30, 3.2], [38, 36, 2.8], [26, 40, 3], [33, 44, 2.6], [39, 45, 3], [28, 50, 3.2], [35, 53, 3], [30, 58, 2.8], [37, 58.5, 2.4], [24, 47, 2.2], [40, 52, 2.2]];
+      r.forEach(function (p, i) { d.el(p[0], p[1], p[2], p[2] * 0.85, i % 3 ? 'pebble' : 'pebble2', { edge: true }); });
+      d.el(31, 28, 8, 3, 'moss'); d.el(24, 44, 2.6, 5, 'moss'); d.el(40, 50, 2.4, 4, 'moss');
+      d.speckle('moss', 'case', 6, 22, 24, 42, 54, 0.4);
+      if (!d.back) {
+        d.rc(26, 38, 12, 4, 'ink');
+        d.px(29, 39.5, 'glow'); d.px(30, 39.5, 'glow'); d.px(34, 39.5, 'glow'); d.px(35, 39.5, 'glow');
+      }
+    }
+  };
+  DESIGNS.caddira = {
+    pal: { wing: '#6aa04a', wing2: '#4a7a3a', vein: '#a8d078', body: '#8a6a4a', fluff: '#f0e6c8', eye: '#2a2a3a', pebble: '#b8a88a', leg: '#5a4030' },
+    draw: function (d) {
+      // antennae sweeping forward
+      d.cv(20, 27, 10, 14, 4, 4, 'leg', 0.5, 0.35); d.cv(22, 26, 16, 10, 12, 2, 'leg', 0.5, 0.35);
+      // far wing tent
+      d.po([[22, 22], [58, 30], [60, 44], [26, 40]], 'wing2', { bias: -0.1 });
+      // legs
+      [[24, 44, 20, 61], [30, 45, 30, 61], [36, 45, 40, 61], [42, 45, 48, 60]].forEach(function (l) { d.ln(l[0], l[1], l[2], l[3], 'leg', 0.6, 0.45); });
+      d.el(34, 42, 12, 4.5, 'body');
+      // near wing tent with leaf veins
+      d.po([[20, 26], [56, 32], [58, 46], [24, 46]], 'wing', { edge: true });
+      d.ln(22, 30, 56, 38, 'vein', 0.4); [26, 34, 42, 50].forEach(function (x) { d.ln(x, 33 - (x - 26) * 0.05, x + 4, 45, 'vein', 0.3); });
+      // fluffy collar, head and pebble brooch
+      d.el(22, 34, 5.5, 5, 'fluff');
+      d.el(17, 30, 5.5, 5, 'body');
+      d.el(23.5, 38.5, 2, 2, 'pebble', { edge: true });
+      if (!d.back) {
+        d.el(15, 29.5, 2.8, 3, 'eye', { bias: 0.1 }); d.px(14, 28.5, 'shine');
+        d.px(13, 33, 'leg');
+      }
+    }
+  };
+
+  // ===== Willow Trail: dandelion hare (Leaf -> Leaf/Gale) =====
+  DESIGNS.puffhop = {
+    pal: { fur: '#bcd48a', belly: '#f4f0d8', puff: '#fafaf4', seed: '#8a8a70', ear: '#f0a8b0', leaf: '#4caa46', iris: '#2a3a1a' },
+    draw: function (d) {
+      d.el(45, 47, 9, 9, 'puff', { bias: 0.1 });
+      d.speckle('puff', 'seed', 16, 37, 39, 53, 55, 0.3);
+      d.el(36, 56, 5.5, 4.5, 'fur', { bias: -0.06 });
+      d.el(32, 52, 9, 8, 'fur');
+      d.el(29, 55, 5, 4.5, 'belly', { clip: function (x, y) { return y > 52; } });
+      d.el(26, 59.5, 2.6, 1.8, 'fur'); d.el(38, 60, 3.6, 1.8, 'fur', { bias: -0.08 });
+      d.el(22, 30, 2.6, 7.5, 'fur'); d.el(22, 30.5, 1.3, 5.5, 'ear', { light: 0.7 });
+      d.el(29, 28.5, 2.6, 8, 'fur'); d.el(29, 29, 1.3, 6, 'ear', { light: 0.7 });
+      d.el(25.5, 42, 7, 6.5, 'fur');
+      d.el(23, 45, 3.5, 2.5, 'belly');
+      [[22, 48.5, -0.6], [27, 49, 0.3], [32, 47.5, 0.9]].forEach(function (l) { d.el(l[0], l[1], 2.8, 1.4, 'leaf', { edge: true }); });
+      if (!d.back) {
+        d.eye(22.5, 41, 1.7, 2.1, { iris: 'iris', look: [-0.4, 0.1] });
+        d.eye(28, 40.5, 1.6, 2, { iris: 'iris', look: [-0.4, 0.1] });
+        d.px(19.5, 44, 'ear'); d.px(20.5, 45, 'mouth');
+      }
+    }
+  };
+  DESIGNS.dandeloft = {
+    float: true,
+    pal: { fur: '#a8c878', belly: '#f4f0d8', puff: '#fafaf4', seed: '#8a8a70', stem: '#6aa040', leaf: '#3a9a3e', ear: '#f0a8b0', iris: '#2a3a1a' },
+    draw: function (d) {
+      // dandelion parachute grown from its ears
+      d.el(32, 15, 17, 12.5, 'puff', { bias: 0.12 });
+      d.speckle('puff', 'seed', 40, 16, 4, 48, 26, 0.3);
+      for (var i = 0; i < 9; i++) { var a = Math.PI + i * Math.PI / 8; d.px(32 + Math.cos(a) * 16, 15 + Math.sin(a) * 11.5, 'seed', 0.3); }
+      d.ln(28, 30, 25, 22, 'stem', 0.8, 0.6); d.ln(35, 30, 38, 22, 'stem', 0.8, 0.6);
+      // body hanging below
+      d.ln(28, 50, 26, 58, 'fur', 1.8, 1.4); d.ln(35, 50, 37, 58, 'fur', 1.8, 1.4);
+      d.el(31.5, 45, 7, 8.5, 'fur');
+      d.el(30.5, 47, 4.5, 5.5, 'belly');
+      d.el(40, 50, 3.2, 3.2, 'puff');
+      d.ln(26, 40, 26, 32, 'fur', 1.4, 1.2); d.ln(37, 40, 37, 32, 'fur', 1.4, 1.2);
+      d.el(31.5, 34, 7, 6.2, 'fur');
+      d.el(29.5, 37, 3.5, 2.4, 'belly');
+      d.po([[24, 39], [40, 39], [36, 42], [32, 40.5], [28, 42]], 'leaf', { edge: true });
+      if (!d.back) {
+        d.eye(29, 33.5, 2, 2.4, { look: [-0.3, 0.3] });
+        d.eye(35, 33.5, 2, 2.4, { look: [-0.3, 0.3] });
+        d.px(28, 36.5, 'ear'); d.px(29, 37.5, 'mouth');
+      }
+    }
+  };
+
+  // ===== Willow Trail: acorn beetle (Swarm -> Swarm/Metal) =====
+  DESIGNS.acornet = {
+    pal: { shell: '#6a8a44', cap: '#a87a44', capd: '#7a5230', head: '#3a3028', leg: '#2a2420' },
+    draw: function (d) {
+      [[26, 57, 24, 61], [31, 58, 31, 61], [37, 58, 39, 61], [42, 57, 45, 60]].forEach(function (l) { d.ln(l[0], l[1], l[2], l[3], 'leg', 0.6); });
+      d.el(34, 52, 11, 7.5, 'shell');
+      d.ln(34, 45, 36, 59, 'shell', 0.35, 0.35, { light: 0.25 });
+      d.px(30, 49, 'shine'); d.px(31, 48.5, 'shine');
+      d.el(23.5, 53, 5, 4.2, 'head');
+      d.el(23.5, 49, 7, 4.5, 'cap', { clip: function (x, y) { return y < 51; }, edge: true });
+      for (var i = 0; i < 4; i++) d.ln(17.5 + i * 3.2, 47 + (i % 2), 18.5 + i * 3.2, 50, 'capd', 0.35);
+      d.ln(23.5, 44.5, 24.5, 42, 'capd', 0.7);
+      if (!d.back) { d.px(21, 53, 'shine'); d.px(25, 53, 'shine'); d.px(20.5, 54, 'ink'); d.px(24.5, 54, 'ink'); }
+    }
+  };
+  DESIGNS.oaknight = {
+    pal: { shell: '#4a6a36', plate: '#b08850', plated: '#7a5a30', metal: '#9aa2b0', twig: '#7a5230', leaf: '#4caa46', glow: '=#f0e070', leg: '#2a2420' },
+    draw: function (d) {
+      // twig lance with a leaf pennant
+      d.ln(46, 61, 52, 6, 'twig', 1, 0.8);
+      d.po([[52, 8], [60, 11], [53, 14]], 'leaf', { edge: true });
+      d.po([[50.5, 26], [53, 24], [54, 28]], 'metal');
+      // legs
+      d.ln(28, 50, 25, 61, 'leg', 1.6, 1.2); d.ln(36, 50, 38, 61, 'leg', 1.6, 1.2);
+      d.el(24, 61, 3.4, 1.4, 'leg'); d.el(39, 61, 3.4, 1.4, 'leg');
+      // body with acorn-plate armor
+      d.el(32, 41, 10, 12.5, 'shell');
+      [[29, 34, 5], [35, 36, 4.5], [29, 42, 4.6], [35, 44, 4.2], [31, 49, 4]].forEach(function (p) { d.el(p[0], p[1], p[2], p[2] * 0.7, 'plate', { edge: true }); });
+      // arm holding the lance
+      d.ln(38, 34, 45, 38, 'shell', 2.2, 2); d.el(47, 38.5, 2.4, 2.4, 'shell', { edge: true });
+      // acorn-cap shield
+      d.el(20, 42, 6.5, 8, 'plate', { edge: true });
+      d.el(20, 38.5, 6.5, 4.5, 'plated', { clip: function (x, y) { return y < 40; } });
+      for (var i = 0; i < 3; i++) d.ln(15.5 + i * 3, 36, 16 + i * 3, 39.5, 'plate', 0.3);
+      // helmet with visor and mandible crest
+      d.cv(27, 21, 18, 16, 15, 8, 'shell', 1.4, 0.6); d.cv(33, 20, 30, 10, 36, 4, 'shell', 1.4, 0.6);
+      d.el(30, 24, 7.5, 6.5, 'plate');
+      d.el(30, 20, 8.5, 4.8, 'plated', { clip: function (x, y) { return y < 22; }, edge: true });
+      d.ln(30, 15.5, 31, 13, 'twig', 0.8);
+      if (!d.back) { d.rc(24.5, 23.5, 10, 2.4, 'ink'); d.px(26, 24.5, 'glow'); d.px(29, 24.5, 'glow'); }
+    }
+  };
+
+  // ===== Willow Trail: skipping-stone fish (Tide -> Tide/Terra) =====
+  DESIGNS.skimble = {
+    float: true,
+    pal: { body: '#8aa2b4', stripe: '#c8d8e0', fin: '#5a8ab0', water: '=#bfe6ff', iris: '#1a2a3a' },
+    draw: function (d) {
+      d.el(32, 60, 12, 2.2, 'water'); d.cut(32, 60, 9, 1.2);
+      d.po([[42, 44], [50, 38], [50, 52]], 'fin', { edge: true });
+      d.po([[30, 38], [36, 33], [38, 39]], 'fin');
+      d.el(31, 46, 13, 8, 'body');
+      d.el(31, 45, 10, 2.2, 'stripe', { light: 0.9 });
+      d.po([[29, 50], [34, 55], [36, 49]], 'fin', { edge: true });
+      if (!d.back) {
+        d.eye(23, 44, 2.6, 2.8, { look: [-0.3, 0] });
+        d.ln(18.5, 48, 21.5, 48.5, 'mouth', 0.4);
+      }
+      d.px(14, 40, 'water'); d.px(12, 44, 'water'); d.px(48, 58, 'water');
+    }
+  };
+  DESIGNS.rapidfin = {
+    float: true,
+    pal: { body: '#4a7aa8', plate: '#9a9488', plated: '#6a6458', fin: '#2e5a8a', belly: '#d8e4ea', water: '=#bfe6ff', foam: '=#ffffff', iris: '#f0c030' },
+    draw: function (d) {
+      // splash below the leap
+      d.el(34, 59, 16, 3, 'water'); d.cut(34, 59, 12, 1.6);
+      [[18, 52], [22, 49], [48, 52], [45, 48], [30, 55]].forEach(function (p) { d.px(p[0], p[1], 'foam'); });
+      // tail fork and big blade fins
+      d.po([[44, 30], [58, 18], [55, 30], [60, 42]], 'fin', { edge: true });
+      d.po([[26, 20], [36, 8], [42, 22]], 'fin', { edge: true });
+      d.el(31, 32, 16, 10, 'body');
+      d.el(28, 37, 12, 4.5, 'belly', { clip: function (x, y) { return y > 34; } });
+      [[26, 27, 4.5], [33, 26, 4.2], [39, 28, 3.6], [21, 30, 3.4]].forEach(function (p) { d.el(p[0], p[1], p[2], p[2] * 0.75, 'plate', { edge: true }); });
+      d.ln(20, 26, 44, 26, 'plated', 0.35);
+      d.po([[27, 38], [36, 47], [38, 38]], 'fin', { edge: true });
+      if (!d.back) {
+        d.eye(18, 31, 2.4, 2.2, { look: [-0.5, 0], lid: 0.35, lidMat: 'body' });
+        d.ln(13, 35, 18, 36, 'mouth', 0.45); d.px(14, 36, 'white');
+      }
+    }
+  };
+
+  // ===== Willow Trail: owl-cat (Shade -> Shade/Gale), night only =====
+  DESIGNS.nocturr = {
+    pal: { body: '#5a4a78', face: '#9a8ab8', wing: '#44385e', talon: '#e8c060', glow: '=#ffd84a', ear: '#3a2e50' },
+    draw: function (d) {
+      d.cv(40, 56, 50, 58, 48, 46, 'body', 2, 1.2);
+      d.el(28, 61, 3, 1.4, 'talon'); d.el(36, 61, 3, 1.4, 'talon');
+      d.el(32, 50, 10.5, 10.5, 'body');
+      d.el(22.5, 51, 3.5, 7, 'wing', { edge: true }); d.el(41.5, 51, 3.5, 7, 'wing', { edge: true });
+      d.po([[23, 38], [22, 29], [29, 36]], 'body'); d.po([[35, 36], [42, 29], [41, 38]], 'body');
+      d.po([[24, 36.5], [23.5, 32], [27, 35.5]], 'ear'); d.po([[37, 35.5], [40.5, 32], [40, 36.5]], 'ear');
+      d.el(32, 44, 9, 6.5, 'face');
+      if (!d.back) {
+        d.el(28, 43.5, 3.4, 3.4, 'ink'); d.el(28, 43.5, 2.6, 2.6, 'glow'); d.el(28, 43.5, 1, 1.8, 'ink'); d.px(27, 42.5, 'shine');
+        d.el(36, 43.5, 3.4, 3.4, 'ink'); d.el(36, 43.5, 2.6, 2.6, 'glow'); d.el(36, 43.5, 1, 1.8, 'ink'); d.px(35, 42.5, 'shine');
+        d.po([[31, 46.5], [33, 46.5], [32, 48.5]], 'talon');
+      }
+    }
+  };
+  DESIGNS.umbrowl = {
+    pal: { body: '#463a66', face: '#8a7aa8', wing: '#2e2446', wingin: '#6a4a8a', talon: '#e8c060', glow: '=#ffd84a', moon: '=#f4f0c8', ear: '#2a2040' },
+    draw: function (d) {
+      // cloak-like spread wings
+      d.po([[30, 24], [2, 34], [6, 46], [14, 44], [16, 54], [26, 50]], 'wing', { bias: -0.06 });
+      d.po([[34, 24], [62, 34], [58, 46], [50, 44], [48, 54], [38, 50]], 'wing', { bias: -0.06 });
+      d.po([[29, 28], [8, 36], [12, 42], [24, 44]], 'wingin'); d.po([[35, 28], [56, 36], [52, 42], [40, 44]], 'wingin');
+      d.cv(38, 54, 52, 58, 56, 50, 'body', 2.4, 1.2);
+      d.ln(28, 50, 27, 59, 'talon', 1.2); d.ln(36, 50, 37, 59, 'talon', 1.2);
+      d.el(26.5, 60.5, 3, 1.3, 'talon'); d.el(37.5, 60.5, 3, 1.3, 'talon');
+      d.el(32, 42, 9, 12, 'body');
+      d.el(32, 44, 4, 4, 'moon'); d.cut(33.5, 43, 3.2, 3.4);
+      // head with tufted cat ears
+      d.po([[24, 20], [21, 6], [30, 16]], 'body'); d.po([[34, 16], [43, 6], [40, 20]], 'body');
+      d.ln(21.5, 7, 19, 3, 'ear', 0.6); d.ln(42.5, 7, 45, 3, 'ear', 0.6);
+      d.el(32, 24, 9, 7.5, 'face');
+      if (!d.back) {
+        [[28, 23], [36, 23]].forEach(function (e) { d.el(e[0], e[1], 3, 2.6, 'ink'); d.el(e[0], e[1], 2.3, 1.9, 'glow'); d.el(e[0], e[1], 0.8, 1.6, 'ink'); });
+        d.ln(24, 20, 30, 21.5, 'ink', 0.5); d.ln(34, 21.5, 40, 20, 'ink', 0.5);
+        d.po([[31, 26], [33, 26], [32, 28.5]], 'talon');
+      }
+    }
+  };
+
+  // ===== Willow Trail rare: geode snail (Terra/Lumen) =====
+  DESIGNS.geodrop = {
+    pal: { foot: '#d8c8e8', rock: '#8a7a6a', rockd: '#5a4e44', crys: '#a070e0', crys2: '#d8b8ff', eye: '#2a2030' },
+    draw: function (d) {
+      d.el(31, 58, 13, 3.8, 'foot');
+      d.ln(21, 57, 18, 48, 'foot', 2.2, 2); d.el(18, 47, 3, 3, 'foot');
+      d.ln(17, 46, 14, 40, 'foot', 0.7, 0.5); d.ln(19, 45, 20, 39, 'foot', 0.7, 0.5);
+      if (!d.back) { d.el(14, 39.5, 1.3, 1.3, 'eye'); d.el(20, 38.5, 1.3, 1.3, 'eye'); d.px(17, 49, 'mouth'); }
+      d.el(36, 47, 10.5, 10, 'rock');
+      d.speckle('rock', 'rockd', 14, 26, 38, 46, 56, 0.3);
+      // cracked-open window showing crystals
+      d.el(38, 44.5, 5.5, 5, 'rockd', { edge: true });
+      [[35, 47, 36.5, 40], [38, 48, 39, 39], [41, 47, 41.5, 41]].forEach(function (c) { d.po([[c[0] - 1.5, c[1]], [c[2], c[3]], [c[0] + 1.5, c[1]]], 'crys', { light: 0.7 }); });
+      d.px(38.5, 41, 'crys2'); d.px(36, 43, 'crys2');
+    }
+  };
+  DESIGNS.amethell = {
+    pal: { foot: '#cdb8e0', rock: '#7a6a5a', rockd: '#4e443c', crys: '#9a60e0', crys2: '#e0c8ff', glow: '=#f4e8ff', eye: '=#f4e8ff' },
+    draw: function (d) {
+      d.el(31, 58, 16, 4.2, 'foot');
+      d.ln(18, 57, 14, 44, 'foot', 3, 2.6); d.el(14, 43, 3.8, 3.6, 'foot');
+      d.ln(13, 41, 8, 32, 'foot', 0.8, 0.6); d.ln(16, 40, 18, 31, 'foot', 0.8, 0.6);
+      d.el(8, 31, 1.6, 1.6, 'eye'); d.el(18, 30, 1.6, 1.6, 'eye');
+      if (!d.back) { d.px(13, 44, 'ink'); d.px(15, 44, 'ink'); }
+      d.px(20, 52, 'crys'); d.px(24, 55, 'crys2');
+      // rock base with a tall amethyst spire
+      d.el(36, 50, 13, 9, 'rock');
+      d.speckle('rock', 'rockd', 20, 24, 42, 48, 58, 0.3);
+      var spikes = [[30, 44, 27, 20, 3], [36, 44, 37, 6, 4], [42, 44, 46, 18, 3.2], [33, 44, 31, 28, 2.4], [40, 45, 42, 30, 2.4], [46, 46, 51, 32, 2.2]];
+      spikes.forEach(function (c) { d.po([[c[0] - c[4], c[1]], [c[2], c[3]], [c[0] + c[4], c[1]]], 'crys', { edge: true, light: 0.62 }); d.ln(c[0], c[1] - 2, c[2], c[3] + 3, 'crys2', 0.4); });
+      d.px(37, 10, 'glow'); d.px(27.5, 23, 'glow'); d.px(46, 21, 'glow');
+    }
+  };
+
   var cache = {};
   function render(key, view, prism, tint) {
     var ck = key + '|' + view + '|' + (prism ? 1 : 0) + '|' + (tint || 0);

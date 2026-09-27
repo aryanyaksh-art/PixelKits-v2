@@ -557,6 +557,17 @@
     W.busy++;
     try { await fn(W); } catch (e) { console.error(e); }
     W.busy--;
+    W.refreshNpcs();
+  };
+  // Story progress can make NPCs appear mid-visit: add any whose condition just became true.
+  W.refreshNpcs = function () {
+    var m = W.map;
+    if (!m) return;
+    m.npcDefs.forEach(function (d) {
+      var key = d.id || d.key;
+      if (W.npcs.some(function (n) { return n.d === d; }) || !condOk(d)) return;
+      W.npcs.push({ d: d, id: key, x: d.x, y: d.y, px: d.x * TS, py: d.y * TS, dir: d.dir || 'down', moving: false, t: 0, hx: d.x, hy: d.y, timer: 60 + PK.rnd(120), sprite: d.sprite || 'boy', emote: null, hidden: !!d.startHidden });
+    });
   };
   W.say = function (t, o) { return PK.ui.say(t, o); };
   W.ask = function (t, it) { return PK.ui.ask(t, it); };
@@ -809,7 +820,7 @@
     if (W.busy || PK.top() !== this) return;
     if (p.turnT > 0) { p.turnT--; }
     if (inp.p('start')) { W.busy++; PK.run(function () { return PK.menus.start(); }).then(function () { W.busy--; }); return; }
-    if (inp.p('a')) { W.busy++; PK.run(W.interact).then(function () { W.busy--; }); return; }
+    if (inp.p('a')) { W.busy++; PK.run(W.interact).then(function () { W.busy--; W.refreshNpcs(); }); return; }
     var d = inp.dir();
     if (!d) return;
     if (d !== p.dir && inp.held(d) < 4) { p.dir = d; p.turnT = 5; return; }
@@ -842,6 +853,11 @@
       if (n.sprite === 'none') return;
       if (n.sprite === 'capsule') { PK.bfx.drawCapsule(ctx, sx + 8, sy + 6, n.d.capsule || 'capsule'); return; }
       if (n.sprite === 'item') { drawSatchel(ctx, sx, sy); return; }
+      if (n.sprite === 'tracks') {
+        ctx.fillStyle = 'rgba(60,40,24,0.75)';
+        [[3, 11], [9, 6], [5, 1]].forEach(function (t) { ctx.fillRect(sx + t[0], sy + t[1] + 2, 3, 3); ctx.fillRect(sx + t[0] - 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 3, sy + t[1], 1, 1); });
+        return;
+      }
       if (n.sprite.indexOf('kit:') === 0) {
         var id = +n.sprite.slice(4);
         var ic = PK.kitArt.icon(id);

@@ -1,4 +1,47 @@
-# PixelKits — Handoff
+# PixelKits v2 — Handoff
+
+**v2 is a full rebuild of PixelKits in its own repo.** Read this section first; the older v1 sections further down still describe the engine, tools and data formats accurately unless this section says otherwise.
+
+- **Repo:** https://github.com/aryanyaksh-art/PixelKits-v2 (branch `main`) · **Live:** https://aryanyaksh-art.github.io/PixelKits-v2/
+- **Local folder:** `C:\Users\aryan\OneDrive\Desktop\pixel_kits_v2` · v1 stays untouched in `Desktop\pixel_kits` (repo PixelKits).
+- Saves use their own keys (`pixelkits2_save_slot1..3`, `pixelkits2_options`) so v2 never touches v1 saves on the shared github.io origin.
+- Commit attribution: end every commit message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. The user asked to commit and push everything.
+
+## How v2 is being built
+
+The user (Aryan) found v1 repetitive and asked for: the game filling the browser, a brand-new roster where every Kit has a unique design (151 Kits, mostly 3-stage lines, cool evolutions), every town rebuilt bigger and different from the others with unique buildings, a different quest structure per town (not "beat the gym, get the tool from a house"), bigger routes, gyms with their own mini-game/challenge that you can't leave until you win, a customizable player, unique NPC looks, a quest bar + quest menu, and foe types shown in battle. Keep the v1 town names but rebuild everything. **Work town by town: ask the user ~15 multiple-choice questions per town (and many per gym) before building it.** Keep everything original (see Originality rules below).
+
+## Done so far
+
+- **Full screen:** the canvas widens to the window (`PK.FW` up to 432 px wide, `PK.H` 160). Scenes flagged `wide` (overworld, battle, designs gallery) use the full width; others draw in a centered 240 px stage (`PK.BASE_W`, offset `PK.OX`) with a dark frame. Overlays take the width of the opaque scene below them (`PK.layout()` in core.js).
+- **Battle:** layout spreads over the wide screen; foe types are shown under the foe HP box.
+- **Kit art:** `src/gfx/kitDesigns.js`. Each Kit has its own `draw(d)` function (shaded ellipses/polys/strokes with auto outline; `d.eye`, `d.flame`, `d.speckle`, `d.cut`); views `front` (64 px), `back` (84 px, mirrored) and `icon` (32 px). `PK.KITS[id].art.design` names the design. Preview: `?gallery=designs`. The user approved this style.
+- **Roster (27 of 151):** 1-3 Mossip→Pebblom→Templith (Leaf), 4-6 Emberlet→Shardrake→Halorax (Blaze→Blaze/Wyrm), 7-9 Conchi→Glyphsquid→Galleoth (Tide→Tide/Shade), 10-11 Rushkin→Bulrusher, 12-14 Kitefinch→Streamlark→Festivane, 15-17 Caddle→Stonesheath→Caddira, 18-19 Puffhop→Dandeloft, 20-21 Acornet→Oaknight, 22-23 Skimble→Rapidfin, 24-25 Nocturr→Umbrowl (night), 26-27 Geodrop→Amethell (rare). Stats/learnsets are still generated from the name (kits.js); hand-made learnsets are a future task.
+- **Character creator** (title.js `Creator`): body (pants/skirt/shorts), 6 skin tones, 9 hairstyles, hair color, hat (none/cap/beanie), hat/top/bottom/shoe colors. Stored in `state.player.look`, applied with `PK.chars.setPlayerLook`.
+- **Quests** (`src/systems/quests.js`): `PK.QUESTS[id] = {title, kind:'main'|'side', desc, steps:[{id,text}], reward}`; API `PK.quest.start/advance(id, stepId)/complete/at/past/has/done/current`. Quest bar on the map (hidden during scripts), NEW QUEST / QUEST UPDATED / QUEST COMPLETE toasts, QUESTS screen in the start menu, Options toggle.
+- **Maps by coordinates** (maps.js): `buildings: [{k, at:[x,y], to}]`, `npcs: {name: {at:[x,y], ...}}`, `signsAt`, `itemsAt`, `hiddenAt`, `eventsAt`, `warpsAt`. NPC options added: `startHidden`, sprite `'item'` (satchel), sprite `'tracks'`, `swept` path. `W.refreshNpcs()` re-checks NPC conditions after every script/interaction.
+- **New tiles:** `A` reeds (encounters use `enc.reeds`), `E` berry tree (daily River Berries), `G` hedge, `I` stepping stone, `J` waterfall, `N` dock, `P` herb bed, `U` well, `&` barrel, `$` crate, `-` rail fence, `_` stone wall, `/` bench, `^` steps, `F` flower bed, `<` logs, `(` lily pads, `+` mailbox. Flavor text via `TILE_TEXT` or a map's `tileText`.
+- **New buildings** (`src/gfx/buildings2.js`, each with its own draw code): home, cottage (thatch), mill (animated wheel), tower, school, bakery, stall (no door), boathouse, rivlab, floodhouse.
+- **Story weather:** flag `storm` forces night + heavy rain on outdoor maps.
+- **Brookhollow** (`src/data/v2/brookhollow.js`): opens on the flood night: bell rings, run to the north bridge, pull one of three baby Kits out of the flood (your starter), the other two are swept away, your sibling chases them. Morning: main quest *After the Flood* (lab → help the baker/teacher/Grandma → floodgate clue (Ashen Accord scrap) → Grandma's story about Grandpa → his journal + map in the watchtower → north). Side quests: *Flour in the Reeds*, *The Silent School Bell* (fisher + River Berry bait), *Grandma's Catching Lesson*.
+- **Willow Trail** (`src/data/v2/willow.js`, 44x64): reservoir shore, meadow, forest. Main quest *Upriver*: Ashen Accord Cinders at the weir (2 battles), tracks of the third flood Kit, sibling battle on the north road. Side quest *Low Water*: the weir hut lever lowers the river so stepping stones appear, leading to *Willow Hollow* (cave with Geodrop). Rest stop heals. North road blocked by a rockslide until Pinecrest is built.
+- Map generators used for the big layouts live in the session scratchpad only; the rows are committed in the area files.
+
+## Story bible (decided with the user)
+
+- Brookhollow: riverside mill village. Family: Mom at home; Grandma runs the mill and mentors you; Grandpa co-founded the villains when they were idealists, left, then went missing years ago; Dad is secretly the 8th Warden (reveal before the League). The older sibling (named by the player, sprite `rival`) is the rival: a **double agent** who pretends to join the villains to learn what happened to Grandpa; **bittersweet ending** (redeemed, loses their partner Kit, leaves to make amends, returns post-game).
+- Villains: **the Ashen Accord** (grey cloaks, ember symbol; grunts = Cinders; leaders = Elders). They want to "purify" the valley.
+- Starters were swept down from the hills; the sibling fished out the one strong against yours; the third one is loose in the hills (tracks on Willow Trail).
+
+## Next up
+
+1. Ask the user ~15 questions about **Pinecrest** (and many about its **gym** challenge), then build it and open the rockslide.
+2. Keep designing Kits for each new area (target 151) and consider hand-authored learnsets.
+3. Title screen and menus could be made wide like the overworld.
+
+---
+
+# v1 reference (engine, tools, data formats)
 
 Everything a new chat needs to continue this project, including a planned **revamp**. Read this whole file first.
 
