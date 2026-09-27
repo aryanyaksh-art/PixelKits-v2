@@ -5,6 +5,7 @@
 - **Repo:** https://github.com/aryanyaksh-art/PixelKits-v2 (branch `main`) · **Live:** https://aryanyaksh-art.github.io/PixelKits-v2/
 - **Local folder:** `C:\Users\aryan\OneDrive\Desktop\pixel_kits_v2` · v1 stays untouched in `Desktop\pixel_kits` (repo PixelKits).
 - Saves use their own keys (`pixelkits2_save_slot1..3`, `pixelkits2_options`) so v2 never touches v1 saves on the shared github.io origin.
+- **Before every push run `node tools/bump.mjs`** (stamps ?v= on index.html script links so browsers skip GitHub Pages' 10-minute cache).
 - Commit attribution: end every commit message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. The user asked to commit and push everything.
 
 ## How v2 is being built
