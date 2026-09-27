@@ -35,6 +35,25 @@
     'v5 [k8 h8 h8 h8 s8 h8 h8 h8]8',
     '@1 v5 l16 [o5 c e g e]4 [o4 f a o5 c o4 a]4 [o5 c e g e]4 [o4 g b o5 d o4 b]4 [o4 f a o5 c o4 a]4 [o5 c e g e]4 [o4 d f a f]4 [o5 c e g e]4');
 
+  // v2 situation themes
+  T('mystery', 96,
+    '@1 v10 o5 e4 r8 g8 f+4 r8 e8 | o5 d+2 r4 b4 | o5 c4 r8 e8 d+4 r8 c8 | o4 b2. r4 | o5 e4 r8 g8 a4 r8 b8 | o6 c2 o5 b4 a4 | o5 g8 f+8 e8 d+8 e4 f+4 | o5 e2. r4',
+    'o2 e2 b2 | o2 e2 b2 | o2 a2 o3 e2 | o2 b2 f+2 | o2 e2 b2 | o2 a2 o3 e2 | o2 b2 o3 d+2 | o2 e2 e2',
+    'v5 [k4 r4 h8 h8 r4]8');
+  T('tender', 76,
+    '@2 v10 o5 c4 f4 a4 g8 f8 | o5 e2 d4 c4 | o4 b-4 o5 d4 g4 f8 e8 | o5 f2. r4 | o5 a4 o6 c4 o5 b-4 a8 g8 | o5 f4 e8 d8 c2 | o5 d4 e4 f4 g4 | o5 f1',
+    'o3 f2 c2 | o3 c2 g2 | o3 b-2 c2 | o3 f2 c2 | o3 f2 d2 | o3 b-2 c2 | o3 b-2 c2 | o3 f1',
+    null,
+    '@1 v4 l8 [o4 f a o5 c o4 a]2 [o4 e g o5 c o4 g]2 [o4 d g b- g]2 [o4 f a o5 c o4 a]2 [o4 f a o5 c o4 a]2 [o4 d f b- f]2 [o4 e g b- g]2 [o4 f a o5 c f]2');
+  T('sibling', 123,
+    '@2 v11 o5 a8 a8 o6 c8 e8 d4 c8 o5 b8 | o5 a4 e4 a2 | o5 g8 g8 b8 o6 d8 c4 o5 b8 a8 | o5 g+2. r4 | o5 a8 a8 o6 c8 e8 f4 e8 d8 | o6 c4 o5 b4 a4 g4 | o5 f8 g8 a8 b8 o6 c4 o5 b4 | o5 a2. r4',
+    'l8 o3 [a e a e]2 [a e a e]2 [g d g d]2 [e b e b]2 [f c f c]2 [c g c g]2 [d a d a]2 [e b e b]2',
+    'l8 v8 [k h s h k k s h]8');
+  T('willow', 126,
+    '@1 v11 o5 d8 g8 b8 g8 a4 f+8 d8 | o5 e8 g8 o6 c8 o5 b8 a4 r4 | o5 b8 a8 g8 a8 b4 o6 d4 | o6 c8 o5 b8 a8 g8 f+2 | o5 d8 g8 b8 g8 a4 f+8 d8 | o5 e8 g8 o6 c8 e8 d4 c4 | o5 b8 o6 c8 d8 o5 b8 a4 f+4 | o5 g2. r4',
+    'o3 g4 d4 b4 d4 | o3 c4 g4 e4 g4 | o3 g4 d4 b4 g4 | o3 d4 a4 f+4 a4 | o3 g4 d4 b4 d4 | o3 c4 g4 a4 e4 | o3 d4 a4 f+4 a4 | o3 g4 d4 g4 r4',
+    'v7 [k8 h8 s8 h8 k8 k8 s8 h8]8');
+
   T('bike', 152,
     '@2 v12 o5 a8 a8 o6 c+8 e8 d4 c+8 o5 b8 | o5 a8 b8 o6 c+8 d8 e4 r8 e8 | o6 f+8 e8 d8 c+8 o5 b4 a8 b8 | o6 c+2 o5 a4 r4 | o5 f+8 a8 o6 d8 f+8 e4 d8 c+8 | o5 b8 o6 c+8 d8 e8 f+4 e4 | o6 d8 c+8 o5 b8 a8 g+4 b4 | o5 a2. r4',
     'o3 a4 o4 e4 o3 a4 o4 e4 | o3 a4 o4 e4 c+4 e4 | o3 d4 a4 f+4 a4 | o3 a4 o4 e4 o3 a4 r4 | o3 d4 a4 f+4 a4 | o3 e4 b4 g+4 b4 | o3 d4 a4 e4 b4 | o3 a4 o4 e4 o3 a4 r4',

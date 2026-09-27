@@ -562,6 +562,7 @@
     return async function (w, n) {
       if (!PK.quest.at('after', 'tower')) return w.say('A slightly loose floor stone. You wiggle it, but there\'s nothing special underneath.');
       if (i !== 2) { await w.say('You pry up the loose stone... Just dust and an old spider web.'); n.hidden = true; return; }
+      w.music('mystery');
       await w.say('You pry up the loose stone. Underneath, wrapped in oilcloth... a battered old journal!');
       n.hidden = true;
       await w.give('journal');
@@ -572,6 +573,7 @@
       await w.give('townmap');
       PK.quest.advance('after', 'north');
       await w.say('The weir above Willow Trail... that\'s where the river comes down from the hills. The same way {RIVAL} went.');
+      w.playMapMusic();
     };
   }
   S.bh_stone1 = stone(1); S.bh_stone2 = stone(2); S.bh_stone3 = stone(3);
@@ -682,6 +684,7 @@
   // The flood: choose which Kit to pull from the water
   S.bh_floodscene = async function (w) {
     var gm = w.npc('grandma_storm');
+    w.music('storm');
     w.playerFace('left');
     await w.say('GRANDMA: {PLAYER}! Thank goodness! The floodgate is jammed wide open, the whole reservoir is pouring down the valley!');
     w.playerFace('up');
@@ -852,6 +855,7 @@
     var q = PK.quest, st = g().state;
     if (q.at('after', 'lab')) return w.say('GRANDMA: Go and see Prof. Vale first, dear. She was up all night worrying about those little Kits.');
     if (q.at('after', 'grandma')) {
+      w.music('tender');
       await w.say('GRANDMA: What\'s that you\'ve got? Let me see...');
       await w.say('GRANDMA: ...A grey scrap with an ember stitched on it. Oh, no. No, no.');
       await w.say('GRANDMA: The Ashen Accord. I haven\'t seen that mark in forty years.');
@@ -861,6 +865,7 @@
       await w.say('GRANDMA: He kept a journal. He used to climb the old watchtower to write in peace. If there\'s anything left of it, it\'ll be hidden up at the top.');
       await w.say('GRANDMA: And... the keepsake room is unlocked now. His old things are in the chest. He\'d want you to have them.');
       q.advance('after', 'tower');
+      w.playMapMusic();
       return;
     }
     if (!q.has('lesson')) {

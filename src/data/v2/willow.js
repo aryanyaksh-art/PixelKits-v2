@@ -19,7 +19,7 @@
     steps: [{ id: 'lever', text: 'Pull the sluice lever in the weir hut' }, { id: 'back', text: 'Tell Angler Jory the water is down' }], reward: 'Plus Capsules and a secret' };
 
   D('willow_trail', {
-    name: 'Willow Trail', theme: 'vale', music: 'route', region: 'Verdant Vale',
+    name: 'Willow Trail', theme: 'vale', music: 'willow', region: 'Verdant Vale',
     rows: [
       'TTTTTTT~~~TTTTTTTTTTTTTTTTTTTT::TTTTTTTTTTTT',
       'TTTTTTT~~~TTTTTTTTTTTTTTTTTTTRRRR..TTTTTTTTT',
@@ -88,7 +88,9 @@
     ],
     buildings: [
       { k: 'floodhouse', at: [11, 6], to: 'wt_weir', roof: '#6a7080' },
-      { k: 'cottage', at: [32, 27], to: 'wt_rest', roof: '#b8903e' }
+      { k: 'cottage', at: [32, 27], to: 'wt_rest', roof: '#b8903e' },
+      { k: 'cabin', at: [14, 40], to: 'wt_ranger' },
+      { k: 'treehouse', at: [16, 2], to: 'wt_tree' }
     ],
     signsAt: [
       [29, 60, 'WILLOW TRAIL - North: Pinecrest   South: Brookhollow'],
@@ -123,7 +125,8 @@
     edges: { s: { to: 'brookhollow', off: 0 } },
     enc: {
       grass: [[12, 3, 6, 30], [10, 3, 5, 18], [18, 4, 6, 14], [15, 3, 5, 12], [20, 4, 7, 10], [24, 4, 7, 12, 'night'], [13, 7, 8, 4]],
-      reeds: [[10, 3, 6, 50], [15, 3, 5, 50]]
+      reeds: [[10, 3, 6, 50], [15, 3, 5, 50]],
+      water: [[22, 4, 8, 80], [23, 10, 12, 5], [15, 4, 6, 15]]
     }
   });
 
@@ -152,11 +155,33 @@
   });
 
   D('wt_weir', {
-    name: 'Weir Hut', interior: true, theme: 'house',
-    rows: ['WWYWWWWW', 'K..HH..K', '........', '&.....$.', '...M....'],
+    name: 'Weir Hut', interior: true, theme: 'works',
+    rows: ['WWWWWWWWWW', 'WWWWWWWWWW', '..........', '..........', '..........', '...M......'],
+    entry: [3, 5],
+    props: [
+      ['gearwall', 0, 0], ['pipes', 3, 1], ['lever', 5, 2, { talk: 'wt_lever' }], ['window', 8, 1],
+      ['bedroll', 1, 3, { text: 'A grey bedroll with an ember stitched on the corner. Someone has been sleeping here.' }],
+      ['table', 6, 4, { w: 2, icon: 'map', text: 'A map of the valley. The dam is circled, and next to it: "Flush the little ones. Find the one with the spark." Three ember marks point up into the hills.' }],
+      ['lantern', 9, 3, { text: 'An oil lantern, still warm.' }], ['crate', 9, 5, { icon: 'tent', text: 'A crate of supplies stamped with an ember. Rope, lamp oil, and a lot of crowbars.' }]
+    ]
+  });
+  D('wt_ranger', {
+    name: 'Ranger Cabin', interior: true, theme: 'cottage',
+    rows: ['WWWWWWWWWWWW', 'WWWWWWWWWWWW', '............', '............', '............', '....M.......'],
+    entry: [4, 5],
+    props: [
+      ['bed', 0, 2, { color: '#3e6e3e' }], ['stove', 2, 2], ['window', 3, 1], ['bookcase', 5, 2, { text: 'Field guides to every Kit in the valley, full of pressed leaves and feathers.' }],
+      ['painting', 7, 1, { art: 'map', text: 'A trail map with little drawings of Kits where they live. A tiny snail is drawn next to the cliff by the river.' }],
+      ['telescope', 9, 2, { talk: 'bh_scope' }], ['table', 7, 4, { w: 2, icon: 'books' }], ['rug', 1, 4, { w: 3, h: 1, color: '#6a8a4a' }], ['plant', 11, 5]
+    ],
+    npcs: { ranger: { at: [4, 3], sprite: 'hiker2', dir: 'down', talk: 'wt_ranger' } }
+  });
+  D('wt_tree', {
+    name: 'Treehouse', interior: true, theme: 'mill',
+    rows: ['WWWWWWWW', 'WWWWWWWW', '........', '........', '...M....'],
     entry: [3, 4],
-    npcs: { lever: { at: [4, 2], sprite: 'none', talk: 'wt_lever' } },
-    tileText: { H: 'The sluice machinery. A long iron lever sticks out of the gears.' }
+    props: [['window', 1, 1], ['window', 6, 1], ['toybox', 0, 2], ['painting', 3, 1, { art: 'kit', icon: 12, text: 'A crayon drawing of a Kitefinch. It\'s labeled "MY BEST FRIEND FLAPS".' }], ['cushion', 5, 3, { color: '#e84848' }], ['chest', 7, 2, { text: 'A treasure chest. It\'s full of shiny pebbles and bottle caps.' }]],
+    npcs: { treekid: { at: [4, 2], sprite: 'kid', dir: 'down', keeper: 'willow_6', sight: 0 } }
   });
   IN('wt_rest', 'hut', { name: 'Rest Stop', people: [
     { x: 3, y: 2, sprite: 'oldwoman', dir: 'down', talk: 'wt_caretaker' },
@@ -175,6 +200,7 @@
 
   S.wt_weir_scene = async function (w) {
     var a = w.npc('cinderA'), b = w.npc('cinderB');
+    w.music('mystery');
     w.setFlag('cinders_met');
     await w.say('...Two figures in grey cloaks are arguing by the weir.');
     await w.say('CINDER: Keep that sluice jammed open. The Elders want the valley below soaked to the roots.');
@@ -195,6 +221,7 @@
     if (b) { await w.moveNpc(b, 'rrrrr'); b.hidden = true; }
     w.setFlag('cinders_fled');
     PK.quest.advance('trail', 'tracks');
+    w.playMapMusic();
     await w.say('They ran off toward the north road. Wait, what are those marks in the mud by the weir?');
   };
 
@@ -215,6 +242,7 @@
     var sib = w.npc('sibling');
     if (!sib) return;
     w.setFlag('sibling_met');
+    w.music('sibling');
     await w.emote(sib, '!');
     sib.dir = 'down';
     await w.say('{RIVAL}: ...{PLAYER}? What are you doing out here?');
@@ -227,10 +255,12 @@
     await w.say('{RIVAL}: Listen. Those grey coats at the weir? I know who they are. The Ashen Accord.');
     await w.say('{RIVAL}: Grandpa didn\'t just walk away from them. They know what happened to him. I\'m going to find out.');
     await w.say('{RIVAL}: Don\'t follow me. And don\'t tell Mom where I am.');
+    w.music('sibling');
     await w.moveNpc(sib, 'u');
     await w.say('{RIVAL} scrambled up over the rockslide and disappeared toward Pinecrest.');
     sib.hidden = true;
     PK.quest.advance('trail', 'road');
+    w.playMapMusic();
   };
 
   S.wt_jory = async function (w) {
@@ -269,6 +299,17 @@
     else if (!PK.quest.has('lowwater')) await w.say('Downstream, stepping stones should be poking out of the river now.');
   };
 
+  S.wt_ranger = async function (w) {
+    if (!w.flag('met_ranger')) {
+      w.setFlag('met_ranger');
+      await w.say('RANGER HOLT: Welcome, welcome! I track every Kit on Willow Trail. Day and night, rain or shine.');
+    }
+    var night = PK.game.timeOfDay() === 'night';
+    await w.say('RANGER HOLT: By day you\'ll find Kitefinch, Rushkin, Puffhop, Caddle and Acornet in the grass. Streamlark if you\'re lucky.');
+    await w.say('RANGER HOLT: After dark, the Nocturr come out. Big yellow eyes, purrs like a cat. ' + (night ? 'It\'s dark now, so go have a look!' : 'Come back at night to find one.'));
+    await w.say('RANGER HOLT: And the river is full of Skimble. If you\'ve got a rod, cast from any bank.');
+    if (!w.flag('ranger_gift')) { w.setFlag('ranger_gift'); await w.say('RANGER HOLT: Here, every explorer needs a few of these.'); await w.give('swiftsnap', 2); }
+  };
   S.wt_caretaker = async function (w) {
     await w.say('CARETAKER: Welcome to the Rest Stop, dear. Sit, have some tea. Your Kits look tired.');
     await w.heal();

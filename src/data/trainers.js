@@ -23,6 +23,7 @@
   K('willow_3', 'Angler', 'Rolf', 'fisher', [[22, 6]], { intro: 'Nothing\'s biting, so I might as well battle!', after: 'The water\'s too high for proper fishing. Talk to Jory, he\'s got ideas about that.' });
   K('willow_4', 'Hiker', 'Bram', 'hiker2', [[20, 7], [10, 6]], { intro: 'The road north is blocked, so I\'m training instead! Let\'s go!', after: 'An Acornet will defend its tree to the very end. Respect.' });
   K('willow_5', 'Scout', 'Tamsin', 'girl', [[18, 6], [12, 6]], { intro: 'Scouts are always prepared! Are you?', after: 'I should have packed more River Berries.' });
+  K('willow_6', 'Treehouse Kid', 'Flint', 'kid', [[12, 7], [18, 7], [20, 8]], { reward: 60, noRematch: true, intro: 'HEY! This is my secret base! If you want in, you gotta beat me!', after: 'Okay, okay, you\'re in the club now. Don\'t tell anyone where the treehouse is!', lose: 'No fair! ...Fine. You\'re cool.' });
   // ---------- Ashen Accord ----------
   K('cinder_1', 'Accord Cinder', 'Grunt', 'cinder', [[24, 6], [10, 6]], { reward: 40, noRematch: true, music: 'syndicate', lose: 'What?! A village kid?' });
   K('cinder_2', 'Accord Cinder', 'Grunt', 'cinder2', [[15, 6], [24, 7]], { reward: 40, noRematch: true, music: 'syndicate', lose: 'The Elders won\'t like this...' });
