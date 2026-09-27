@@ -735,5 +735,5 @@
     cache[key] = c;
     return c;
   }
-  PK.kitArt = { get: get, icon: icon, PLANS: PLANS, TINTS: TINTS };
+  PK.kitArt = { get: get, icon: icon, PLANS: PLANS, TINTS: TINTS, tintColor: tintColor };
 })();

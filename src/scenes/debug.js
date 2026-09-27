@@ -5,6 +5,7 @@
 
   function Gallery(mode) {
     this.opaque = true;
+    this.wide = mode === 'designs';
     this.mode = mode;
     this.i = 0;
     this.page = 0;
@@ -50,6 +51,18 @@
         var d = dirs[(this.i % 4 + 4) % 4];
         ctx.drawImage(s[d][[0, 1, 0, 2][fr]], cx, cy);
         ctx.drawImage(s.down[0], cx + 12, cy + 4);
+      }
+    } else if (this.mode === 'designs') {
+      // Hand-authored v2 designs, 3 per row (one evolution line per row); left/right toggles back view.
+      var keys = Object.keys(PK.DESIGNS), view = this.i % 2 ? 'back' : 'front';
+      var colW = Math.floor(PK.W / 3);
+      for (var dk = 0; dk < keys.length; dk++) {
+        var row = Math.floor(dk / 3) - this.page, col = dk % 3;
+        if (row < 0 || row > 1) continue;
+        var dimg = PK.kitDesigns.render(keys[dk], view);
+        var dx0 = col * colW + Math.floor((colW - 64) / 2), dy0 = row * 78 + 2;
+        ctx.drawImage(dimg, dx0, dy0, 64, 64);
+        PK.font.center(ctx, keys[dk], col * colW + colW / 2, dy0 + 66, '#fff', '#223');
       }
     } else if (this.mode === 'kits') {
       var per = 12;
