@@ -189,7 +189,11 @@
       }
       (m.buildings || []).forEach(function (b) {
         if (b.x == null) return;
-        var K = PK.BUILDINGS[b.k], roof = b.roof || K.roof;
+        var K = PK.BUILDINGS[b.k], roof = b.roof || K.roof || '#b0643c';
+        if (b.prop) {
+          if (!K.walk) for (var qy = 0; qy < b.h; qy++) for (var qx = 0; qx < b.w; qx++) put(p.x + b.x + qx, p.y + b.y + qy, '#8a7a5a');
+          return;
+        }
         for (var by = 0; by < b.h; by++) for (var bx = 0; bx < b.w; bx++) {
           var col = by < Math.ceil(b.h * 0.6) ? (by === 0 ? PK.color.shade(roof, 0.25) : roof) : (K.wall || '#f0e8d8');
           if (bx === 0 || bx === b.w - 1) col = PK.color.shade(col, -0.2);
