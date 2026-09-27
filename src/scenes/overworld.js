@@ -895,6 +895,14 @@
       if (n.sprite === 'none') return;
       if (n.sprite === 'capsule') { PK.bfx.drawCapsule(ctx, sx + 8, sy + 6, n.d.capsule || 'capsule'); return; }
       if (n.sprite === 'item') { drawSatchel(ctx, sx, sy); return; }
+      if (n.sprite === 'crowbar') {
+        ctx.fillStyle = '#1e1a28'; for (var cb = 0; cb < 12; cb++) ctx.fillRect(sx + 3 + cb, sy + 13 - cb, 3, 3);
+        ctx.fillStyle = '#9aa0b0'; for (var cc = 0; cc < 11; cc++) ctx.fillRect(sx + 4 + cc, sy + 13 - cc, 1, 1);
+        ctx.fillStyle = '#1e1a28'; ctx.fillRect(sx + 2, sy + 12, 3, 4); ctx.fillStyle = '#9aa0b0'; ctx.fillRect(sx + 3, sy + 13, 1, 2);
+        ctx.fillStyle = '#6e6c74'; ctx.fillRect(sx + 9, sy + 6, 5, 4); ctx.fillStyle = '#f07a2a'; ctx.fillRect(sx + 11, sy + 7, 1, 1);
+        if ((PK.frame >> 4) % 4 === 0) { ctx.fillStyle = '#ffffff'; ctx.fillRect(sx + 13, sy + 1, 1, 3); ctx.fillRect(sx + 12, sy + 2, 3, 1); }
+        return;
+      }
       if (n.sprite === 'tracks') {
         ctx.fillStyle = 'rgba(60,40,24,0.75)';
         [[3, 11], [9, 6], [5, 1]].forEach(function (t) { ctx.fillRect(sx + t[0], sy + t[1] + 2, 3, 3); ctx.fillRect(sx + t[0] - 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 3, sy + t[1], 1, 1); });

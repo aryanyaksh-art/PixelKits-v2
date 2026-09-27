@@ -405,7 +405,7 @@
     props: [['gearwall', 1, 0], ['pipes', 4, 1], ['gearwall', 7, 0], ['lever', 8, 2, { text: 'The floodgate lever. It\'s locked in the CLOSED position now, with a brand new padlock.' }]],
     npcs: {
       gatekeeper: { at: [2, 6], sprite: 'worker', dir: 'right', cond: calm, talk: 'bh_gatekeeper' },
-      gearclue: { at: [3, 2], sprite: 'none', cond: function () { return PK.quest.at('after', 'gate'); }, talk: 'bh_gearclue' }
+      gearclue: { at: [3, 2], sprite: 'crowbar', noTurn: true, cond: function () { return PK.quest.at('after', 'gate'); }, talk: 'bh_gearclue' }
     },
     tileText: { '~': 'The channel under the floodgate. The water is calm now.' }
   });
