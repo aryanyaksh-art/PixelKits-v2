@@ -884,6 +884,12 @@
     // items
     var st = PK.game.state;
     m.itemDefs.forEach(function (it) { if (!st.picked[it.key]) drawSatchel(ctx, it.x * TS - cx, it.y * TS - cy); });
+    // hidden items give a faint twinkle every few seconds so sharp eyes can find them
+    m.hiddenDefs.forEach(function (h, i) {
+      if (st.picked[h.key] || ((PK.frame + i * 47) % 200) > 14) return;
+      var hx = h.x * TS - cx + 7, hy = h.y * TS - cy + 7;
+      ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(hx, hy - 2, 1, 5); ctx.fillRect(hx - 2, hy, 5, 1);
+    });
     // sprites sorted by y
     var list = W.npcs.filter(function (n) { return !n.hidden; }).map(function (n) { return { y: n.py, n: n }; });
     list.push({ y: p.py, player: true });
@@ -895,6 +901,15 @@
       if (n.sprite === 'none') return;
       if (n.sprite === 'capsule') { PK.bfx.drawCapsule(ctx, sx + 8, sy + 6, n.d.capsule || 'capsule'); return; }
       if (n.sprite === 'item') { drawSatchel(ctx, sx, sy); return; }
+      if (n.sprite === 'loosestone') {
+        // a slightly raised floor slab with cracks around it
+        ctx.fillStyle = 'rgba(30,26,40,0.55)'; ctx.fillRect(sx + 2, sy + 4, 12, 10);
+        ctx.fillStyle = '#b8b0a4'; ctx.fillRect(sx + 3, sy + 3, 10, 9);
+        ctx.fillStyle = '#d8d0c4'; ctx.fillRect(sx + 3, sy + 3, 10, 2);
+        ctx.fillStyle = '#6a6458'; ctx.fillRect(sx + 1, sy + 7, 2, 1); ctx.fillRect(sx + 13, sy + 5, 2, 1); ctx.fillRect(sx + 7, sy + 12, 1, 2); ctx.fillRect(sx + 6, sy + 6, 3, 1);
+        if (((PK.frame >> 4) + n.x) % 5 === 0) { ctx.fillStyle = '#ffffff'; ctx.fillRect(sx + 11, sy + 2, 1, 3); ctx.fillRect(sx + 10, sy + 3, 3, 1); }
+        return;
+      }
       if (n.sprite === 'crowbar') {
         ctx.fillStyle = '#1e1a28'; for (var cb = 0; cb < 12; cb++) ctx.fillRect(sx + 3 + cb, sy + 13 - cb, 3, 3);
         ctx.fillStyle = '#9aa0b0'; for (var cc = 0; cc < 11; cc++) ctx.fillRect(sx + 4 + cc, sy + 13 - cc, 1, 1);

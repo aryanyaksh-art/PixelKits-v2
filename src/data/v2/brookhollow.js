@@ -382,9 +382,9 @@
     props: [['telescope', 8, 3, { talk: 'bh_scope' }], ['sacks', 8, 2], ['cushion', 4, 4, { color: '#c8a060' }]],
     npcs: {
       roost: { at: [5, 2], sprite: 'kit:12', move: 'wander', talk: 'bh_roost' },
-      stone1: { at: [2, 2], sprite: 'none', talk: 'bh_stone1' },
-      stone2: { at: [6, 2], sprite: 'none', talk: 'bh_stone2' },
-      stone3: { at: [3, 4], sprite: 'none', talk: 'bh_stone3' }
+      stone1: { at: [2, 2], sprite: 'loosestone', noTurn: true, talk: 'bh_stone1' },
+      stone2: { at: [6, 2], sprite: 'loosestone', noTurn: true, talk: 'bh_stone2' },
+      stone3: { at: [3, 4], sprite: 'loosestone', noTurn: true, talk: 'bh_stone3' }
     }
   });
 
