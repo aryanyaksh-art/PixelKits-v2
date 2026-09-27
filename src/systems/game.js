@@ -8,7 +8,7 @@
   function newState() {
     return {
       v: 2,
-      player: { name: 'REMY', map: 'bh_home2f', x: 3, y: 3, dir: 'down', look: null },
+      player: { name: 'REMY', map: 'bh_home2f', x: 1, y: 3, dir: 'down', look: null },
       quests: {},
       rival: 'JASPER',
       money: 3000,
@@ -26,7 +26,7 @@
       frames: 0,
       steps: 0,
       hush: 0,
-      clinic: { map: 'bh_home1f', x: 4, y: 4 },
+      clinic: { map: 'bh_home1f', x: 6, y: 7 },
       options: loadOptions(),
       started: Date.now()
     };

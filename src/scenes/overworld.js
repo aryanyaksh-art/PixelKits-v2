@@ -45,13 +45,25 @@
       W.frames.push(c);
     }
   };
+  // Buildings and props, back to front; art taller than the footprint extends upward (e.g. bookcases over the wall)
   W.drawBuildings = function (ctx, frame) {
     var m = W.map;
-    (m.buildings || []).forEach(function (b) {
+    (m.buildings || []).filter(function (b) { return b.x != null; }).slice().sort(function (a, b) {
+      var da = PK.BUILDINGS[a.k].deco ? 0 : 1, db = PK.BUILDINGS[b.k].deco ? 0 : 1;
+      return da - db || (a.y + a.h) - (b.y + b.h);
+    }).forEach(function (b) {
       var em = b.emblem ? PK.TYPES[b.emblem].color : null;
-      var img = PK.buildings.draw(b.k, { roof: b.roof, snow: m.theme === 'snow', label: b.label, emblem: em, goods: b.goods, frame: frame || 0 });
-      ctx.drawImage(img, b.x * TS, b.y * TS);
+      var img = PK.buildings.draw(b.k, { roof: b.roof, snow: m.theme === 'snow', label: b.label, emblem: em, goods: b.goods, frame: frame || 0, w: b.w, h: b.h, color: b.color, icon: b.icon, art: b.art, variant: b.variant });
+      ctx.drawImage(img, b.x * TS, (b.y + b.h) * TS - img.height);
     });
+  };
+  W.propAt = function (x, y) {
+    var list = W.map.buildings || [];
+    for (var i = list.length - 1; i >= 0; i--) {
+      var b = list[i];
+      if (b.prop && x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h) return b;
+    }
+    return null;
   };
   W.redrawTile = function (tx, ty) {
     var m = W.map;
@@ -160,6 +172,25 @@
     if (id === 'wayfinder') return W.fastTravel();
     if (id === 'townmap') return PK.menus.townMap();
     if (id === 'kitlog') return PK.menus.kitlog();
+    if (id === 'oldrod') return W.fish();
+  };
+  W.fish = async function () {
+    var p = W.p, v = DIRS[p.dir], c = W.map.at(p.x + v[0], p.y + v[1]);
+    if (!c || !(PK.TILE[c] && PK.TILE[c].water)) return PK.ui.say('There\'s no water to fish in here. Face the water first.');
+    var list = W.map.enc && W.map.enc.water;
+    if (!list) return PK.ui.say('The water looks empty.');
+    W.busy++;
+    await PK.ui.say(PK.game.state.player.name + ' cast the Old Rod...', { auto: 50 });
+    await PK.wait(40 + PK.rnd(60));
+    W.busy--;
+    if (Math.random() > 0.72) return PK.ui.say('Not even a nibble...');
+    if (PK.audio) PK.audio.sfx('emote');
+    W.p.emote = '!';
+    await PK.wait(30);
+    W.p.emote = null;
+    await PK.ui.say('Oh! A bite!', { auto: 40 });
+    var e = PK.weighted(list.map(function (x) { return { e: x, w: x[3] }; }), 'w').e;
+    return W.wildBattle(e[0], e[1] + PK.rnd(e[2] - e[1] + 1));
   };
   W.syncPlayer = function () {
     var st = PK.game.state;
@@ -620,6 +651,17 @@
     }
     var sg = m.signDefs[fx + ',' + fy];
     if (sg) return PK.ui.say(typeof sg === 'function' ? sg() : sg);
+    var pr = W.propAt(fx, fy);
+    if (pr) {
+      if (pr.talk) return typeof pr.talk === 'function' ? pr.talk(W, pr) : PK.SCRIPTS[pr.talk](W, pr);
+      if (pr.use === 'storage') return PK.menus.storage();
+      if (pr.use === 'bed') {
+        if (await PK.ui.yesno(pr.text ? PK.ui.fmt(typeof pr.text === 'function' ? pr.text() : pr.text) + ' Take a rest?' : 'A comfy bed. Take a rest?')) { await PK.fx.fadeOut(20); await W.heal(); await PK.fx.fadeIn(20); await PK.ui.say('Your Kits are fully rested!'); }
+        return;
+      }
+      var pt = pr.text || PK.BUILDINGS[pr.k].text;
+      if (pt) return PK.ui.say(typeof pt === 'function' ? pt() : pt);
+    }
     if (!c) return;
     if (c === 'C') return PK.menus.storage();
     if (c === 'K') return PK.ui.say(m.shelfText || "It's packed with books about Kits and their habitats.");
@@ -862,6 +904,13 @@
         var id = +n.sprite.slice(4);
         var ic = PK.kitArt.icon(id);
         var bob = Math.round(Math.sin(PK.frame / 16) * 1.5);
+        if (n.d.swim) {
+          // only the top half shows above the water, with a ripple at the waterline
+          ctx.drawImage(ic, 0, 0, 32, 27, sx - 8, sy - 13 + bob, 32, 27);
+          ctx.fillStyle = 'rgba(228,244,255,0.9)'; ctx.fillRect(sx - 3, sy + 13 + bob, 22, 1);
+          ctx.fillStyle = 'rgba(132,194,248,0.9)'; ctx.fillRect(sx - 5 + ((PK.frame >> 3) & 1), sy + 14 + bob, 26, 1);
+          return;
+        }
         ctx.drawImage(ic, sx - 8, sy - 16 + bob);
         return;
       }

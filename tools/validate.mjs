@@ -117,7 +117,7 @@ for (const id in PK.MAPS) {
 }
 
 // ---- reachability: BFS over the world graph with all key items
-const start = ['bh_home2f', 1, 2];
+const start = ['bh_home2f', 1, 3];
 const seen = new Set();
 const q = [start];
 const key = (a, x, y) => a + ':' + x + ',' + y;

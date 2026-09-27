@@ -24,6 +24,17 @@
     'o3 f4 o4 c4 o3 a4 o4 c4 | o3 c4 g4 e4 g4 | o3 d4 a4 f4 a4 | o3 f4 o4 c4 o3 f4 r4 | o3 f4 a4 o4 c4 o3 a4 | o3 b-4 o4 f4 o3 c4 g4 | o3 d4 a4 c4 g4 | o3 f4 o4 c4 o3 f4 r4',
     'v6 [k4 h8 h8 s4 h8 h8]8');
 
+  // v2: the flood night (tense, driving) and the river lab (curious)
+  T('storm', 132,
+    '@1 v11 o5 d8 f8 a8 f8 d8 c+8 d4 | o5 e8 g8 b-8 g8 e8 d8 e4 | o5 f8 a8 o6 d8 c8 o5 b-8 a8 g8 f8 | o5 e8 f8 e8 d8 c+2 | o5 d8 f8 a8 f8 d8 c+8 d4 | o5 g8 b-8 o6 d8 c8 o5 b-8 a8 g4 | o5 a8 b-8 a8 g8 f8 e8 d8 c+8 | o5 d2. r4',
+    'l8 o3 [d d a d d d a d]2 [e e b- e e e b- e]1 [a a e a a a e a]1 [d d a d d d a d]1 [g g d g g g d g]1 [a a e a a a e a]1 d d a d d4 r4',
+    'l8 v9 [k h s h k k s s]8');
+  T('lab', 108,
+    '@2 v10 o5 c8 e8 g8 o6 c8 o5 b4 g4 | o5 a8 g8 f8 e8 d4 g4 | o5 e8 g8 o6 c8 e8 d4 c4 | o5 b8 a8 g8 f8 e4 r4 | o5 f8 a8 o6 c8 f8 e4 d4 | o5 e8 d8 c8 o4 b8 a4 g4 | o5 f8 e8 d8 e8 f8 g8 a8 b8 | o6 c2. r4',
+    'o3 c4 g4 e4 g4 | o3 f4 o4 c4 o3 g4 b4 | o3 c4 g4 a4 e4 | o3 g4 d4 g4 r4 | o3 f4 o4 c4 o3 a4 o4 c4 | o3 c4 g4 e4 g4 | o3 d4 a4 g4 b4 | o3 c4 g4 c4 r4',
+    'v5 [k8 h8 h8 h8 s8 h8 h8 h8]8',
+    '@1 v5 l16 [o5 c e g e]4 [o4 f a o5 c o4 a]4 [o5 c e g e]4 [o4 g b o5 d o4 b]4 [o4 f a o5 c o4 a]4 [o5 c e g e]4 [o4 d f a f]4 [o5 c e g e]4');
+
   T('bike', 152,
     '@2 v12 o5 a8 a8 o6 c+8 e8 d4 c+8 o5 b8 | o5 a8 b8 o6 c+8 d8 e4 r8 e8 | o6 f+8 e8 d8 c+8 o5 b4 a8 b8 | o6 c+2 o5 a4 r4 | o5 f+8 a8 o6 d8 f+8 e4 d8 c+8 | o5 b8 o6 c+8 d8 e8 f+4 e4 | o6 d8 c+8 o5 b8 a8 g+4 b4 | o5 a2. r4',
     'o3 a4 o4 e4 o3 a4 o4 e4 | o3 a4 o4 e4 c+4 e4 | o3 d4 a4 f+4 a4 | o3 a4 o4 e4 o3 a4 r4 | o3 d4 a4 f+4 a4 | o3 e4 b4 g+4 b4 | o3 d4 a4 e4 b4 | o3 a4 o4 e4 o3 a4 r4',

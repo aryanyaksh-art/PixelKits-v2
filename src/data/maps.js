@@ -97,13 +97,19 @@
     // v2: things placed by coordinates instead of ASCII markers
     // buildings {k, at:[x,y]}, npcs {name: {at:[x,y], ...}}, signsAt [[x,y,text]], itemsAt [[item,n,x,y]],
     // hiddenAt [[item,n,x,y]], eventsAt [{at:[x,y], run, cond}], warpsAt [[x,y,map,tx,ty,dir]]
+    // props: [[kind, x, y, opts]] are decor/furniture placed like buildings (no door unless the kind has one)
+    (m.props || []).forEach(function (pr) {
+      m.buildings = m.buildings || [];
+      m.buildings.push(Object.assign({ k: pr[0], at: [pr[1], pr[2]], prop: true }, pr[3] || {}));
+    });
+    m.props = null;
     (m.buildings || []).forEach(function (b) {
       if (!b.at) return;
       var K = PK.BUILDINGS[b.k];
       if (!K) throw new Error('Map ' + m.id + ': unknown building kind ' + b.k);
-      b.x = b.at[0]; b.y = b.at[1]; b.w = K.w; b.h = K.h;
-      for (var by = 0; by < K.h; by++) for (var bx = 0; bx < K.w; bx++) if (b.y + by < h && b.x + bx < w) solid[b.y + by][b.x + bx] = true;
-      if (K.door != null) {
+      b.x = b.at[0]; b.y = b.at[1]; b.w = b.w || K.w; b.h = b.h || K.h;
+      if (!K.walk && !b.walk) for (var by = 0; by < b.h; by++) for (var bx = 0; bx < b.w; bx++) if (b.y + by < h && b.x + bx < w) solid[b.y + by][b.x + bx] = true;
+      if (K.door != null && b.to) {
         var ddx = b.x + K.door, ddy = b.y + K.h - 1;
         solid[ddy][ddx] = false;
         m.doors[ddx + ',' + ddy] = b;
@@ -123,7 +129,7 @@
     (m.warpsAt || []).forEach(function (wp) { m.warpDefs[wp[0] + ',' + wp[1]] = { to: wp[2], x: wp[3], y: wp[4], dir: wp[5] }; });
     // ground under building footprints matches what surrounds the building
     (m.buildings || []).forEach(function (b) {
-      if (b.x == null) return;
+      if (b.x == null || b.prop) return;
       var base = null;
       var cand = [[b.x - 1, b.y + b.h - 1], [b.x + b.w, b.y + b.h - 1], [b.x + (PK.BUILDINGS[b.k].door || 0), b.y + b.h]];
       for (var i = 0; i < cand.length && !base; i++) {

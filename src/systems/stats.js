@@ -153,7 +153,12 @@
 
   function types(k) { return species(k).types; }
 
+  function joyText(k) {
+    var j = k.joy || 0;
+    return j >= 200 ? 'It adores you!' : j >= 150 ? 'It is very happy with you.' : j >= 80 ? 'It seems happy.' : j >= 30 ? 'It is warming up to you.' : 'It is still getting to know you.';
+  }
   PK.stats = {
+    joyText: joyText,
     create: create, calc: calc, recalc: recalc, name: name, setLevel: setLevel, addExp: addExp, expFor: expFor,
     movesAt: movesAt, knows: knows, evoTarget: evoTarget, evolve: evolve, expProgress: expProgress,
     heal: heal, types: types, species: species, learnable: learnable,

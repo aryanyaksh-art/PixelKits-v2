@@ -12,7 +12,7 @@ export function loadGame(extra = []) {
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   // only logic/data scripts that don't need a DOM
-  const ok = scripts.filter(s => /src\/(data|systems)\//.test(s) || /engine\/rng\.js|gfx\/(color|tiles|buildings|buildings2)\.js/.test(s));
+  const ok = scripts.filter(s => /src\/(data|systems)\//.test(s) || /engine\/rng\.js|gfx\/(color|tiles|buildings|buildings2|props)\.js/.test(s));
   for (const s of ok.concat(extra)) {
     const f = path.join(ROOT, s);
     if (!fs.existsSync(f)) continue;

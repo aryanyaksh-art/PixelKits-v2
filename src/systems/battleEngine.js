@@ -183,6 +183,12 @@
     if (!bt.alive()) return ev || [];
     ev = ev || [];
     var self = this;
+    var ek = bt.kit();
+    if (bt.side.isPlayer && ek && ek.boost != null) {
+      ev.push({ t: 'msg', text: this.label(bt) + ' is full of energy from its snack!', auto: 40 });
+      this.changeStats(bt, [{ stat: ek.boost, d: 1 }], ev);
+      ek.boost = null;
+    }
     if (bt.ability() === 'menace') {
       this.foesOf(bt).forEach(function (f) {
         ev.push({ t: 'msg', text: self.label(bt) + "'s Menace is intimidating!", auto: 40 });
@@ -200,7 +206,7 @@
     ev.push({ t: 'msg', text: who + ' used ' + it.name + '!' });
     var holder = side.slots.filter(function (s) { return s.idx === ti; })[0];
     var sideKey = holder ? holder.key : null;
-    if (it.use === 'heal' || it.use === 'full') {
+    if (it.use === 'heal' || it.use === 'full' || it.use === 'snack') {
       var amt = Math.min(k.stats[0] - k.hp, it.use === 'full' ? 9999 : it.value);
       k.hp += amt;
       if (it.use === 'full') { k.status = null; k.sleep = 0; if (holder) holder.vol.conf = 0; }
@@ -472,6 +478,11 @@
           ev.push({ t: 'dmg', side: tb.key, hp: t.hp - dmg, amount: dmg, eff: d.eff, crit: crit });
           t.hp -= dmg;
           ev.push({ t: 'msg', text: tname + ' held on thanks to Bedrock!' });
+        } else if (dmg >= t.hp && t.hp > 1 && tb.side.isPlayer && (t.joy || 0) >= 150 && Math.random() < 0.12) {
+          dmg = t.hp - 1;
+          t.hp -= dmg;
+          ev.push({ t: 'dmg', side: tb.key, hp: t.hp, amount: dmg, eff: d.eff, crit: crit });
+          ev.push({ t: 'msg', text: tname + ' toughed it out so you wouldn\'t worry!' });
         } else {
           t.hp -= dmg;
           ev.push({ t: 'dmg', side: tb.key, hp: t.hp, amount: dmg, eff: d.eff, crit: crit });
@@ -559,6 +570,11 @@
         ev.push({ t: 'msg', text: self.label(bt) + (k.status === 'brn' ? ' is hurt by its burn!' : ' is hurt by poison!') });
         if (k.hp <= 0) { self.faint(bt, ev); return; }
         self.checkRoot(bt, ev);
+      }
+      if (k.status && bt.side.isPlayer && (k.joy || 0) >= 150 && Math.random() < 0.1) {
+        k.status = null; k.sleep = 0;
+        ev.push({ t: 'status', side: bt.key, status: null });
+        ev.push({ t: 'msg', text: self.label(bt) + ' shook off its status to make you happy!' });
       }
       var ab = bt.ability();
       if (ab === 'regrowth' && k.hp < k.stats[0]) {

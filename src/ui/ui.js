@@ -361,4 +361,37 @@
       return new Promise(function (res) { var ne = new NameEntry(title, def, presets, res); ne.name = initial || ''; PK.push(ne); });
     }
   };
+  // A painted view through a telescope (dam, hills, road). Press A to close.
+  PK.showView = function (kind) {
+    return new Promise(function (res) {
+      PK.push({
+        opaque: true, t: 0,
+        update: function () { this.t++; if (this.t > 20 && (PK.input.ok() || PK.input.cancel())) { PK.pop(this); res(); } },
+        draw: function (ctx) {
+          var W = PK.W, H = PK.H, cx = W / 2, cy = H / 2, t = this.t;
+          ctx.fillStyle = '#0a0a12'; ctx.fillRect(0, 0, W, H);
+          ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, 66, 0, 6.3); ctx.clip();
+          var g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#6ab0e8'); g.addColorStop(0.6, '#cfe8f8'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+          function hill(y, c, a, f) { ctx.fillStyle = c; ctx.beginPath(); ctx.moveTo(0, H); for (var x = 0; x <= W; x += 6) ctx.lineTo(x, y + Math.sin(x / f + a) * 8); ctx.lineTo(W, H); ctx.fill(); }
+          hill(70, '#7aa8a0', 1, 30); hill(88, '#5a9a58', 3, 22); hill(104, '#4a8a48', 5, 17);
+          if (kind === 'dam') {
+            ctx.fillStyle = '#6a8ac8'; ctx.fillRect(cx - 50, 80, 100, 14);
+            ctx.fillStyle = '#9a968c'; ctx.fillRect(cx - 54, 92, 108, 10); ctx.fillStyle = '#7a766e'; ctx.fillRect(cx - 54, 100, 108, 3);
+            ctx.fillStyle = '#b8e0f8'; ctx.fillRect(cx - 8, 100, 16, 30);
+            ctx.fillStyle = '#9a968c'; ctx.fillRect(cx + 26, 78, 16, 14); ctx.fillStyle = '#5a6070'; ctx.fillRect(cx + 24, 74, 20, 5);
+          } else if (kind === 'hills') {
+            for (var i = 0; i < 6; i++) { ctx.fillStyle = 'rgba(120,118,128,' + (0.6 - i * 0.08) + ')'; ctx.beginPath(); ctx.arc(cx + 20 + Math.sin((t + i * 20) / 30) * 4 + i * 3, 70 - i * 9, 5 + i * 2, 0, 6.3); ctx.fill(); }
+            ctx.fillStyle = '#e8702a'; ctx.fillRect(cx + 18, 72, 4, 3);
+          } else {
+            ctx.strokeStyle = '#d8b880'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(cx - 30, H); ctx.quadraticCurveTo(cx + 30, 110, cx, 80); ctx.stroke();
+            ctx.fillStyle = '#8a8478'; [[-8, 82], [0, 78], [8, 83], [-2, 86], [5, 88]].forEach(function (r) { ctx.beginPath(); ctx.arc(cx + r[0], r[1], 5, 0, 6.3); ctx.fill(); });
+            ctx.fillStyle = '#2e6e46'; for (var p = 0; p < 7; p++) { var px = cx - 60 + p * 20; ctx.beginPath(); ctx.moveTo(px, 76); ctx.lineTo(px - 7, 96); ctx.lineTo(px + 7, 96); ctx.fill(); }
+          }
+          ctx.restore();
+          ctx.strokeStyle = '#3a3040'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(cx, cy, 66, 0, 6.3); ctx.stroke();
+          PK.font.center(ctx, 'A: close', cx, H - 10, '#ffffff', '#000000');
+        }
+      });
+    });
+  };
 })();

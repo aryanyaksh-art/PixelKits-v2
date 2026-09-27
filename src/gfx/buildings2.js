@@ -183,6 +183,7 @@
     a.win(40, 37, 12, 10, { box: true });
     a.win(58, 37, 12, 10, { box: true });
     a.door(18, 49, 'green');
+    if (o.icon) a.iconSign(o.icon, 5, 40);
     a.foundation(3, 60, 74);
     return a.c;
   } };
@@ -195,51 +196,12 @@
     a.stone('#c8bca8', 3, 23, 58, 25);
     a.roundWin(16, 34, 5);
     a.door(34, 33, 'arch');
+    if (o.icon) a.iconSign(o.icon, 23, 28);
     a.f(OUT, 50, 38, 9, 8); a.f('#b86a3a', 51, 39, 7, 6); a.f('#4caa46', 52, 35, 5, 4); a.f('#c070e0', 54, 34, 1, 1);
     a.foundation(3, 45, 58);
     return a.c;
   } };
 
-  // The big watermill: stone ground floor, timber loft, steep tiled roof, turning wheel on the right
-  KINDS.mill = { w: 6, h: 6, door: 1, anim: true, draw: function (o) {
-    var a = new Art(96, 96), roof = o.roof || '#9a4a34', fr = o.frame || 0;
-    // wheel first (behind the wall edge)
-    var cx = 78, cy = 64, R = 21, ang = fr * Math.PI / 12;
-    a.ring(OUT, cx, cy, R + 1.5, R - 3.5);
-    a.ring('#7a5230', cx, cy, R, R - 2.5);
-    a.ring('#a8743e', cx, cy, R, R - 1);
-    a.ring('#7a5230', cx, cy, R - 7, R - 9);
-    for (var s = 0; s < 8; s++) {
-      var t = ang + s * Math.PI / 4;
-      a.line(OUT, cx + Math.cos(t) * 3, cy + Math.sin(t) * 3, cx + Math.cos(t) * (R - 1), cy + Math.sin(t) * (R - 1), 3);
-      a.line('#9a6a38', cx + Math.cos(t) * 3, cy + Math.sin(t) * 3, cx + Math.cos(t) * (R - 1), cy + Math.sin(t) * (R - 1), 1);
-    }
-    for (var pd = 0; pd < 12; pd++) {
-      var u = ang + pd * Math.PI / 6 + 0.13, px0 = cx + Math.cos(u) * (R - 1), py0 = cy + Math.sin(u) * (R - 1);
-      a.line(OUT, px0, py0, cx + Math.cos(u) * (R + 3), cy + Math.sin(u) * (R + 3), 3);
-      a.line('#c8925a', px0, py0, cx + Math.cos(u) * (R + 2.5), cy + Math.sin(u) * (R + 2.5), 1);
-    }
-    a.ring(OUT, cx, cy, 4); a.ring('#5a5a64', cx, cy, 3); a.p('#9aa0b0', cx - 1, cy - 1);
-    // water pouring off the paddles
-    for (var w = 0; w < 7; w++) {
-      var wx = 62 + w * 4 + (fr % 2), wy = 84 + ((w * 5 + fr * 3) % 7);
-      a.f('#d8f0ff', wx, wy, 2, 1); a.f('#84c2f8', wx + 1, wy + 1, 2, 1);
-    }
-    // building
-    a.roof(0, 6, 64, 32, roof, 'tile', { inset: 9 });
-    a.box('#6a4428', 26, 10, 12, 12); a.f('#3a2414', 28, 12, 8, 9);
-    a.line('#5a3a20', 32, 8, 32, 3, 2); a.line('#5a3a20', 32, 3, 42, 3, 2); a.line('#c8b890', 41, 4, 41, 12, 1);
-    a.f('#8a6a3a', 39, 12, 5, 3);
-    a.timber('#efe6d2', '#5e3a20', 3, 36, 58, 24);
-    a.win(10, 43, 11, 9, { shutters: '#5a7a4a' });
-    a.win(42, 43, 11, 9, { shutters: '#5a7a4a' });
-    a.stone('#b0a898', 3, 59, 58, 37);
-    a.win(42, 70, 12, 9, { dark: true });
-    a.label('MILL', 23, 64, '#6a3a22');
-    a.door(18, 81, 'arch');
-    a.foundation(3, 93, 58);
-    return a.c;
-  } };
 
   // Lookout watchtower: stone shaft, wooden cabin, pointed roof and a pennant
   KINDS.tower = { w: 3, h: 6, door: 1, anim: true, draw: function (o) {
@@ -269,21 +231,6 @@
     return a.c;
   } };
 
-  // Brick schoolhouse with a bell cupola
-  KINDS.school = { w: 6, h: 4, door: 2, draw: function (o) {
-    var a = new Art(96, 64), roof = o.roof || '#3e6e4e';
-    a.roof(0, 8, 96, 24, roof, 'slate');
-    a.f(OUT, 39, 0, 18, 12); a.f('#f4f0e4', 40, 1, 16, 11);
-    a.f('#3a2a2a', 43, 3, 10, 8); a.ring('#e8b840', 48, 7, 3.2); a.f('#c89020', 46, 9, 5, 1);
-    a.f(OUT, 37, 0, 22, 1); a.f(sh(roof, 0.2), 37, -1, 22, 2);
-    a.brick('#b85a48', 3, 30, 90, 34);
-    a.f('#f4f0e4', 3, 30, 90, 3);
-    a.win(8, 38, 10, 13, {}); a.win(52, 38, 10, 13, {}); a.win(68, 38, 10, 13, {}); a.win(82, 38, 8, 13, {});
-    a.label('SCHOOL', 48, 22, '#2e5a3e');
-    a.door(34, 49, 'blue');
-    a.foundation(3, 61, 90);
-    return a.c;
-  } };
 
   // Bakery with a striped awning and a bread sign
   KINDS.bakery = { w: 5, h: 3, door: 1, anim: true, draw: function (o) {
@@ -331,26 +278,6 @@
     return a.c;
   } };
 
-  // Riverside research lab: white walls, teal trim, glass aquarium dome
-  KINDS.rivlab = { w: 6, h: 4, door: 2, draw: function (o) {
-    var a = new Art(96, 64), trim = o.roof || '#2e9a9a';
-    // glass aquarium dome on the roof, half full of water with a fish inside
-    var dcx = 72, dcy = 19, dr = 14;
-    for (var y = dcy - dr - 1; y <= dcy; y++) for (var x = dcx - dr - 1; x <= dcx + dr + 1; x++) {
-      var d = Math.hypot(x + 0.5 - dcx, y + 0.5 - dcy);
-      if (d > dr + 1) continue;
-      a.p(d > dr ? OUT : y > dcy - 6 ? '#3a8ad0' : y === dcy - 6 ? '#b8ecff' : '#a8def4', x, y);
-    }
-    a.f('#e8a040', 68, 15, 6, 3); a.f('#e8a040', 74, 16, 2, 1); a.f('#f8c878', 69, 15, 3, 1); a.p(OUT, 69, 16);
-    a.f('#ffffff', 64, 8, 2, 3); a.f('#ffffff', 66, 7, 2, 1);
-    a.f(OUT, 1, 18, 94, 12); a.f(trim, 2, 19, 92, 10); a.f(sh(trim, 0.3), 2, 19, 92, 2); a.f(sh(trim, -0.3), 2, 27, 92, 2);
-    a.plaster('#f6f8fa', 3, 29, 90, 35);
-    a.win(8, 36, 22, 12, {}); a.win(58, 36, 30, 12, {});
-    a.label('LAB', 48, 20, sh(trim, -0.45));
-    a.door(34, 49, 'glass');
-    a.foundation(3, 61, 90);
-    return a.c;
-  } };
 
   // Floodgate house: small stone hut with a big valve wheel
   KINDS.floodhouse = { w: 3, h: 3, door: 1, draw: function (o) {
@@ -364,15 +291,161 @@
     return a.c;
   } };
 
+  // Hanging picture sign on a bracket (instead of words)
+  A.iconSign = function (name, x, y) {
+    this.f(OUT, x, y - 3, 1, 3); this.f(OUT, x + 10, y - 3, 1, 3); this.f(OUT, x - 3, y - 4, 17, 2);
+    this.f(OUT, x - 1, y - 1, 13, 12); this.f('#f4ecd8', x, y, 11, 10);
+    if (PK.drawIcon) PK.drawIcon(this, name, x - 1, y);
+  };
+
+  // The big watermill: stone ground floor, timber loft, steep tiled roof, turning wheel on the right
+  KINDS.mill = { w: 7, h: 6, door: 1, anim: true, draw: function (o) {
+    var a = new Art(112, 96), roof = o.roof || '#9a4a34', fr = o.frame || 0;
+    var cx = 86, cy = 64, R = 20, ang = fr * Math.PI / 12;
+    a.f('#5a5650', 64, 58, 8, 36); a.f('#7a766e', 65, 58, 3, 36);
+    a.ring(OUT, cx, cy, R + 1.5, R - 3.5);
+    a.ring('#7a5230', cx, cy, R, R - 2.5);
+    a.ring('#a8743e', cx, cy, R, R - 1);
+    a.ring('#7a5230', cx, cy, R - 7, R - 9);
+    for (var s = 0; s < 8; s++) {
+      var t = ang + s * Math.PI / 4;
+      a.line(OUT, cx + Math.cos(t) * 3, cy + Math.sin(t) * 3, cx + Math.cos(t) * (R - 1), cy + Math.sin(t) * (R - 1), 3);
+      a.line('#9a6a38', cx + Math.cos(t) * 3, cy + Math.sin(t) * 3, cx + Math.cos(t) * (R - 1), cy + Math.sin(t) * (R - 1), 1);
+    }
+    for (var pd = 0; pd < 12; pd++) {
+      var u = ang + pd * Math.PI / 6 + 0.13, px0 = cx + Math.cos(u) * (R - 1), py0 = cy + Math.sin(u) * (R - 1);
+      a.line(OUT, px0, py0, cx + Math.cos(u) * (R + 3), cy + Math.sin(u) * (R + 3), 3);
+      a.line('#c8925a', px0, py0, cx + Math.cos(u) * (R + 2.5), cy + Math.sin(u) * (R + 2.5), 1);
+    }
+    a.ring(OUT, cx, cy, 4); a.ring('#5a5a64', cx, cy, 3); a.p('#9aa0b0', cx - 1, cy - 1);
+    a.f(OUT, 64, 62, 20, 4); a.f('#5a5a64', 64, 63, 20, 2);
+    for (var w = 0; w < 8; w++) {
+      var wx = 70 + w * 4 + (fr % 2), wy = 84 + ((w * 5 + fr * 3) % 8);
+      a.f('#d8f0ff', wx, wy, 2, 1); a.f('#84c2f8', wx + 1, wy + 1, 2, 1);
+    }
+    // wooden flume carrying water onto the wheel
+    a.f(OUT, 70, 36, 42, 6); a.f('#8a5a30', 71, 37, 40, 4); a.f('#6cb4ea', 71, 37, 40, 2);
+    a.f('#d8f0ff', 72 + (fr * 5) % 30, 37, 5, 1);
+    a.roof(0, 6, 64, 32, roof, 'tile', { inset: 9 });
+    a.box('#6a4428', 26, 10, 12, 12); a.f('#3a2414', 28, 12, 8, 9);
+    a.line('#5a3a20', 32, 8, 32, 3, 2); a.line('#5a3a20', 32, 3, 42, 3, 2); a.line('#c8b890', 41, 4, 41, 12, 1);
+    a.f('#e8dcc0', 38, 12, 6, 4); a.p('#b89040', 40, 13);
+    a.timber('#efe6d2', '#5e3a20', 3, 36, 58, 24);
+    a.win(10, 43, 11, 9, { shutters: '#5a7a4a', box: true });
+    a.win(42, 43, 11, 9, { shutters: '#5a7a4a', box: true });
+    a.stone('#b0a898', 3, 59, 58, 37);
+    a.win(42, 70, 12, 9, { dark: true });
+    a.iconSign('wheat', 33, 67);
+    a.door(18, 81, 'arch');
+    a.foundation(3, 93, 58);
+    return a.c;
+  } };
+
+  // Brick schoolhouse with a bell cupola and a book sign
+  KINDS.school = { w: 6, h: 4, door: 2, draw: function (o) {
+    var a = new Art(96, 64), roof = o.roof || '#3e6e4e';
+    a.roof(0, 8, 96, 24, roof, 'slate');
+    a.f(OUT, 39, 0, 18, 12); a.f('#f4f0e4', 40, 1, 16, 11);
+    a.f('#3a2a2a', 43, 3, 10, 8); a.ring('#e8b840', 48, 7, 3.2); a.f('#c89020', 46, 9, 5, 1);
+    a.f(OUT, 37, 0, 22, 1); a.f(sh(roof, 0.2), 37, -1, 22, 2);
+    a.brick('#b85a48', 3, 30, 90, 34);
+    a.f('#f4f0e4', 3, 30, 90, 3);
+    a.win(8, 38, 10, 13, { box: true }); a.win(54, 38, 10, 13, { box: true }); a.win(70, 38, 10, 13, { box: true });
+    a.iconSign('book', 23, 40);
+    a.f(OUT, 83, 36, 8, 22); a.f('#3a2a2a', 84, 37, 6, 20); a.f('#f4f0e4', 85, 38, 4, 3);
+    a.door(34, 49, 'blue');
+    a.foundation(3, 61, 90);
+    return a.c;
+  } };
+
+  // Riverside research station: capsule emblem, aquarium dome, dish, greenhouse wing on stilts over the water
+  KINDS.rivlab = { w: 8, h: 5, door: 2, anim: true, draw: function (o) {
+    var a = new Art(128, 80), trim = o.roof || '#2e9a9a', fr = o.frame || 0;
+    // stilts and jetty under the greenhouse
+    [84, 98, 112, 124].forEach(function (x) { a.f(OUT, x - 1, 60, 4, 20); a.f('#6a4424', x, 60, 2, 20); });
+    a.f(OUT, 80, 70, 48, 5); a.f('#a8743e', 80, 71, 48, 3); a.f('#c8925a', 80, 71, 48, 1);
+    a.f('#d8f0ff', 86 + fr * 6, 78, 5, 1);
+    // greenhouse wing
+    a.f(OUT, 79, 30, 48, 32); a.f('#a8dce0', 80, 31, 46, 30);
+    for (var gx = 80; gx < 126; gx += 9) a.f('#3a6a5a', gx, 31, 1, 30);
+    a.f('#3a6a5a', 80, 44, 46, 1);
+    a.x.fillStyle = OUT; a.x.beginPath(); a.x.moveTo(77, 32); a.x.lineTo(103, 16); a.x.lineTo(129, 32); a.x.fill();
+    a.x.fillStyle = '#c0ecf0'; a.x.beginPath(); a.x.moveTo(80, 31); a.x.lineTo(103, 18); a.x.lineTo(126, 31); a.x.fill();
+    a.line('#3a6a5a', 103, 18, 103, 31, 1); a.line('#3a6a5a', 91, 24, 91, 31, 1); a.line('#3a6a5a', 115, 24, 115, 31, 1);
+    [[84, '#4caa46'], [93, '#6ac05a'], [102, '#3a8a3a'], [111, '#4caa46'], [120, '#6ac05a']].forEach(function (p, i) { a.f(p[1], p[0], 48 - (i % 2) * 4, 5, 12 + (i % 2) * 4); a.p('#f070b0', p[0] + 2, 47 - (i % 2) * 4); });
+    a.f('#fcfcfc', 82, 33, 2, 8);
+    // aquarium dome and dish on the main roof
+    var dcx = 52, dcy = 21, dr = 13;
+    for (var y = dcy - dr - 1; y <= dcy; y++) for (var x = dcx - dr - 1; x <= dcx + dr + 1; x++) {
+      var d = Math.hypot(x + 0.5 - dcx, y + 0.5 - dcy);
+      if (d > dr + 1) continue;
+      a.p(d > dr ? OUT : y > dcy - 6 ? '#3a8ad0' : y === dcy - 6 ? '#b8ecff' : '#a8def4', x, y);
+    }
+    var fx = 46 + fr * 3; a.f('#e8a040', fx, 17, 6, 3); a.f('#e8a040', fx + 6, 18, 2, 1); a.p(OUT, fx + 1, 18);
+    a.f('#ffffff', 44, 10, 2, 3);
+    a.line(OUT, 18, 20, 18, 8, 2); a.ring(OUT, 16, 8, 6); a.ring('#e8e8ec', 16, 8, 5); a.ring('#b8bcc8', 17, 7, 2); a.line(OUT, 16, 8, 22, 3, 1); a.p('#d83a3a', 22, 3);
+    // main block
+    a.f(OUT, 1, 20, 78, 12); a.f(trim, 2, 21, 76, 10); a.f(sh(trim, 0.3), 2, 21, 76, 2); a.f(sh(trim, -0.3), 2, 29, 76, 2);
+    a.plaster('#f6f8fa', 3, 31, 74, 49);
+    a.win(8, 42, 20, 12, {}); a.win(52, 42, 20, 12, {});
+    // capsule emblem over the door
+    // Kit Capsule emblem (the game's own pill-shaped capsule, teal over white)
+    a.f(OUT, 35, 15, 11, 22); a.f(OUT, 34, 16, 13, 20);
+    a.f('#2fb3a0', 35, 16, 11, 9); a.f('#6ad8c8', 36, 17, 2, 6);
+    a.f('#f4f4f0', 35, 27, 11, 8); a.f('#c8c8d0', 43, 27, 2, 7);
+    a.f('#5a6070', 34, 24, 13, 3); a.f('#9aa0b0', 39, 24, 3, 3);
+    a.door(34, 65, 'glass');
+    a.foundation(3, 77, 74);
+    return a.c;
+  } };
+
+  // Log cabin for the Willow Trail ranger
+  KINDS.cabin = { w: 4, h: 3, door: 1, anim: true, draw: function (o) {
+    var a = new Art(64, 48), roof = o.roof || '#3e6e3e';
+    a.chimney(46, 0, 14, '#7a6a5a', true, o.frame);
+    a.roof(0, 3, 64, 20, roof, 'slate', { inset: 4 });
+    a.f(OUT, 2, 21, 60, 27);
+    for (var y = 22; y < 46; y += 4) { a.f('#8a5a30', 3, y, 58, 4); a.f('#a8743e', 3, y, 58, 1); a.f('#6a4424', 3, y + 3, 58, 1); a.ring('#c8925a', 3, y + 2, 1.5); a.ring('#c8925a', 61, y + 2, 1.5); }
+    a.win(38, 27, 12, 10, { shutters: '#3e6e3e' });
+    a.iconSign('paw', 38, 5);
+    a.door(18, 33, 'green');
+    a.foundation(3, 45, 58);
+    return a.c;
+  } };
+
+  // Treehouse: a hut in the branches of a huge tree, rope ladder at the bottom
+  KINDS.treehouse = { w: 4, h: 5, door: 1, anim: true, draw: function (o) {
+    var a = new Art(64, 80), fr = o.frame || 0;
+    var R = PK.color.ramp, pg = new PK.PG(64, 80);
+    pg.rect(18, 40, 16, 40, 1, { hgrad: 1 });
+    pg.line(26, 44, 6, 36, 1, 3, 2); pg.line(28, 42, 56, 34, 1, 3, 2);
+    pg.ellipse(32, 18, 30, 18, 0); pg.ellipse(12, 26, 12, 10, 0, { bias: -0.05 }); pg.ellipse(52, 26, 12, 10, 0, { bias: -0.05 });
+    a.x.drawImage(pg.render([R('#3e9a4a'), R('#7a5230')]), 0, 0);
+    a.f(OUT, 10, 34, 44, 3); a.f('#a8743e', 11, 35, 42, 1);
+    a.f(OUT, 14, 18, 36, 17); a.f('#b8864e', 15, 19, 34, 15);
+    for (var x = 15; x < 49; x += 4) a.f('#8a5a30', x + 3, 19, 1, 15);
+    a.x.fillStyle = OUT; a.x.beginPath(); a.x.moveTo(11, 20); a.x.lineTo(32, 6); a.x.lineTo(53, 20); a.x.fill();
+    a.x.fillStyle = '#c85a3a'; a.x.beginPath(); a.x.moveTo(14, 19); a.x.lineTo(32, 8); a.x.lineTo(50, 19); a.x.fill();
+    a.win(36, 23, 9, 8, {});
+    a.f('#e84848', 52, 8 + fr, 7, 4); a.f(OUT, 51, 6, 1, 12);
+    // rope ladder down to the door tile
+    a.line('#c8a060', 21, 36, 21, 80, 1); a.line('#c8a060', 27, 36, 27, 80, 1);
+    for (var y = 40; y < 80; y += 5) a.f('#8a5a30', 21, y, 7, 2);
+    a.f(OUT, 20, 22, 10, 13); a.f('#5a3a22', 21, 23, 8, 12);
+    return a.c;
+  } };
+
   var cache = {};
+  // Shared renderer for custom buildings and props (anything in PK.BUILDINGS with a draw function)
   function draw(kind, opts) {
-    var K = KINDS[kind];
+    var K = PK.BUILDINGS[kind];
     var fr = K.anim ? (opts.frame || 0) : 0;
-    var key = kind + '|' + (opts.roof || '') + '|' + (opts.goods || '') + '|' + fr;
-    if (!cache[key]) cache[key] = K.draw(Object.assign({}, opts, { frame: fr }));
+    var w = opts.w || K.w, h = opts.h || K.h;
+    var key = [kind, opts.roof, opts.goods, w, h, opts.color, opts.icon, opts.art, opts.variant, fr].join('|');
+    if (!cache[key]) cache[key] = K.draw(Object.assign({}, opts, { frame: fr, w: w, h: h }));
     return cache[key];
   }
 
   Object.keys(KINDS).forEach(function (k) { KINDS[k].custom = true; PK.BUILDINGS[k] = KINDS[k]; });
-  PK.buildings2 = { draw: draw, KINDS: KINDS };
+  PK.buildings2 = { draw: draw, KINDS: KINDS, Art: Art, OUT: OUT };
 })();

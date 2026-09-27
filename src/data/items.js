@@ -62,6 +62,17 @@
   it('floursack', 'Flour Sack', 'key', 0, 'key', 0, 'A soggy sack of flour from the Brookhollow bakery.');
   it('clapper', 'Bell Clapper', 'key', 0, 'key', 0, 'The iron clapper from the Brookhollow school bell.');
   it('ashscrap', 'Ash Scrap', 'key', 0, 'key', 0, 'A scrap of grey cloth stitched with a small ember. Found on the jammed floodgate.');
+  // food: stalls, bakery, Grandma
+  it('sunpeach', 'Sun Peach', 'items', 150, 'heal', 45, 'A sweet valley peach. Restores 45 HP.');
+  it('kelpcrisp', 'Kelp Crisp', 'items', 250, 'heal', 60, 'Crunchy dried river kelp. Restores 60 HP.');
+  it('minttea', 'Mint Tea', 'items', 150, 'status', 0, "Grandma's recipe. Cures any status problem.");
+  it('honeybun', 'Honey Bun', 'items', 120, 'snack', 35, 'Restores 35 HP and makes a Kit happier.');
+  it('embercookie', 'Ember Cookie', 'items', 300, 'boost', 1, "Spicy! The Kit's ATK rises at the start of its next battle.");
+  it('swiftsnap', 'Swift Snap', 'items', 300, 'boost', 5, "Crunchy! The Kit's SPD rises at the start of its next battle.");
+  it('shellcrisp', 'Shell Crisp', 'items', 300, 'boost', 2, "Tough to chew! The Kit's DEF rises at the start of its next battle.");
+  it('kittreat', 'Kit Treat', 'items', 100, 'joy', 20, 'A tasty treat. Makes a Kit happier. Happy Kits sometimes hang on or shake off status.');
+  it('fancytreat', 'Fancy Treat', 'items', 400, 'joy', 60, 'A deluxe treat. Makes a Kit much happier.');
+  it('oldrod', 'Old Rod', 'key', 0, 'key', 0, 'A simple fishing rod. Face water and use it to fish for Kits.');
   it('journal', "Grandpa's Journal", 'key', 0, 'key', 0, 'Pages from Grandpa\'s old journal. Some are missing.');
 
   // Skill Discs (reusable): teach a move

@@ -322,7 +322,7 @@
       return PK.ui.say("That can't be used right now.");
     }
     // field
-    var registerable = ['bike', 'rallybell', 'seekerlens', 'townmap', 'wayfinder', 'kitlog'].indexOf(id) >= 0;
+    var registerable = ['bike', 'rallybell', 'seekerlens', 'townmap', 'wayfinder', 'kitlog', 'oldrod'].indexOf(id) >= 0;
     var opts = it.pocket === 'key' ? (registerable ? ['USE', PK.game.state.registered === id ? 'UNREGISTER' : 'REGISTER', 'CANCEL'] : ['USE', 'CANCEL']) : it.use === 'held' ? ['GIVE', 'TOSS', 'CANCEL'] : it.pocket === 'discs' ? ['USE', 'CANCEL'] : ['USE', 'GIVE', 'TOSS', 'CANCEL'];
     var c = await PK.ui.menu(opts, { right: 236, bottom: 118 });
     var act = opts[c];
@@ -368,6 +368,22 @@
       if (it.use === 'status') { k.status = null; return PK.ui.say(PK.stats.name(k) + ' is feeling fine!'); }
       if (it.use === 'revive') { k.hp = Math.max(1, Math.floor(k.stats[0] * it.value / 100)); return PK.ui.say(PK.stats.name(k) + ' was revived!'); }
       if (it.use === 'pp') { k.moves.forEach(function (m) { m.pp = Math.min(PK.MOVES[m.id].pp, m.pp + it.value); }); return PK.ui.say(PK.stats.name(k) + "'s charges were restored!"); }
+    }
+    if (['snack', 'boost', 'joy'].indexOf(it.use) >= 0) {
+      var fi = await PK.menus.party({ mode: 'item' });
+      if (fi < 0) return;
+      var fk = party[fi], fn = PK.stats.name(fk);
+      if (fk.hp <= 0) return PK.ui.say(fn + ' has fainted and can\'t eat right now.');
+      if (it.use === 'boost' && fk.boost != null) return PK.ui.say(fn + ' is still full from its last snack.');
+      PK.game.removeItem(id);
+      if (PK.audio) PK.audio.sfx('heal');
+      if (it.use === 'snack') {
+        var ha = Math.min(it.value, fk.stats[0] - fk.hp); fk.hp += ha; fk.joy = Math.min(255, (fk.joy || 0) + 10);
+        return PK.ui.say(fn + ' munched the ' + it.name + '! It recovered ' + ha + ' HP and looks happier.');
+      }
+      if (it.use === 'boost') { fk.boost = it.value; return PK.ui.say(fn + ' gobbled up the ' + it.name + '! Its ' + PK.STAT_NAMES[it.value] + ' will rise at the start of its next battle.'); }
+      fk.joy = Math.min(255, (fk.joy || 0) + it.value);
+      return PK.ui.say(fn + ' loved the ' + it.name + '! ' + PK.stats.joyText(fk));
     }
     if (it.use === 'tp') {
       var pi = await PK.menus.party({ mode: 'item' });
@@ -430,6 +446,7 @@
     if (id === 'rallybell') { PK.menus.pendingAction = PK.world.ringBell; return; }
     if (id === 'seekerlens') { PK.menus.pendingAction = PK.world.seek; return; }
     if (id === 'townmap') return PK.menus.townMap();
+    if (id === 'oldrod') { PK.menus.pendingAction = PK.world.fish; return; }
     if (id === 'ferrypass') return PK.ui.say('Show this at the Saltmarsh harbor to board the ferry.');
     if (it.pocket === 'key') return PK.ui.say('Face an obstacle and press A to use the ' + it.name + '.');
     if (it.use === 'capsule' || it.use === 'escape') return PK.ui.say('That can only be used in battle.');

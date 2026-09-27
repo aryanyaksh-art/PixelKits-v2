@@ -17,7 +17,7 @@
     'A': { grass: 1, reeds: 1 }, 'E': { solid: 1, berry: 1 }, 'G': { solid: 1 }, 'I': {}, 'J': { solid: 1 },
     'N': {}, 'P': { solid: 1 }, 'U': { solid: 1 }, '&': { solid: 1 }, '$': { solid: 1 }, '-': { solid: 1 },
     '_': { solid: 1 }, '/': { solid: 1 }, '^': {}, 'F': { solid: 1 }, '<': { solid: 1 }, '(': { solid: 1, water: 1 },
-    '+': { solid: 1 }
+    '+': { solid: 1 }, '%': {}
   };
   PK.TILE = TILE;
 
@@ -36,7 +36,21 @@
     clinic: { style: 'tile', floor: ['#c4b4bc', '#e6d8de', '#f8f0f4'], wall: ['#aed4ca', '#cdeae2', '#e8f8f2'], trim: '#2e8474', rug: ['#2e8474', '#48a494', '#7ccab8'] },
     shop: { style: 'tile', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#b4bca2', '#d4dac2', '#eef2e0'], wall: ['#d4c49a', '#eadcb8', '#f8f0da'], trim: '#b8682a', rug: ['#b8682a', '#d8884a', '#f0b078'] },
     league: { style: 'marble', floor: ['#a8a0b8', '#cac4d8', '#ecE8f6'], wall: ['#6a5a8a', '#86769e', '#a898c0'], trim: '#d8b04a', rug: ['#8a1e3a', '#b0304e', '#d85a70'] },
-    spire: { style: 'metal', floor: ['#3a3448', '#4e4660', '#665c7c'], wall: ['#241e30', '#362e46', '#4c4260'], trim: '#c03a5a', rug: ['#5a1a3a', '#802a50', '#a84070'] }
+    spire: { style: 'metal', floor: ['#3a3448', '#4e4660', '#665c7c'], wall: ['#241e30', '#362e46', '#4c4260'], trim: '#c03a5a', rug: ['#5a1a3a', '#802a50', '#a84070'] },
+    // v2 interiors: each building type has its own walls and floor
+    home: { style: 'wood', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#9a6a3a', '#c08c52', '#dcac70'], wall: ['#d8c49c', '#f0e2c0', '#fcf4dc'], trim: '#7a4a26', rug: ['#8a2e36', '#b8484e', '#e0807a'] },
+    bedroom: { style: 'wood', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#8a603a', '#b08050', '#cca070'], wall: ['#9ab4d0', '#c0d4e8', '#e0ecf6'], trim: '#5a4a6a', rug: ['#2e5a8a', '#4a7ab0', '#7aa6d8'] },
+    mill: { style: 'plank', wallStyle: 'plank', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a4a2a', '#8a6038', '#a87a48'], wall: ['#7a5a36', '#9a7446', '#b89060'], trim: '#4a3018', rug: ['#8a6a2a', '#b89040', '#e8c860'] },
+    cellar: { style: 'flag', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a6660', '#8a8680', '#a8a49c'], wall: ['#5a5650', '#7a766e', '#9a968c'], trim: '#3a3630', rug: ['#5a3a22', '#7a5230', '#a8743e'] },
+    bakery: { style: 'tile', wallStyle: 'brick', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#b8784a', '#d89a68', '#ecc090'], wall: ['#9a4a3a', '#b85a48', '#d87a62'], trim: '#5a2a1a', rug: ['#b8682a', '#d8884a', '#f0b078'] },
+    school: { style: 'wood', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#8a603a', '#b08050', '#cca070'], wall: ['#7aa07a', '#9cc09a', '#c0dcbc'], trim: '#4a3a2a', rug: ['#2e5a8a', '#4a7ab0', '#7aa6d8'] },
+    cottage: { style: 'plank', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#7a5230', '#9a6a3e', '#b88a58'], wall: ['#9a8c78', '#b8aa94', '#d4c8b4'], trim: '#5a3a22', rug: ['#6a8a4a', '#8aaa5a', '#b8d080'] },
+    tower: { style: 'plank', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a4a2a', '#8a6038', '#a87a48'], wall: ['#6a6a70', '#8a8a90', '#aaaab0'], trim: '#3a3a40', rug: ['#8a2e36', '#b8484e', '#e0807a'] },
+    boat: { style: 'plank', wallStyle: 'plank', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a5a44', '#8a765a', '#a89274'], wall: ['#5a4a3a', '#7a6650', '#9a8468'], trim: '#3a2e22', rug: ['#2e5a8a', '#4a7ab0', '#7aa6d8'] },
+    works: { style: 'metal', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#5a6070', '#747a8a', '#9aa0b0'], wall: ['#5a6474', '#76808e', '#98a2b0'], trim: '#2a3040', rug: ['#8a6a2a', '#b89040', '#e8c860'] },
+    teller: { style: 'carpet', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#3a2450', '#503468', '#6a4a84'], wall: ['#3a2a5a', '#54407a', '#8a70b0'], trim: '#e8c060', rug: ['#8a1e3a', '#b0304e', '#d85a70'] },
+    sitter: { style: 'wood', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#a07040', '#c49058', '#e0b078'], wall: ['#e0c870', '#f4e098', '#fcf0c0'], trim: '#8a5a2a', rug: ['#4a8a5a', '#6aaa70', '#9ad09a'] },
+    green: { style: 'flag', wallStyle: 'glass', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a7a5a', '#8a9a74', '#a8b894'], wall: ['#7aaab0', '#a8d0d4', '#dcf0f0'], trim: '#3a5a4a', rug: ['#4a8a5a', '#6aaa70', '#9ad09a'] }
   };
   PK.THEMES = TH;
 
@@ -60,7 +74,7 @@
   }
   PK.theme = theme;
 
-  var INTERIOR = { wood: 1, tile: 1, marble: 1, metal: 1 };
+  var INTERIOR = { wood: 1, tile: 1, marble: 1, metal: 1, plank: 1, flag: 1, carpet: 1 };
 
   function fill(x, c, a, b, w, h) { x.fillStyle = c; x.fillRect(a || 0, b || 0, w == null ? S : w, h == null ? S : h); }
   function dot(x, c, a, b) { x.fillStyle = c; x.fillRect(a, b, 1, 1); }
@@ -106,6 +120,16 @@
       fill(x, f[2], 0, 0, 15, 1); fill(x, f[2], 0, 0, 1, 15);
       if (P.style === 'marble') { dot(x, f[0], 4, 5); dot(x, f[0], 5, 6); dot(x, f[0], 6, 6); dot(x, f[0], 10, 10); dot(x, f[0], 11, 11); }
       else { fill(x, f[2], 5, 5, 5, 5); fill(x, f[1], 6, 6, 3, 3); }
+    } else if (P.style === 'plank') {
+      for (k = 0; k < 2; k++) { fill(x, f[0], 0, k * 8 + 7, 16, 1); fill(x, f[2], 0, k * 8, 16, 1); fill(x, f[0], (k * 9 + 5) % 16, k * 8, 1, 7); }
+      dot(x, f[0], 3, 3); dot(x, f[0], 12, 11);
+    } else if (P.style === 'flag') {
+      fill(x, f[0], 0, 7, 16, 1); fill(x, f[0], 0, 15, 16, 1); fill(x, f[0], 9, 0, 1, 7); fill(x, f[0], 4, 8, 1, 7);
+      fill(x, f[2], 0, 0, 9, 1); fill(x, f[2], 10, 0, 6, 1); fill(x, f[2], 0, 8, 4, 1); fill(x, f[2], 5, 8, 11, 1);
+      dot(x, f[0], r.int(16), r.int(16));
+    } else if (P.style === 'carpet') {
+      for (k = 0; k < 6; k++) dot(x, f[(k % 2) * 2], r.int(16), r.int(16));
+      fill(x, f[2], 7, 7, 2, 2); dot(x, f[0], 7, 7);
     } else if (P.style === 'metal') {
       fill(x, f[0], 0, 7, 16, 1); fill(x, f[0], 7, 0, 1, 16);
       fill(x, f[2], 0, 0, 16, 1); fill(x, f[2], 0, 8, 16, 1);
@@ -381,9 +405,22 @@
   }
 
   function interiorWall(x, P, below) {
-    var w = P.wall;
+    var w = P.wall, st = P.wallStyle, i, j;
     fill(x, w[1]);
-    for (var i = 1; i < 16; i += 4) fill(x, w[2], i, 0, 2, 16);
+    if (st === 'paper') {
+      for (i = 0; i < 16; i += 8) fill(x, w[2], i + 3, 0, 2, 16);
+      for (j = 2; j < 16; j += 6) for (i = 0; i < 16; i += 8) { dot(x, w[0], i + 7, j); dot(x, w[0], i + 6, j + 1); dot(x, w[0], i + 8, j + 1); dot(x, w[0], i + 7, j + 2); }
+    } else if (st === 'brick') {
+      for (j = 0; j < 16; j += 4) { fill(x, w[0], 0, j + 3, 16, 1); for (i = ((j / 4) % 2) * 4; i < 16; i += 8) fill(x, w[0], i, j, 1, 3); fill(x, w[2], 0, j, 16, 1); }
+    } else if (st === 'plank') {
+      for (i = 0; i < 16; i += 5) { fill(x, w[0], i + 4, 0, 1, 16); fill(x, w[2], i, 0, 1, 16); }
+      dot(x, w[0], 2, 5); dot(x, w[0], 12, 9);
+    } else if (st === 'stone') {
+      for (j = 0; j < 16; j += 5) { fill(x, w[0], 0, j + 4, 16, 1); for (i = ((j / 5) % 2) * 5; i < 16; i += 9) fill(x, w[0], i, j, 1, 4); fill(x, w[2], 0, j, 16, 1); }
+    } else if (st === 'glass') {
+      fill(x, w[2], 1, 1, 6, 14); fill(x, w[2], 9, 1, 6, 14); fill(x, '#ffffff', 2, 2, 2, 5); fill(x, '#ffffff', 10, 2, 2, 5);
+      fill(x, P.trim, 7, 0, 2, 16); fill(x, P.trim, 0, 0, 1, 16);
+    } else for (i = 1; i < 16; i += 4) fill(x, w[2], i, 0, 2, 16);
     fill(x, w[0], 0, 0, 16, 1);
     if (!below) {
       fill(x, P.trim, 0, 11, 16, 5);
@@ -713,6 +750,11 @@
       case '<': logPile(x); break;
       case '(': lilyWater(x, P, frame, r); break;
       case '+': mailbox(x); break;
+      case '%':
+        interiorWall(x, P, 0);
+        fill(x, '#1e1a28', 2, 1, 12, 15); fill(x, PK.color.shade(P.trim, 0.1), 3, 2, 10, 14); fill(x, '#2a2024', 4, 3, 8, 13);
+        fill(x, PK.color.shade(P.floor ? P.floor[1] : '#8a6a4a', -0.35), 4, 12, 8, 4);
+        break;
       case 'Q': if (!interior) { groundBase(x, P, r); furniture(x, Object.assign({ trim: '#c8a0ff' }, P), 'Q', frame); } else furniture(x, P, ch, frame); break;
       default:
         if (interior) furniture(x, P, ch, frame);
