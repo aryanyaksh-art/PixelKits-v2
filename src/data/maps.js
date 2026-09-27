@@ -6,7 +6,7 @@
   var PK = window.PK = window.PK || {};
   PK.MAPS = {};
   var NPC_KEYS = 'aehjmnoqsuwxyz';
-  var WALKABLE = '.,":gdi=|X';
+  var WALKABLE = '.,":gdi=|XIN^A';
 
   function defMap(id, d) {
     d.id = id;
@@ -49,9 +49,11 @@
           for (var by = 0; by < K.h; by++) for (var bx = 0; bx < K.w; bx++) {
             if (y + by < h && x + bx < w) solid[y + by][x + bx] = true;
           }
-          var dx = x + K.door, dy = y + K.h - 1;
-          solid[dy][dx] = false;
-          m.doors[dx + ',' + dy] = b;
+          if (K.door != null) {
+            var dx = x + K.door, dy = y + K.h - 1;
+            solid[dy][dx] = false;
+            m.doors[dx + ',' + dy] = b;
+          }
           rows[y][x] = '.';
         } else if (c === '#') rows[y][x] = '.';
         else if (NPC_KEYS.indexOf(c) >= 0) {
@@ -92,11 +94,38 @@
         }
       }
     }
+    // v2: things placed by coordinates instead of ASCII markers
+    // buildings {k, at:[x,y]}, npcs {name: {at:[x,y], ...}}, signsAt [[x,y,text]], itemsAt [[item,n,x,y]],
+    // hiddenAt [[item,n,x,y]], eventsAt [{at:[x,y], run, cond}], warpsAt [[x,y,map,tx,ty,dir]]
+    (m.buildings || []).forEach(function (b) {
+      if (!b.at) return;
+      var K = PK.BUILDINGS[b.k];
+      if (!K) throw new Error('Map ' + m.id + ': unknown building kind ' + b.k);
+      b.x = b.at[0]; b.y = b.at[1]; b.w = K.w; b.h = K.h;
+      for (var by = 0; by < K.h; by++) for (var bx = 0; bx < K.w; bx++) if (b.y + by < h && b.x + bx < w) solid[b.y + by][b.x + bx] = true;
+      if (K.door != null) {
+        var ddx = b.x + K.door, ddy = b.y + K.h - 1;
+        solid[ddy][ddx] = false;
+        m.doors[ddx + ',' + ddy] = b;
+      }
+    });
+    Object.keys(m.npcs || {}).forEach(function (key) {
+      var d = m.npcs[key];
+      if (!d.at) return;
+      var nd = Object.assign({ key: key }, d);
+      nd.x = d.at[0]; nd.y = d.at[1];
+      m.npcDefs.push(nd);
+    });
+    (m.signsAt || []).forEach(function (s) { m.signDefs[s[0] + ',' + s[1]] = s[2]; });
+    (m.itemsAt || []).forEach(function (it, i) { m.itemDefs.push({ x: it[2], y: it[3], item: it[0], n: it[1] || 1, key: m.id + ':a' + i }); });
+    (m.hiddenAt || []).forEach(function (it, i) { m.hiddenDefs.push({ x: it[2], y: it[3], item: it[0], n: it[1] || 1, key: m.id + ':ha' + i }); });
+    (m.eventsAt || []).forEach(function (ev) { m.eventDefs.push(Object.assign({ x: ev.at[0], y: ev.at[1] }, ev)); });
+    (m.warpsAt || []).forEach(function (wp) { m.warpDefs[wp[0] + ',' + wp[1]] = { to: wp[2], x: wp[3], y: wp[4], dir: wp[5] }; });
     // ground under building footprints matches what surrounds the building
     (m.buildings || []).forEach(function (b) {
       if (b.x == null) return;
       var base = null;
-      var cand = [[b.x - 1, b.y + b.h - 1], [b.x + b.w, b.y + b.h - 1], [b.x + PK.BUILDINGS[b.k].door, b.y + b.h]];
+      var cand = [[b.x - 1, b.y + b.h - 1], [b.x + b.w, b.y + b.h - 1], [b.x + (PK.BUILDINGS[b.k].door || 0), b.y + b.h]];
       for (var i = 0; i < cand.length && !base; i++) {
         var q = cand[i], r = rows[q[1]] && rows[q[1]][q[0]];
         if (r === 'g' || r === 'd' || r === '.' || r === ',') base = r === ',' ? '.' : r;

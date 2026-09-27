@@ -7,8 +7,9 @@
 
   function newState() {
     return {
-      v: 1,
-      player: { name: 'REMY', map: 'bh_home2f', x: 3, y: 3, dir: 'down' },
+      v: 2,
+      player: { name: 'REMY', map: 'bh_home2f', x: 3, y: 3, dir: 'down', look: null },
+      quests: {},
       rival: 'JASPER',
       money: 3000,
       party: [],
@@ -43,7 +44,7 @@
   var G = {
     state: null,
     init: function () { G.state = newState(); },
-    newGame: function () { G.state = newState(); return G.state; },
+    newGame: function () { G.state = newState(); if (PK.chars) G.state.player.look = PK.chars.setPlayerLook(null); return G.state; },
     tick: function () { if (G.state) G.state.frames++; },
     // ---- save slots (3). The old single save is migrated into slot 1.
     slot: 1,
@@ -88,6 +89,7 @@
         if (!s) return false;
         G.slot = n || G.slot;
         G.state = G.fixup(s);
+        if (PK.chars) PK.chars.setPlayerLook(G.state.player.look);
         return true;
       } catch (e) { console.error(e); return false; }
     },
@@ -150,6 +152,7 @@
     // --- time of day from the real clock
     timeOfDay: function () {
       if (PK.forceTime) return PK.forceTime;
+      if (G.state && G.state.flags.storm) return 'night';
       var h = new Date().getHours();
       if (h >= 5 && h < 10) return 'morning';
       if (h >= 10 && h < 18) return 'day';

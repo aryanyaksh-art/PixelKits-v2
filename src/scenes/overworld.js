@@ -34,21 +34,22 @@
     var m = W.map;
     var nf = 1;
     for (var y = 0; y < m.h && nf === 1; y++) for (var x = 0; x < m.w; x++) if (PK.tiles.isAnimated(m.at(x, y))) { nf = 3; break; }
+    if ((m.buildings || []).some(function (b) { return PK.BUILDINGS[b.k].anim; })) nf = 3;
     W.frames = [];
     for (var f = 0; f < nf; f++) {
       var c = PK.makeCanvas(m.w * TS, m.h * TS);
       var ctx = c.getContext('2d');
       for (y = 0; y < m.h; y++) for (x = 0; x < m.w; x++) PK.tiles.drawMapTile(ctx, m, x, y, x * TS, y * TS, f);
       PK.tiles.drawTrees(ctx, m, 0, 0, m.w - 1, m.h - 1);
-      W.drawBuildings(ctx);
+      W.drawBuildings(ctx, f);
       W.frames.push(c);
     }
   };
-  W.drawBuildings = function (ctx) {
+  W.drawBuildings = function (ctx, frame) {
     var m = W.map;
     (m.buildings || []).forEach(function (b) {
       var em = b.emblem ? PK.TYPES[b.emblem].color : null;
-      var img = PK.buildings.draw(b.k, { roof: b.roof, snow: m.theme === 'snow', label: b.label, emblem: em });
+      var img = PK.buildings.draw(b.k, { roof: b.roof, snow: m.theme === 'snow', label: b.label, emblem: em, goods: b.goods, frame: frame || 0 });
       ctx.drawImage(img, b.x * TS, b.y * TS);
     });
   };
@@ -62,7 +63,7 @@
       }
       ctx.save(); ctx.beginPath(); ctx.rect((tx - 1) * TS, (ty - 1) * TS, TS * 3, TS * 3); ctx.clip();
       PK.tiles.drawTrees(ctx, m, tx - 1, ty - 1, tx + 1, ty + 2);
-      W.drawBuildings(ctx); ctx.restore();
+      W.drawBuildings(ctx, f); ctx.restore();
     });
   };
 
@@ -89,7 +90,7 @@
     if (m.interior || !OUTDOOR[m.theme] && m.theme !== 'coast') W.p.surf = W.p.surf && m.at(x, y) === '~';
     if (m.at(x, y) !== '~') W.p.surf = false;
     W.npcs = m.npcDefs.filter(condOk).map(function (d) {
-      return { d: d, id: d.id || d.key, x: d.x, y: d.y, px: d.x * TS, py: d.y * TS, dir: d.dir || 'down', moving: false, t: 0, hx: d.x, hy: d.y, timer: 60 + PK.rnd(120), sprite: d.sprite || 'boy', emote: null, hidden: false };
+      return { d: d, id: d.id || d.key, x: d.x, y: d.y, px: d.x * TS, py: d.y * TS, dir: d.dir || 'down', moving: false, t: 0, hx: d.x, hy: d.y, timer: 60 + PK.rnd(120), sprite: d.sprite || 'boy', emote: null, hidden: !!d.startHidden };
     });
     W.prerender();
     if (!m.interior) { st.visited = st.visited || {}; st.visited[id] = true; }
@@ -321,9 +322,9 @@
   W.tryEncounter = function (c) {
     var m = W.map;
     if (PK.noEncounters || !m.enc) return;
-    var kind = W.p.surf ? 'water' : c === '"' ? 'grass' : (m.enc.cave && (c === '.' || c === ',' || c === 'd' || c === 'i')) ? 'cave' : null;
+    var kind = W.p.surf ? 'water' : c === 'A' ? (m.enc.reeds ? 'reeds' : 'grass') : c === '"' ? 'grass' : (m.enc.cave && (c === '.' || c === ',' || c === 'd' || c === 'i')) ? 'cave' : null;
     if (!kind || !m.enc[kind]) return;
-    var rate = { grass: 1 / 9, cave: 1 / 14, water: 1 / 11 }[kind] * (m.enc.rate || 1);
+    var rate = { grass: 1 / 9, reeds: 1 / 8, cave: 1 / 14, water: 1 / 11 }[kind] * (m.enc.rate || 1);
     if (Math.random() > rate) return;
     var tod = PK.game.timeOfDay();
     var list = m.enc[kind].filter(function (e) {
@@ -617,6 +618,9 @@
       return;
     }
     if (c === 'Q' && m.statue) return PK.ui.say(typeof m.statue === 'function' ? m.statue() : m.statue);
+    if (c === 'E') return W.pickBerry(fx, fy);
+    var flavor = (m.tileText && m.tileText[c]) || TILE_TEXT[c];
+    if (flavor) return PK.ui.say(flavor);
     if (c === 'b') {
       if (!PK.game.count('machete')) return PK.ui.say('A thick bush blocks the way. Something sharp could clear it.');
       if (await PK.ui.yesno('This bush could be cut down. Use the Machete?')) {
@@ -642,6 +646,26 @@
         W.tryMove(p.dir);
       }
     }
+  };
+
+  var TILE_TEXT = {
+    U: 'An old stone well. The water down there looks cool and clear.',
+    P: 'Neat rows of herbs. They smell fresh after the rain.',
+    '&': 'A sturdy wooden barrel.', '$': 'A stack of wooden crates.', '<': 'A pile of chopped logs.',
+    '+': 'A mailbox. Peeking inside would be rude.', J: 'The water thunders down from the dam.',
+    F: 'A flower bed, lovingly tended.'
+  };
+  // Berry trees give a berry once per real day
+  W.pickBerry = async function (x, y) {
+    var st = PK.game.state, key = W.map.id + ':' + x + ',' + y, today = Math.floor(Date.now() / 86400000);
+    st.berries = st.berries || {};
+    if (st.berries[key] === today) return PK.ui.say('No ripe berries left. More will grow by tomorrow.');
+    if (!(await PK.ui.yesno('The tree is heavy with ripe River Berries. Pick some?'))) return;
+    st.berries[key] = today;
+    var n = 1 + PK.rnd(2);
+    PK.game.addItem('riverberry', n);
+    if (PK.audio) PK.audio.jingle('item');
+    await PK.ui.say(st.player.name + ' picked ' + n + ' River Berr' + (n > 1 ? 'ies' : 'y') + '!');
   };
 
   // permanently clear an obstacle tile (saved per map)
@@ -688,19 +712,29 @@
   };
 
   // ---------------- weather ----------------
+  // A story storm (flag 'storm') forces rain on every outdoor map.
+  W.weatherKind = function () {
+    if (PK.game.flag('storm') && !W.map.interior) return 'storm';
+    return W.map.weather;
+  };
   W.initWeather = function () {
     W.weather = [];
-    var w = W.map.weather;
+    var w = W.weatherKind();
     if (!w) return;
-    for (var i = 0; i < 40; i++) W.weather.push({ x: Math.random() * PK.W, y: Math.random() * PK.H, s: 0.5 + Math.random() });
+    for (var i = 0; i < (w === 'storm' ? 90 : 40); i++) W.weather.push({ x: Math.random() * PK.W, y: Math.random() * PK.H, s: 0.5 + Math.random() });
   };
   W.drawWeather = function (ctx) {
-    var w = W.map.weather;
+    var w = W.weatherKind();
     if (!w) return;
+    if (w === 'storm') {
+      ctx.fillStyle = 'rgba(10,14,40,0.25)'; ctx.fillRect(0, 0, PK.W, PK.H);
+      if (PK.frame % 400 < 4 || (PK.frame % 400 > 8 && PK.frame % 400 < 11)) { ctx.fillStyle = 'rgba(230,236,255,0.55)'; ctx.fillRect(0, 0, PK.W, PK.H); }
+    }
     W.weather.forEach(function (f) {
       if (w === 'snow') { f.y += f.s * 0.8; f.x += Math.sin((PK.frame + f.y) / 30) * 0.4; ctx.fillStyle = '#ffffff'; ctx.fillRect(f.x | 0, f.y | 0, f.s > 1 ? 2 : 1, f.s > 1 ? 2 : 1); }
       else if (w === 'sand') { f.x += f.s * 3; f.y += f.s * 0.3; ctx.fillStyle = 'rgba(240,210,140,0.7)'; ctx.fillRect(f.x | 0, f.y | 0, 4, 1); }
       else if (w === 'embers') { f.y -= f.s * 0.6; f.x += Math.sin((PK.frame + f.x) / 20) * 0.3; ctx.fillStyle = f.s > 1.1 ? '#ffd060' : '#ff7a30'; ctx.fillRect(f.x | 0, f.y | 0, 1, 1); }
+      else if (w === 'storm') { f.y += f.s * 7; f.x -= f.s * 2.5; ctx.fillStyle = 'rgba(190,210,255,0.7)'; ctx.fillRect(f.x | 0, f.y | 0, 1, 5); }
       else if (w === 'rain') { f.y += f.s * 5; f.x -= f.s; ctx.fillStyle = 'rgba(180,200,255,0.6)'; ctx.fillRect(f.x | 0, f.y | 0, 1, 4); }
       else if (w === 'fog' || w === 'dust') { f.x += f.s * 0.2; ctx.fillStyle = w === 'fog' ? 'rgba(200,190,230,0.10)' : 'rgba(255,255,255,0.06)'; ctx.fillRect(f.x | 0, f.y | 0, 40, 10); }
       if (f.y > PK.H) f.y -= PK.H + 4; if (f.y < -4) f.y += PK.H + 4;
@@ -807,6 +841,7 @@
       var sx = Math.round(n.px - cx), sy = Math.round(n.py - cy);
       if (n.sprite === 'none') return;
       if (n.sprite === 'capsule') { PK.bfx.drawCapsule(ctx, sx + 8, sy + 6, n.d.capsule || 'capsule'); return; }
+      if (n.sprite === 'item') { drawSatchel(ctx, sx, sy); return; }
       if (n.sprite.indexOf('kit:') === 0) {
         var id = +n.sprite.slice(4);
         var ic = PK.kitArt.icon(id);
@@ -859,6 +894,7 @@
       PK.font.draw(ctx, m.name, 14, 10 + off, '#383848', '#d6d4c8');
       ctx.globalAlpha = 1;
     }
+    if (PK.quest) PK.quest.drawHud(ctx, W.nameT > 0 || W.busy > 0 || PK.top() !== this);
   };
 
   W.drawPlayer = function (ctx, cx, cy) {

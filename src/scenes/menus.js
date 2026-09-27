@@ -801,33 +801,37 @@
   // ================= Options =================
   async function options() {
     var o = PK.game.state.options;
-    var labels = function () {
+    var rows = function () {
       return [
-        { label: 'TEXT SPEED', right: ['SLOW', 'MID', 'FAST'][o.textSpeed] },
-        { label: 'MUSIC', right: Math.round(o.music * 10) + '/10' },
-        { label: 'SOUND FX', right: Math.round(o.sfx * 10) + '/10' },
-        { label: 'BATTLE FX', right: o.anim ? 'ON' : 'OFF' },
-        { label: 'EXPORT SAVE CODE' },
-        { label: 'IMPORT SAVE CODE' },
-        { label: 'DONE' }
+        { label: 'TEXT SPEED', right: ['SLOW', 'MID', 'FAST'][o.textSpeed], act: 'text' },
+        { label: 'MUSIC', right: Math.round(o.music * 10) + '/10', act: 'music' },
+        { label: 'SOUND FX', right: Math.round(o.sfx * 10) + '/10', act: 'sfx' },
+        { label: 'BATTLE FX', right: o.anim ? 'ON' : 'OFF', act: 'anim' },
+        { label: 'QUEST BAR', right: o.questBar === false ? 'OFF' : 'ON', act: 'quest' },
+        { label: 'EXPORT SAVE CODE', act: 'export' },
+        { label: 'IMPORT SAVE CODE', act: 'import' },
+        { label: 'DONE', act: 'done' }
       ];
     };
     var idx = 0;
     for (;;) {
-      var i = await PK.ui.menu(labels(), { x: 30, y: 20, w: 180, index: idx, title: 'OPTIONS  (A to change)' });
-      if (i < 0 || i === 6) break;
+      var list = rows();
+      var i = await PK.ui.menu(list, { x: 30, y: 12, w: 180, index: idx, title: 'OPTIONS  (A to change)' });
+      if (i < 0 || list[i].act === 'done') break;
       idx = i;
-      if (i === 0) o.textSpeed = (o.textSpeed + 1) % 3;
-      if (i === 1) o.music = o.music >= 1 ? 0 : Math.round((o.music + 0.1) * 10) / 10;
-      if (i === 2) o.sfx = o.sfx >= 1 ? 0 : Math.round((o.sfx + 0.1) * 10) / 10;
-      if (i === 3) o.anim = !o.anim;
-      if (i === 4) {
+      var act = list[i].act;
+      if (act === 'text') o.textSpeed = (o.textSpeed + 1) % 3;
+      if (act === 'music') o.music = o.music >= 1 ? 0 : Math.round((o.music + 0.1) * 10) / 10;
+      if (act === 'sfx') o.sfx = o.sfx >= 1 ? 0 : Math.round((o.sfx + 0.1) * 10) / 10;
+      if (act === 'anim') o.anim = !o.anim;
+      if (act === 'quest') o.questBar = o.questBar === false;
+      if (act === 'export') {
         var code = PK.game.exportCode();
         try { await navigator.clipboard.writeText(code); await PK.ui.say('Save code copied to the clipboard! Keep it somewhere safe.'); }
         catch (e) { window.prompt('Copy your save code:', code); }
       }
-      if (i === 5) {
-        var inCode = window.prompt('Paste a PixelKits save code:');
+      if (act === 'import') {
+        var inCode = window.prompt('Paste a PixelKits v2 save code:');
         if (inCode) {
           try { PK.game.importCode(inCode); await PK.ui.say('Save imported! Returning to the title screen.'); PK.clearScenes(); PK.push(new PK.TitleScene()); return; }
           catch (e2) { await PK.ui.say('That save code is not valid.'); }
@@ -858,6 +862,7 @@
       for (;;) {
         var items = [];
         var acts = [];
+        if (Object.keys(st.quests || {}).length) { items.push('QUESTS'); acts.push('quests'); }
         if (PK.game.count('kitlog')) { items.push('KITLOG'); acts.push('log'); }
         if (PK.game.count('townmap')) { items.push('MAP'); acts.push('map'); }
         if (st.party.length) { items.push('KITS'); acts.push('kits'); }
@@ -867,10 +872,11 @@
         items.push('OPTIONS'); acts.push('opt');
         if (PK.debug) { items.push('DEBUG'); acts.push('debug'); }
         items.push('EXIT'); acts.push('exit');
-        var i = await PK.ui.menu(items, { right: 236, y: 4, index: idx, w: 76 });
+        var i = await PK.ui.menu(items, { right: PK.W - 4, y: 4, index: idx, w: 76 });
         if (i < 0 || acts[i] === 'exit') return;
         idx = i;
         var a = acts[i];
+        if (a === 'quests') await PK.quest.log();
         if (a === 'log') await PK.menus.kitlog();
         if (a === 'map') await PK.menus.townMap();
         if (a === 'kits') await PK.menus.party({ mode: 'field' });

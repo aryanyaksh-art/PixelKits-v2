@@ -53,10 +53,43 @@
       up: ['.....hhhhhh.....', '....hhHHHHhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '...hhhhhhhhhh...', '...HhhhhhhhhH...'],
       side: ['..hhh...........', '.hhhhhhhhhh.....', '..hhhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhHhhh...', '..hhhhhh........', '..hhhhh.........', '...hhh..........']
     },
+    ponytail: {
+      down: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhHhhhhhhHhh..', '..hh........hh..', '..h..........h..'],
+      up: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '...hhhhhhhhhh...', '...HhhhhhhhhH...', '......hhhh......', '......hhhh......', '.......HH.......'],
+      side: ['................', '....hhhhhhh.....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', 'hhhhhhhhhHhhh...', 'hhhhhhhh........', '.hhhhhh.........', '..hhh...........']
+    },
+    curly: {
+      down: ['...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '.hhhhhhhhhhhhhh.', '.hhhHhhhhhhHhhh.', '.hhhhhhhhhhhhhh.', '.hhh........hhh.', '.hh..........hh.', '..h..........h..'],
+      up: ['...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '.hhhhhhhhhhhhhh.', '.hhhhhhhhhhhhhh.', '.hhhhhhhhhhhhhh.', '.hhhhhhhhhhhhhh.', '.hhhhhhhhhhhhhh.', '..hhhhhhhhhhhh..', '...HhhhhhhhhH...'],
+      side: ['...hhhhhhhh.....', '..hhhhhhhhhhh...', '.hhhhhhhhhhhhh..', '.hhhhhhhhhhhhh..', '.hhhhhhhhHhhh...', '.hhhhhhh........', '.hhhhhh.........', '..hhhh..........']
+    },
+    swept: {
+      down: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhhHh....', '..hhhhhh....hh..', '..h..........h..'],
+      up: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '...hhhhhhhhhh...', '...HhhhhhhhhH...'],
+      side: ['................', '....hhhhhhh.....', '...hhhhhhhhhh...', '..hhhhhhhhhhhhh.', '..hhhhhhhhhhh...', '..hhhhhh........', '..hhhhh.........', '...hhh..........']
+    },
+    braids: {
+      down: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhHhhhhHhhh..', '..hh........hh..', '..hh........hh..', '..H..........H..', '..h..........h..', '..H..........H..', '..h..........h..'],
+      up: ['................', '....hhhhhhhh....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..hhhhhhhhhhhh..', '..HhhhhhhhhhhH..', '..h..........h..', '..H..........H..', '..h..........h..'],
+      side: ['................', '....hhhhhhh.....', '...hhhhhhhhhh...', '..hhhhhhhhhhhh..', '..hhhhhhhHhhh...', '..hhhhhh........', '..hhhhh.........', '...hh...........', '...Hh...........', '...hh...........']
+    },
     hood: {
       down: ['.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..', '..bbbhhhhhhbbb..', '..bbh......hbb..', '..bb........bb..', '..bb........bb..', '..BB........BB..'],
       up: ['.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..BBBBBBBBBBBB..'],
       side: ['.....bbbbbb.....', '....bbbbbbbbb...', '...bbbbbbbbbbb..', '..bbbbbbbbbbbb..', '..bbbbbbbhhhbb..', '..bbbbbb........', '..bbbbb.........', '..bbbbb.........', '..BBBB..........']
+    }
+  };
+  // hats drawn over any hairstyle
+  var HATS = {
+    cap: {
+      down: ['................', '....bbbbbbbb....', '...bbbbwwbbbb...', '..bbbbbwwbbbbb..', '..BBBBBBBBBBBB..'],
+      up: ['................', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..', '..BbbbbbbbbbbB..'],
+      side: ['................', '....bbbbbbb.....', '...bbbbbwwbb....', '..bbbbbbbbbbb...', '..hhhBBBBBBBBBB.']
+    },
+    beanie: {
+      down: ['.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..', '..BwBwBwBwBwBB..'],
+      up: ['.....bbbbbb.....', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbbb..', '..BwBwBwBwBwBB..'],
+      side: ['.....bbbbb......', '....bbbbbbbb....', '...bbbbbbbbbb...', '..bbbbbbbbbbb...', '..BwBwBwBwBB....']
     }
   };
   // bodies: rows 10..21 (12 rows). frames: stand, walk
@@ -90,7 +123,18 @@
   // Named palettes for characters (all original outfits)
   var PALS = {
     player: { head: 'cap', b: '#e8f0f8', B: '#9aa8c0', w: '#26a896', h: '#3a2a22', H: '#241812', c: '#26a896', C: '#15705f', a: '#f4f4f4', p: '#2c3a60', P: '#1c2640', f: '#e04848', k: '#f0a030' },
-    rival: { head: 'spiky', h: '#6a4ab0', H: '#422a7a', c: '#3aa860', C: '#257040', a: '#f4f4f4', p: '#4a4a52', P: '#303036', f: '#6a3a2a', k: '#4a4a52' },
+    rival: { head: 'swept', h: '#7a2e2a', H: '#4e1a18', c: '#4a5a4e', C: '#303c34', a: '#c8a060', p: '#2e2a34', P: '#1c1a22', f: '#3a2a20', k: '#6a4a30' },
+    // Brookhollow residents (v2)
+    grandma: { head: 'bun', dress: 1, h: '#e8e4f0', H: '#b0aac4', s: '#f0c8a4', S: '#c89878', c: '#5a8a5a', C: '#3a6440' },
+    baker: { head: 'short', h: '#e8a040', H: '#b87020', s: '#f0c090', S: '#d09868', c: '#f8f4ea', C: '#d8d0c0', a: '#c85a3a', p: '#6a5a4a', P: '#4a3e30', k: '#f8f4ea' },
+    teacher: { head: 'long', dress: 1, h: '#2a1a14', H: '#140a08', s: '#c68a5a', S: '#9a6438', c: '#3a6ab0', C: '#264a80' },
+    fisher: { head: 'short', hat: 'beanie', b: '#c83a3a', B: '#8a2424', h: '#d8d8d8', H: '#a8a8a8', s: '#e0a878', S: '#b88050', c: '#e8c040', C: '#b08a20', a: '#6a4a2a', p: '#3a4a6a', P: '#24304a', f: '#2a2a2a', k: '#e8c040' },
+    tomas: { head: 'bald', h: '#3a2a1a', H: '#2a1a10', s: '#9a6440', S: '#744626', c: '#8a6a3a', C: '#5a4424', a: '#3a2a1a', p: '#4a5a3a', P: '#303c24', k: '#8a6a3a' },
+    villager1: { head: 'ponytail', dress: 1, h: '#c84030', H: '#8a2418', c: '#f0d890', C: '#c0a860' },
+    villager2: { head: 'curly', h: '#141418', H: '#000000', s: '#6e4428', S: '#4e2e18', c: '#e07830', C: '#a8501a', a: '#f4f4f4', p: '#384058', P: '#242a3c', k: '#e07830' },
+    villager3: { head: 'swept', h: '#e8c060', H: '#b89030', c: '#3a9a50', C: '#246a34', a: '#f4f4f4', p: '#6a5a4a', P: '#4a3e30', k: '#3a9a50' },
+    kid2: { head: 'braids', h: '#6a4020', H: '#44260e', s: '#e0a878', S: '#b88050', c: '#f070a8', C: '#b84478', a: '#f4f4f4', p: '#4a78c8', P: '#2e4e90', k: '#f8d040', shorts: 1 },
+    miller: { head: 'short', hat: 'cap', b: '#8a8a8a', B: '#5a5a5a', w: '#f4f4f4', h: '#6a4020', H: '#44260e', c: '#e8e0d0', C: '#b8b0a0', a: '#7a5230', p: '#5a6a8a', P: '#3a4a6a', k: '#e8e0d0' },
     mom: { head: 'bun', dress: 1, h: '#a0522d', H: '#6e3418', c: '#e87a9a', C: '#b8506e' },
     prof: { head: 'long', h: '#c8c8d4', H: '#9090a4', c: '#f4f4f8', C: '#c0c4d4', a: '#4a8a78', p: '#4a5a7a', P: '#34405a', f: '#3a3a44', k: '#f4f4f8' },
     nurse: { head: 'bun', dress: 1, h: '#f0a0c0', H: '#c87098', c: '#f4fbf8', C: '#9ad8c8', f: '#f0f0f0' },
@@ -146,11 +190,15 @@
       var dr = DRESS[d].slice();
       if (walk) dr[5] = d === 'side' ? '....ff....ff....' : '..ff........ff..';
       body = body.slice(0, 5).concat(dr);
+    } else if (p.shorts) {
+      // shorts: bare legs below the knee
+      body = body.map(function (row, i) { return i >= 8 && i <= 9 ? row.replace(/p/g, 's').replace(/P/g, 'S') : row; });
     }
     layer(grid, body, 10);
     layer(grid, HEAD[d], 0);
     var hair = HAIR[p.head || 'short'] || HAIR.short;
     layer(grid, hair[d], 0);
+    if (p.hat && HATS[p.hat]) layer(grid, HATS[p.hat][d], 0);
     var pal = Object.assign({}, BASE_PAL, p);
     var c = PK.makeCanvas(CW, CH), x2 = c.getContext('2d');
     // auto outline
@@ -222,5 +270,33 @@
     PK.font.draw(ctx, ch || '!', x + (ch === '?' ? 4 : 5), y + 3, '#d84c3c');
   }
 
-  PK.chars = { sprite: sprite, portrait: portrait, emote: emote, drawBike: drawBike, PALS: PALS, W: CW, H: CH };
+  // ---------- player appearance (character creator) ----------
+  var LOOK = {
+    body: ['pants', 'skirt', 'shorts'],
+    skin: [['#f8d8b4', '#e0b08a'], ['#f0c090', '#d09868'], ['#e0a878', '#b88050'], ['#c68a5a', '#9a6438'], ['#9a6440', '#744626'], ['#6e4428', '#4e2e18']],
+    hair: ['short', 'long', 'spiky', 'bun', 'ponytail', 'curly', 'swept', 'braids', 'bald'],
+    hairCol: ['#3a2a22', '#141418', '#6a4020', '#b87030', '#e8c060', '#c84030', '#e8e8f0', '#4a6ad0', '#3aa070', '#d060a0'],
+    hat: ['none', 'cap', 'beanie'],
+    cloth: ['#26a896', '#d84848', '#4a78c8', '#f0b030', '#8a4ac0', '#3a9a50', '#f070a8', '#f4f4f4', '#3a3a44', '#e07830'],
+    shoes: ['#e04848', '#3a3a44', '#f4f4f4', '#6a4020', '#4a78c8']
+  };
+  function defaultLook() { return { body: 0, skin: 1, hair: 0, hairCol: 0, hat: 1, top: 0, bottom: 8, hatCol: 7, shoes: 0 }; }
+  // Rebuild the player's palette from a look (indices into LOOK) and drop cached sprites.
+  function setPlayerLook(look) {
+    look = Object.assign(defaultLook(), look || {});
+    var sh = PK.color.shade, sk = LOOK.skin[look.skin], hc = LOOK.hairCol[look.hairCol];
+    var top = LOOK.cloth[look.top], bot = LOOK.cloth[look.bottom], hat = LOOK.cloth[look.hatCol];
+    var body = LOOK.body[look.body];
+    PALS.player = {
+      head: LOOK.hair[look.hair], hat: LOOK.hat[look.hat] === 'none' ? null : LOOK.hat[look.hat],
+      dress: body === 'skirt' ? 1 : 0, shorts: body === 'shorts' ? 1 : 0,
+      s: sk[0], S: sk[1], h: hc, H: sh(hc, -0.35),
+      c: top, C: sh(top, -0.35), a: '#f4f4f4', p: body === 'skirt' ? top : bot, P: sh(bot, -0.35),
+      b: hat, B: sh(hat, -0.35), w: top === hat ? '#f4f4f4' : top, f: LOOK.shoes[look.shoes], k: sh(top, 0.25)
+    };
+    Object.keys(cache).forEach(function (k) { if (k === 'player' || k.indexOf('player|') === 0) delete cache[k]; });
+    return look;
+  }
+
+  PK.chars = { sprite: sprite, portrait: portrait, emote: emote, drawBike: drawBike, PALS: PALS, W: CW, H: CH, LOOK: LOOK, defaultLook: defaultLook, setPlayerLook: setPlayerLook };
 })();

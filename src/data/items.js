@@ -57,6 +57,12 @@
   it('rallybell', 'Rally Bell', 'key', 0, 'key', 0, 'Ring it to find keepers who want a rematch.');
   it('seekerlens', 'Seeker Lens', 'key', 0, 'key', 0, 'Reveals if something is hidden nearby.');
   it('ferrypass', 'Ferry Pass', 'key', 0, 'key', 0, 'A pass for the ferry to the Moonlit Isles.');
+  // v2: Brookhollow
+  it('riverberry', 'River Berry', 'items', 60, 'heal', 20, 'A juicy berry from the Willow banks. Restores 20 HP.');
+  it('floursack', 'Flour Sack', 'key', 0, 'key', 0, 'A soggy sack of flour from the Brookhollow bakery.');
+  it('clapper', 'Bell Clapper', 'key', 0, 'key', 0, 'The iron clapper from the Brookhollow school bell.');
+  it('ashscrap', 'Ash Scrap', 'key', 0, 'key', 0, 'A scrap of grey cloth stitched with a small ember. Found on the jammed floodgate.');
+  it('journal', "Grandpa's Journal", 'key', 0, 'key', 0, 'Pages from Grandpa\'s old journal. Some are missing.');
 
   // Skill Discs (reusable): teach a move
   var DISCS = ['wallop', 'blazeburst', 'riptide', 'grovebeam', 'arcbolt', 'glacierray', 'risingfist', 'blightbomb', 'landslide', 'galeslash',

@@ -28,7 +28,7 @@
     this.opaque = true;
     this.t = 0;
     this.phase = 'press';
-    this.parade = [1, 4, 7, 42, 29, 12, 21, 85, 100, 50, 64, 31];
+    this.parade = [1, 4, 7, 2, 5, 8, 3, 6, 9];
     this.clouds = [0, 1, 2, 3, 4].map(function (i) { return { x: i * 60, y: 12 + (i * 17) % 40, s: 0.1 + (i % 3) * 0.05 }; });
   }
   Title.prototype.enter = function () { if (PK.audio) PK.audio.music('title'); };
@@ -143,46 +143,115 @@
     drawLogo(ctx, PK.W / 2, 26, t);
     F().center(ctx, 'A Lumora Adventure', PK.W / 2, 60, '#fff4e0', '#3a2a4a');
     if (this.phase === 'press' && ((t >> 5) & 1)) F().center(ctx, 'PRESS START', PK.W / 2, 90, '#ffffff', '#3a2a4a');
-    F().draw(ctx, 'v1.0', 4, PK.H - 9, 'rgba(255,255,255,0.6)');
+    F().draw(ctx, 'v2 preview', 4, PK.H - 9, 'rgba(255,255,255,0.6)');
     F().right(ctx, 'Original game', PK.W - 4, PK.H - 9, 'rgba(255,255,255,0.6)');
   };
+
+  // ---------------- Character creator ----------------
+  var CREATOR_ROWS = [
+    { label: 'BODY', key: 'body', names: ['PANTS', 'SKIRT', 'SHORTS'] },
+    { label: 'SKIN', key: 'skin', swatch: function (i) { return PK.chars.LOOK.skin[i][0]; } },
+    { label: 'HAIR', key: 'hair', names: ['SHORT', 'LONG', 'SPIKY', 'BUN', 'PONYTAIL', 'CURLY', 'SWEPT', 'BRAIDS', 'NONE'] },
+    { label: 'HAIR COLOR', key: 'hairCol', swatch: function (i) { return PK.chars.LOOK.hairCol[i]; } },
+    { label: 'HAT', key: 'hat', names: ['NONE', 'CAP', 'BEANIE'] },
+    { label: 'HAT COLOR', key: 'hatCol', swatch: function (i) { return PK.chars.LOOK.cloth[i]; } },
+    { label: 'TOP', key: 'top', swatch: function (i) { return PK.chars.LOOK.cloth[i]; } },
+    { label: 'BOTTOM', key: 'bottom', swatch: function (i) { return PK.chars.LOOK.cloth[i]; } },
+    { label: 'SHOES', key: 'shoes', swatch: function (i) { return PK.chars.LOOK.shoes[i]; } },
+    { label: 'RANDOM' },
+    { label: 'DONE' }
+  ];
+  var LOOK_SIZE = { body: 'body', skin: 'skin', hair: 'hair', hairCol: 'hairCol', hat: 'hat', hatCol: 'cloth', top: 'cloth', bottom: 'cloth', shoes: 'shoes' };
+  function Creator(done) {
+    this.opaque = true; this.done = done; this.i = 0; this.t = 0;
+    this.look = Object.assign(PK.chars.defaultLook(), PK.game.state.player.look || {});
+    PK.chars.setPlayerLook(this.look);
+  }
+  Creator.prototype.count = function (key) { return PK.chars.LOOK[LOOK_SIZE[key]].length; };
+  Creator.prototype.update = function () {
+    var inp = PK.input, row = CREATOR_ROWS[this.i];
+    this.t++;
+    if (inp.rep('up')) { this.i = (this.i + CREATOR_ROWS.length - 1) % CREATOR_ROWS.length; if (PK.audio) PK.audio.sfx('cursor'); }
+    if (inp.rep('down')) { this.i = (this.i + 1) % CREATOR_ROWS.length; if (PK.audio) PK.audio.sfx('cursor'); }
+    var d = inp.rep('left') ? -1 : inp.rep('right') ? 1 : 0;
+    if (!d && inp.ok() && row.key) d = 1;
+    if (d && row.key) {
+      var n = this.count(row.key);
+      this.look[row.key] = (this.look[row.key] + d + n) % n;
+      PK.chars.setPlayerLook(this.look);
+      if (PK.audio) PK.audio.sfx('cursor');
+    }
+    if (inp.ok() && row.label === 'RANDOM') {
+      var self = this;
+      Object.keys(LOOK_SIZE).forEach(function (k) { self.look[k] = PK.rnd(self.count(k)); });
+      PK.chars.setPlayerLook(this.look);
+      if (PK.audio) PK.audio.sfx('select');
+    }
+    if (inp.ok() && row.label === 'DONE') {
+      PK.game.state.player.look = PK.chars.setPlayerLook(this.look);
+      if (PK.audio) PK.audio.sfx('select');
+      PK.pop(this); this.done();
+    }
+  };
+  Creator.prototype.draw = function (ctx) {
+    var t = PK.ui.THEME;
+    ctx.fillStyle = '#2a3458'; ctx.fillRect(0, 0, PK.W, PK.H);
+    ctx.fillStyle = '#313c66';
+    for (var y = 0; y < PK.H; y += 8) for (var x = ((y >> 3) & 1) * 8; x < PK.W; x += 16) ctx.fillRect(x, y, 8, 8);
+    PK.ui.box(ctx, 4, 4, 138, 152);
+    F().draw(ctx, 'YOUR LOOK', 12, 9, '#d08a10');
+    for (var r = 0; r < CREATOR_ROWS.length; r++) {
+      var row = CREATOR_ROWS[r], yy = 21 + r * 12, sel = r === this.i;
+      if (sel) { ctx.fillStyle = '#fff0c8'; ctx.fillRect(8, yy - 2, 130, 11); }
+      F().draw(ctx, row.label, 12, yy, sel ? t.text : t.dim, sel ? t.shadow : null);
+      if (!row.key) continue;
+      var v = this.look[row.key];
+      if (row.names) F().right(ctx, row.names[v], 128, yy, t.text, t.shadow);
+      else { ctx.fillStyle = '#28304c'; ctx.fillRect(107, yy - 1, 18, 9); ctx.fillStyle = row.swatch(v); ctx.fillRect(108, yy, 16, 7); }
+      if (sel) { F().draw(ctx, '◀', 74, yy, '#d08a10'); F().draw(ctx, '▶', 131, yy, '#d08a10'); }
+    }
+    // preview: turns around and walks in place
+    PK.ui.box(ctx, 148, 4, 88, 124);
+    ctx.fillStyle = '#cfe8b8'; ctx.fillRect(152, 8, 80, 116);
+    ctx.fillStyle = '#b8d8a0'; ctx.beginPath(); ctx.ellipse(192, 116, 26, 6, 0, 0, 6.3); ctx.fill();
+    var dirs = ['down', 'left', 'up', 'right'], dir = dirs[Math.floor(this.t / 70) % 4];
+    var fr = [0, 1, 0, 2][Math.floor(this.t / 10) % 4];
+    var spr = PK.chars.sprite('player')[dir][fr];
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(spr, 192 - 32, 26, 64, 88);
+    F().center(ctx, 'LEFT/RIGHT: change', 192, 134, '#ffffff', '#1c2238');
+    F().center(ctx, 'A on DONE: confirm', 192, 145, '#ffffff', '#1c2238');
+  };
+  PK.creator = function () { return new Promise(function (res) { PK.push(new Creator(res)); }); };
 
   // ---------------- Intro ----------------
   function Intro() {
     this.opaque = true;
-    this.kit = null;
-    this.prof = PK.chars.portrait('prof', 4, 'down');
-    this.showProf = true;
-    this.showPlayer = false;
-    this.showRival = false;
+    this.t = 0;
+    this.show = null;
+    this.rain = [];
+    for (var i = 0; i < 70; i++) this.rain.push({ x: Math.random() * 400, y: Math.random() * 160, s: 0.6 + Math.random() });
     var self = this;
     PK.run(function () { return self.main(); });
   }
   Intro.prototype.main = async function () {
     var st = PK.game.state;
     if (PK.audio) PK.audio.music('hometown');
-    await PK.wait(20);
-    await PK.ui.say('Ah, you\'re awake! Good. My name is Ines Vale, but most people just call me Professor Vale.');
-    await PK.ui.say('This is Lumora, a land of green valleys, sunny coasts and frozen peaks.');
-    this.kit = 1;
-    if (PK.audio) PK.audio.cry(1);
-    await PK.ui.say('And everywhere you go, you\'ll find creatures called Kits!');
-    await PK.ui.say('People and Kits live side by side here. Some keep them as friends, some battle together, and some - like me - study them.');
-    this.kit = null;
-    this.showProf = false; this.showPlayer = true;
-    await PK.ui.say('Now, tell me a little about yourself. What is your name?');
-    st.player.name = await pickName('Your name?', ['REMY', 'NOVA', 'SAGE', 'ROWE'].slice(0, 3), 'REMY');
-    await PK.ui.say('{PLAYER}, is it? A fine name!');
-    this.showPlayer = false; this.showRival = true;
-    await PK.ui.say('This is my neighbor\'s kid. You two have been friends - and rivals - since you could walk.');
-    await PK.ui.say('...Erm, what was their name again?');
-    st.rival = await pickName("Your rival's name?", ['JASPER', 'COLT', 'BLAKE'], 'JASPER');
-    await PK.ui.say('That\'s right! {RIVAL}! I remember now.');
-    this.showRival = false; this.showPlayer = true;
-    await PK.ui.say('{PLAYER}! Your very own Kit adventure is about to begin.');
-    await PK.ui.say('Come see me at my lab in Brookhollow when you\'re ready. A world of Kits is waiting!');
-    await PK.fx.fadeOut(30, '#ffffff');
-    PK.fx.setFade(1, '#000');
+    await PK.wait(30);
+    await PK.ui.say('Brookhollow. A little mill village on the banks of the Willow, where people and Kits have lived side by side for as long as anyone can remember.');
+    await PK.ui.say('Before this story begins... who are you?');
+    await PK.creator();
+    this.show = 'player';
+    st.player.name = await pickName('Your name?', ['REMY', 'NOVA', 'SAGE'], 'REMY');
+    await PK.ui.say('{PLAYER}. You grew up with the sound of the mill wheel, and with someone always one step ahead of you.');
+    this.show = 'rival';
+    await PK.ui.say('Your older sibling. They already have a Kit partner, and they never let you forget it.');
+    st.rival = await pickName("Your sibling's name?", ['ROWAN', 'WREN', 'ASH'], 'ROWAN');
+    await PK.ui.say("{RIVAL}. Lately they have been slipping out of the house at strange hours, and they won't say where they go.");
+    this.show = null;
+    await PK.ui.say('Then one night, a storm rolled down the valley...');
+    PK.game.setFlag('storm');
+    await PK.fx.fadeOut(40, '#000');
     await PK.enterWorld();
   };
   async function pickName(title, presets, def) {
@@ -191,18 +260,31 @@
     if (i === 0) return (await PK.ui.name(title, def)).slice(0, 10);
     return presets[i - 1];
   }
-  Intro.prototype.update = function () {};
+  Intro.prototype.update = function () { this.t++; };
   Intro.prototype.draw = function (ctx) {
     var g = ctx.createLinearGradient(0, 0, 0, PK.H);
-    g.addColorStop(0, '#20284a'); g.addColorStop(1, '#3a4a7a');
+    g.addColorStop(0, '#0e1228'); g.addColorStop(1, '#2a3458');
     ctx.fillStyle = g; ctx.fillRect(0, 0, PK.W, PK.H);
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
-    ctx.beginPath(); ctx.ellipse(120, 100, 70, 14, 0, 0, 6.3); ctx.fill();
-    if (this.showProf) ctx.drawImage(this.prof, 88, 18);
-    if (this.showPlayer) ctx.drawImage(PK.chars.portrait('player', 4, 'down'), 88, 18);
-    if (this.showRival) ctx.drawImage(PK.chars.portrait('rival', 4, 'down'), 88, 18);
-    if (this.kit) {
-      ctx.drawImage(PK.kitArt.get(this.kit, 'front'), 150, 44);
+    // village silhouette with the mill and its turning wheel
+    ctx.fillStyle = '#161a30';
+    ctx.fillRect(0, 112, PK.W, 48);
+    [[10, 92, 30, 20], [46, 98, 26, 14], [150, 94, 28, 18], [186, 100, 40, 12]].forEach(function (h) {
+      ctx.fillRect(h[0], h[1], h[2], h[3] + 2);
+      ctx.beginPath(); ctx.moveTo(h[0] - 3, h[1]); ctx.lineTo(h[0] + h[2] / 2, h[1] - 12); ctx.lineTo(h[0] + h[2] + 3, h[1]); ctx.fill();
+    });
+    ctx.fillRect(92, 80, 34, 32);
+    ctx.beginPath(); ctx.moveTo(88, 80); ctx.lineTo(109, 58); ctx.lineTo(130, 80); ctx.fill();
+    ctx.strokeStyle = '#161a30'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(136, 100, 14, 0, 6.3); ctx.stroke();
+    for (var s = 0; s < 6; s++) { var a = s * 1.047 + this.t / 60; ctx.beginPath(); ctx.moveTo(136, 100); ctx.lineTo(136 + Math.cos(a) * 14, 100 + Math.sin(a) * 14); ctx.stroke(); }
+    ctx.fillStyle = '#f8d870'; [[20, 100], [56, 104], [160, 102], [200, 104], [104, 90]].forEach(function (w) { ctx.fillRect(w[0], w[1], 3, 3); });
+    // rain and lightning
+    if (this.t % 300 < 3) { ctx.fillStyle = 'rgba(220,230,255,0.5)'; ctx.fillRect(0, 0, PK.W, PK.H); }
+    ctx.fillStyle = 'rgba(170,190,240,0.55)';
+    this.rain.forEach(function (d) { d.y += d.s * 6; d.x -= d.s * 2; if (d.y > PK.H) { d.y -= PK.H + 6; } if (d.x < -4) d.x += PK.W + 8; ctx.fillRect(d.x | 0, d.y | 0, 1, 4); });
+    if (this.show) {
+      ctx.fillStyle = 'rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.ellipse(PK.W / 2, 98, 30, 7, 0, 0, 6.3); ctx.fill();
+      ctx.drawImage(PK.chars.portrait(this.show, 4, 'down'), PK.W / 2 - 32, 12);
     }
   };
 

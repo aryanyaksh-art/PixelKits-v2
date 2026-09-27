@@ -7,7 +7,7 @@
   var MW = 240, MH = 136, OY = 18; // map area size and its top on screen
 
   // Where each group of edge-connected areas sits on the map (world pixel = 1 tile)
-  var ROOTS = { brookhollow: [8, 68], voltmere: [96, 30], mirage_city: [184, 44], shadefall: [146, 4], crown_summit: [112, 4], emberisle: [186, 112] };
+  var ROOTS = { brookhollow: [100, 96] };
   // Caves and other places without outdoor terrain are shown as icons
   var ICONS = {
     echo_cavern: [91, 34, 'cave'], ember_tunnels: [181, 74, 'cave'], frozen_depths: [175, 15, 'cave'], summit_road: [139, 12, 'cave'],
@@ -16,7 +16,7 @@
   };
   var FERRY = [['saltmarsh', 'emberisle']];
   // mainland between the playable areas (keeps Lumora one continent instead of separate islands)
-  var FILL = [[26, 42, 72, 56], [60, 2, 124, 30], [118, 28, 70, 50], [26, 20, 40, 26]];
+  var FILL = [[70, 30, 100, 104]];
   function fillDist(px, py) {
     var best = 1e9;
     FILL.forEach(function (r) {
@@ -32,13 +32,15 @@
     if (layout) return layout;
     PK.linkMaps();
     var pos = {};
-    Object.keys(ROOTS).forEach(function (root) {
+    Object.keys(ROOTS).filter(function (r) { return PK.MAPS[r]; }).forEach(function (root) {
       var q = [root];
       pos[root] = { x: ROOTS[root][0], y: ROOTS[root][1] };
       while (q.length) {
         var id = q.shift(), m = PK.buildMap(PK.MAPS[id]), p = pos[id];
         Object.keys(m.edges || {}).forEach(function (side) {
-          var e = m.edges[side], t = PK.buildMap(PK.MAPS[e.to]);
+          var e = m.edges[side];
+          if (!PK.MAPS[e.to]) return;
+          var t = PK.buildMap(PK.MAPS[e.to]);
           if (pos[e.to] || !t) return;
           var off = e.off || 0, x = p.x, y = p.y;
           if (side === 'n') { x = p.x + off; y = p.y - t.h; }

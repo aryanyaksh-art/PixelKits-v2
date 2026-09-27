@@ -12,7 +12,12 @@
     'W': { solid: 1 }, 'l': { solid: 1, lava: 1 }, 'i': { ice: 1 }, 'k': { solid: 1 }, 'L': { solid: 1 },
     'c': { solid: 1, counter: 1 }, 't': { solid: 1 }, 'B': { solid: 1 }, 'K': { solid: 1, shelf: 1 },
     'p': { solid: 1 }, 'C': { solid: 1, pc: 1 }, 'H': { solid: 1, counter: 1 }, 'D': { solid: 1, shelf: 1 },
-    'Q': { solid: 1, statue: 1 }, 'Y': { solid: 1 }, 'Z': { solid: 1 }, ' ': { solid: 1 }
+    'Q': { solid: 1, statue: 1 }, 'Y': { solid: 1 }, 'Z': { solid: 1 }, ' ': { solid: 1 },
+    // v2 village and river tiles
+    'A': { grass: 1, reeds: 1 }, 'E': { solid: 1, berry: 1 }, 'G': { solid: 1 }, 'I': {}, 'J': { solid: 1 },
+    'N': {}, 'P': { solid: 1 }, 'U': { solid: 1 }, '&': { solid: 1 }, '$': { solid: 1 }, '-': { solid: 1 },
+    '_': { solid: 1 }, '/': { solid: 1 }, '^': {}, 'F': { solid: 1 }, '<': { solid: 1 }, '(': { solid: 1, water: 1 },
+    '+': { solid: 1 }
   };
   PK.TILE = TILE;
 
@@ -26,10 +31,10 @@
     ice: { style: 'cave', g: ['#7496bc', '#96b6d6', '#bcd6ee'], tg: ['#4c6e94', '#6a8cb2', '#8cacd0', '#b4d0ec'], path: ['#6a88ac', '#86a4c6', '#a4c0de'], tree: 'crystal', leaf: '#9ad8f0', trunk: '#5a7aa2', water: ['#1c3c6c', '#2a5a96', '#4c80c0', '#9cc4ec'], wall: ['#3a5478', '#56749c', '#82a2c6'], fence: '#8aa0c0', fl: ['#e0f4ff', '#a8e0ff', '#ffffff', '#c8e8ff'], pave: ['#6a88ac', '#86a4c6', '#a4c0de'] },
     volcano: { style: 'cave', g: ['#462c2c', '#603a34', '#7c4e46'], tg: ['#301c1c', '#462c2c', '#603a34', '#7c4e46'], path: ['#3a2424', '#543232', '#6e4440'], tree: 'stal', leaf: '#603a34', trunk: '#3a2424', water: ['#a02a10', '#d04a14', '#f08a2a', '#ffd060'], wall: ['#261616', '#402426', '#5c3634'], fence: '#5c3634', fl: ['#f08a2a', '#ffd060', '#d04a14', '#ffb040'], pave: ['#3a2424', '#543232', '#6e4440'] },
     ruins: { style: 'stone', g: ['#646274', '#827f92', '#a4a2b4'], tg: ['#3c5a4a', '#4e7a5c', '#6a9c72', '#94c08c'], path: ['#5a586a', '#747284', '#8e8c9e'], tree: 'crystal', leaf: '#c8a0ff', trunk: '#5a4a7a', water: ['#2a4a8a', '#3a64b0', '#6a94d8', '#c8dcff'], wall: ['#403e4c', '#5c5a6a', '#7c7a8c'], fence: '#8a889a', fl: ['#e8d0ff', '#ffe890', '#a0f0e0', '#ffffff'], pave: ['#8a8070', '#a89c88', '#c8bca4'] },
-    house: { style: 'wood', floor: ['#9a6a3a', '#bc8850', '#d6a66a'], wall: ['#c4b494', '#e2d4b6', '#f4ecd8'], trim: '#6a4424', rug: ['#8a2e36', '#b8484e', '#e0807a'] },
-    lab: { style: 'tile', floor: ['#b0b6c4', '#d4d8e4', '#eef0f6'], wall: ['#9eb0c4', '#c2d0de', '#e0eaf4'], trim: '#4a5a72', rug: ['#2e5a8a', '#4a7ab0', '#7aa6d8'] },
+    house: { style: 'wood', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#9a6a3a', '#bc8850', '#d6a66a'], wall: ['#c4b494', '#e2d4b6', '#f4ecd8'], trim: '#6a4424', rug: ['#8a2e36', '#b8484e', '#e0807a'] },
+    lab: { style: 'tile', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#b0b6c4', '#d4d8e4', '#eef0f6'], wall: ['#9eb0c4', '#c2d0de', '#e0eaf4'], trim: '#4a5a72', rug: ['#2e5a8a', '#4a7ab0', '#7aa6d8'] },
     clinic: { style: 'tile', floor: ['#c4b4bc', '#e6d8de', '#f8f0f4'], wall: ['#aed4ca', '#cdeae2', '#e8f8f2'], trim: '#2e8474', rug: ['#2e8474', '#48a494', '#7ccab8'] },
-    shop: { style: 'tile', floor: ['#b4bca2', '#d4dac2', '#eef2e0'], wall: ['#d4c49a', '#eadcb8', '#f8f0da'], trim: '#b8682a', rug: ['#b8682a', '#d8884a', '#f0b078'] },
+    shop: { style: 'tile', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#b4bca2', '#d4dac2', '#eef2e0'], wall: ['#d4c49a', '#eadcb8', '#f8f0da'], trim: '#b8682a', rug: ['#b8682a', '#d8884a', '#f0b078'] },
     league: { style: 'marble', floor: ['#a8a0b8', '#cac4d8', '#ecE8f6'], wall: ['#6a5a8a', '#86769e', '#a898c0'], trim: '#d8b04a', rug: ['#8a1e3a', '#b0304e', '#d85a70'] },
     spire: { style: 'metal', floor: ['#3a3448', '#4e4660', '#665c7c'], wall: ['#241e30', '#362e46', '#4c4260'], trim: '#c03a5a', rug: ['#5a1a3a', '#802a50', '#a84070'] }
   };
@@ -471,6 +476,152 @@
     }
   }
 
+  // ---------- v2 village and river tiles ----------
+  function reeds(x, P, frame) {
+    var st = ramp('#5a9a3a'), hd = ramp('#8a5a30');
+    var cols = [1, 4, 6, 9, 12, 14];
+    for (var i = 0; i < cols.length; i++) {
+      var cx = cols[i], top = 1 + ((i * 5) % 4), sway = frame === 1 && i % 2 ? 1 : 0;
+      fill(x, st[0], cx + 1, top + 2, 1, 14 - top - 2);
+      fill(x, st[2], cx, top + 2, 1, 14 - top - 2);
+      if (i % 2 === 0) { fill(x, hd[1], cx - 1 + sway, top, 3, 5); fill(x, hd[2], cx + sway, top, 1, 4); fill(x, st[3], cx + sway, top - 1, 1, 1); }
+      else { fill(x, st[1], cx + 1 + sway, top, 1, 3); fill(x, st[3], cx + 2 + sway, top - 1, 1, 2); }
+    }
+    fill(x, st[0], 0, 14, 16, 2); fill(x, st[1], 0, 14, 16, 1);
+  }
+  function berryTree(x, P, r) {
+    var g = pg(), lf = ramp(P.leaf || '#44a04c');
+    g.rect(7, 11, 2, 5, 1, { hgrad: 1 });
+    g.ellipse(8, 7, 7, 6.2, 0);
+    g.ellipse(4.5, 5.5, 3, 2.6, 0, { bias: 0.12 });
+    g.ellipse(11, 5, 3, 2.6, 0, { bias: 0.12 });
+    x.drawImage(g.render([lf, ramp('#7a5230')]), 0, 0);
+    var b = [[4, 8], [9, 4], [12, 8], [7, 10], [5, 4], [10, 11]];
+    b.forEach(function (p) { fill(x, '#6a1426', p[0], p[1], 2, 2); fill(x, '#e0304a', p[0], p[1], 1, 1); });
+  }
+  function hedge(x, P) {
+    var c = PK.color.shade(P.leaf || '#44a04c', -0.08), h = ramp(c);
+    fill(x, h[0], 0, 3, 16, 13);
+    fill(x, h[1], 0, 4, 16, 10);
+    fill(x, h[2], 0, 4, 16, 4);
+    fill(x, h[3], 0, 4, 16, 1);
+    for (var i = 1; i < 16; i += 3) { fill(x, h[3], i, 6, 1, 1); fill(x, h[0], (i + 1) % 16, 11, 1, 1); fill(x, h[0], i, 9, 1, 1); }
+    fill(x, PK.color.shade(c, -0.7), 0, 15, 16, 1);
+  }
+  function steppingStone(x, P, frame, r) {
+    water(x, P, frame, r);
+    var g = pg();
+    g.ellipse(8, 8.5, 6.2, 4.8, 0);
+    x.drawImage(g.render([ramp('#a8a49a')]), 0, 0);
+    fill(x, P.water[3], 3, 13, 10, 1);
+  }
+  function waterfall(x, P, frame) {
+    var w = P.water;
+    fill(x, w[1]);
+    for (var i = 0; i < 16; i += 3) {
+      var o = (frame * 5 + i * 7) % 16;
+      fill(x, w[2], i, o, 1, 6); fill(x, w[3], i + 1, (o + 8) % 16, 1, 3);
+    }
+    fill(x, w[3], 0, 13 + (frame % 2), 16, 1); fill(x, '#ffffff', (frame * 5) % 14, 14, 3, 1);
+  }
+  function dock(x, P) {
+    var wd = ramp('#a8743e');
+    fill(x, wd[0]);
+    for (var i = 0; i < 16; i += 4) { fill(x, wd[2], 0, i, 16, 3); fill(x, wd[3], 0, i, 16, 1); dot(x, wd[0], (i * 5) % 16, i + 1); }
+  }
+  function herbBed(x, P, r) {
+    fill(x, '#6a4428', 0, 3, 16, 13); fill(x, '#8a5a34', 1, 4, 14, 11);
+    var herbs = ['#4caa46', '#6cc05a', '#3a8a3a'];
+    for (var i = 0; i < 3; i++) {
+      var cx = 2 + i * 5;
+      fill(x, herbs[i], cx, 6, 3, 6); fill(x, herbs[(i + 1) % 3], cx + 1, 5, 1, 2);
+      fill(x, i === 1 ? '#c070e0' : '#f8f0a0', cx + 1, 5, 1, 1);
+    }
+    fill(x, '#4a2c18', 0, 15, 16, 1);
+  }
+  function well(x) {
+    var g = pg();
+    g.ellipse(8, 11, 6.5, 4, 0);
+    g.rect(2, 2, 12, 3, 2, { light: 0.8 });
+    g.rect(3, 4, 1, 7, 1); g.rect(12, 4, 1, 7, 1);
+    x.drawImage(g.render([ramp('#9c9890'), ramp('#7a5230'), ramp('#b85a3e')]), 0, 0);
+    fill(x, '#1c2a4a', 4, 9, 8, 2); fill(x, '#3a5a9a', 5, 9, 6, 1);
+  }
+  function barrel(x) {
+    var g = pg();
+    g.ellipse(8, 9, 6, 6.5, 0);
+    x.drawImage(g.render([ramp('#9a6634')]), 0, 0);
+    fill(x, '#4a4a54', 2, 6, 12, 1); fill(x, '#4a4a54', 2, 12, 12, 1);
+    fill(x, '#c8925a', 5, 3, 6, 1);
+  }
+  function crate(x) {
+    var g = pg();
+    g.rect(1, 3, 14, 12, 0, { light: 0.62 });
+    x.drawImage(g.render([ramp('#b8864e')]), 0, 0);
+    fill(x, '#7a5230', 2, 4, 12, 1); fill(x, '#7a5230', 2, 13, 12, 1);
+    for (var i = 0; i < 9; i++) { dot(x, '#7a5230', 3 + i, 5 + i); dot(x, '#7a5230', 12 - i, 5 + i); }
+  }
+  function railFence(x) {
+    var wd = ramp('#8a5a30');
+    fill(x, wd[0], 0, 5, 16, 3); fill(x, wd[2], 0, 5, 16, 2);
+    fill(x, wd[0], 0, 10, 16, 3); fill(x, wd[2], 0, 10, 16, 2); fill(x, wd[3], 0, 10, 16, 1);
+    fill(x, wd[0], 6, 2, 4, 13); fill(x, wd[1], 7, 2, 2, 12); fill(x, wd[3], 7, 2, 1, 1);
+  }
+  function stoneWall(x, r) {
+    var s = ramp('#a09a8e');
+    fill(x, s[0], 0, 4, 16, 12);
+    var rows = [[5, 4], [9, 4], [13, 3]];
+    rows.forEach(function (rw, i) {
+      for (var bx = (i % 2) * -3; bx < 16; bx += 6) { fill(x, s[2], Math.max(0, bx), rw[0], Math.min(5, 16 - Math.max(0, bx)), rw[1] - 1); fill(x, s[3], Math.max(0, bx), rw[0], Math.min(4, 16 - Math.max(0, bx)), 1); }
+    });
+    fill(x, s[3], 0, 4, 16, 1);
+  }
+  function bench(x) {
+    var wd = ramp('#a8743e');
+    fill(x, '#3a2a1a', 2, 10, 2, 5); fill(x, '#3a2a1a', 12, 10, 2, 5);
+    fill(x, wd[0], 0, 4, 16, 3); fill(x, wd[2], 0, 4, 16, 2);
+    fill(x, wd[0], 0, 9, 16, 3); fill(x, wd[3], 0, 9, 16, 1); fill(x, wd[2], 0, 10, 16, 1);
+  }
+  function steps(x, P) {
+    var p = P.path || ['#b89058', '#dcbc80', '#eed6a4'];
+    fill(x, p[1]);
+    for (var i = 0; i < 4; i++) { fill(x, p[2], 0, i * 4, 16, 1); fill(x, p[0], 0, i * 4 + 3, 16, 1); }
+    fill(x, '#7a5230', 0, 0, 1, 16); fill(x, '#7a5230', 15, 0, 1, 16);
+  }
+  function flowerBed(x, P, frame, r) {
+    fill(x, '#6a4428', 0, 6, 16, 10); fill(x, '#8a5a34', 1, 7, 14, 8);
+    var fl = P.fl || ['#ffffff', '#ee5a5a', '#f6cf3a', '#f08ad0'];
+    for (var i = 0; i < 5; i++) {
+      var fx = 1 + i * 3, fy = 2 + ((i * 3) % 4);
+      fill(x, '#3a8a3a', fx + 1, fy + 2, 1, 6);
+      var c = fl[(i + r.int(4)) % fl.length];
+      dot(x, c, fx, fy + 1); dot(x, c, fx + 2, fy + 1); dot(x, c, fx + 1, fy); dot(x, c, fx + 1, fy + 2); dot(x, '#f8e070', fx + 1, fy + 1);
+    }
+    fill(x, '#4a2c18', 0, 15, 16, 1);
+  }
+  function logPile(x) {
+    var g = pg();
+    g.ellipse(4.5, 12, 4, 3.5, 0); g.ellipse(11.5, 12, 4, 3.5, 0); g.ellipse(8, 6.5, 4, 3.5, 0);
+    x.drawImage(g.render([ramp('#8a5a30')]), 0, 0);
+    [[4.5, 12], [11.5, 12], [8, 6.5]].forEach(function (p) { fill(x, '#d8b07a', p[0] - 2, p[1] - 1, 3, 2); dot(x, '#8a5a30', p[0] - 1, p[1] - 1); });
+  }
+  function lilyWater(x, P, frame, r) {
+    water(x, P, frame, r);
+    var g = pg();
+    g.ellipse(6, 7, 4, 3, 0); g.ellipse(12, 12, 2.6, 2, 0);
+    x.drawImage(g.render([ramp('#4caa46')]), 0, 0);
+    dot(x, P.water[1], 6, 5); dot(x, P.water[1], 6, 6);
+    if (r() < 0.6) { fill(x, '#f8a8d0', 5, 6, 2, 2); dot(x, '#ffffff', 5, 6); }
+  }
+  function mailbox(x) {
+    fill(x, '#5a3a20', 7, 8, 2, 8);
+    var g = pg();
+    g.rect(3, 3, 10, 6, 0, { light: 0.7 });
+    g.ellipse(8, 3.5, 5, 2, 0);
+    x.drawImage(g.render([ramp('#4a78c8')]), 0, 0);
+    fill(x, '#e04040', 12, 1, 1, 4); fill(x, '#e04040', 13, 1, 2, 2);
+  }
+
   var cache = {};
   function tileCanvas(themeName, ch, frame, variant, flags) {
     var key = themeName + '|' + ch + '|' + frame + '|' + variant + '|' + (flags || 0);
@@ -481,7 +632,7 @@
     var x = c.getContext('2d');
     var r = PK.seeded(PK.hash(key.replace('|' + frame + '|', '|')));
     var interior = INTERIOR[P.style];
-    var needGround = '.,"T:SbrRfLkvtpBQ'.indexOf(ch) >= 0 || (interior && 'ctBKpCHDQM'.indexOf(ch) >= 0);
+    var needGround = '.,"T:SbrRfLkvtpBQAEG&$-_/F<+U'.indexOf(ch) >= 0 || (interior && 'ctBKpCHDQM'.indexOf(ch) >= 0);
     if ((needGround && !(flags & 2)) || ch === ',' || ch === '.') groundBase(x, P, r);
     switch (ch) {
       case '.': break;
@@ -544,6 +695,24 @@
         fill(x, wl[0], 0, 0, 1, 16); fill(x, wl[0], 15, 0, 1, 16);
         break;
       case ' ': fill(x, '#000'); break;
+      case 'A': reeds(x, P, frame); break;
+      case 'E': berryTree(x, P, r); break;
+      case 'G': hedge(x, P); break;
+      case 'I': steppingStone(x, P, frame, r); break;
+      case 'J': waterfall(x, P, frame); break;
+      case 'N': dock(x, P); break;
+      case 'P': groundBase(x, P, r); herbBed(x, P, r); break;
+      case 'U': well(x); break;
+      case '&': barrel(x); break;
+      case '$': crate(x); break;
+      case '-': railFence(x); break;
+      case '_': stoneWall(x, r); break;
+      case '/': bench(x); break;
+      case '^': steps(x, P); break;
+      case 'F': flowerBed(x, P, frame, r); break;
+      case '<': logPile(x); break;
+      case '(': lilyWater(x, P, frame, r); break;
+      case '+': mailbox(x); break;
       case 'Q': if (!interior) { groundBase(x, P, r); furniture(x, Object.assign({ trim: '#c8a0ff' }, P), 'Q', frame); } else furniture(x, P, ch, frame); break;
       default:
         if (interior) furniture(x, P, ch, frame);
@@ -552,10 +721,10 @@
     return c;
   }
 
-  var OBJ = 'SbrRfLkQ';
-  var ANIM = { '~': 1, '=': 1, '|': 1, 'l': 1, ',': 1, 'H': 1, 'C': 1 };
+  var OBJ = 'SbrRfLkQEG&$-_/F<+U';
+  var ANIM = { '~': 1, '=': 1, '|': 1, 'l': 1, ',': 1, 'H': 1, 'C': 1, 'A': 1, 'I': 1, 'J': 1, '(': 1 };
 
-  function isWaterish(ch) { return ch === '~' || ch === '=' || ch === '|'; }
+  function isWaterish(ch) { return ch === '~' || ch === '=' || ch === '|' || ch === 'I' || ch === 'J' || ch === '(' || ch === 'N'; }
   function isPathish(ch) { return ch === ':' || ch === 'g' || ch === 'X' || ch === 'O' || ch === 'd'; }
 
   // Draw one map tile including neighbor-aware edges.

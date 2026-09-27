@@ -26,6 +26,7 @@
   function draw(kind, opts) {
     opts = opts || {};
     var K = KINDS[kind];
+    if (K.custom) return PK.buildings2.draw(kind, opts);
     var key = kind + '|' + (opts.roof || '') + '|' + (opts.snow ? 1 : 0) + '|' + (opts.emblem || '') + '|' + (opts.label || '');
     if (cache[key]) return cache[key];
     var W = K.w * 16, H = K.h * 16;

@@ -15,8 +15,9 @@
   function D(pal, view, opts) {
     opts = opts || {};
     this.back = view === 'back';
-    this.cw = this.back ? 84 : 64;
-    this.s = this.back ? 1.3 : 1;
+    this.icon = view === 'icon';
+    this.cw = this.back ? 84 : this.icon ? 32 : 64;
+    this.s = this.back ? 1.3 : this.icon ? 0.5 : 1;
     this.g = new PK.PG(this.cw, this.cw);
     this.g.lx = -0.4; this.g.ly = -0.65;
     this.names = {};
@@ -88,7 +89,7 @@
     o = o || {};
     if (this.back) return;
     var lk = o.look || [-0.25, 0];
-    if (o.small || rx < 2) {
+    if (o.small || this.L(rx) < 2) {
       this.el(x, y, rx, ry, 'ink');
       this.px(x - rx * 0.35, y - ry * 0.4, 'shine');
       return;
@@ -462,6 +463,69 @@
       d.ln(55, 14, 51, 11.5, 'wood', 0.6);
       d.el(55, 7.5, 6, 4.5, 'leaf'); d.el(50, 10.5, 3.5, 2.6, 'leaf'); d.el(59.5, 11, 2.8, 2.2, 'leaf');
       [[10, 33], [25, 31], [41, 38], [6, 36], [30, 3], [53, 44]].forEach(function (p) { d.px(p[0], p[1], 'petal', 0.8); d.px(p[0] + 1, p[1], 'petal', 0.6); });
+    }
+  };
+
+  // ===== Reed mouse line (Brookhollow reeds): cattail-tailed harvest mouse -> reed-hooded marsh brawler =====
+  DESIGNS.rushkin = {
+    pal: { body: '#d49456', belly: '#f6e2c0', ear: '#f0a0a8', cat: '#7a4a26', stem: '#6aa040', seed: '#f0c860', iris: '#2a1a14' },
+    draw: function (d) {
+      d.cv(38, 55, 48, 52, 47, 38, 'body', 1, 0.7);
+      d.ln(47, 38, 47, 33, 'stem', 0.6);
+      d.el(47, 29, 2.2, 4.2, 'cat', { edge: true });
+      d.px(47, 24, 'stem');
+      d.el(27, 60, 3.2, 1.8, 'body', { bias: -0.1 }); d.el(36, 60, 3.2, 1.8, 'body', { bias: -0.1 });
+      d.el(32, 53, 7.5, 7, 'body');
+      d.el(31, 55, 4.5, 5, 'belly', { clip: function (x, y) { return y > 50; } });
+      d.el(23.5, 38.5, 4.2, 4.2, 'body'); d.el(23.5, 38.5, 2.4, 2.4, 'ear', { light: 0.7 });
+      d.el(35, 37.5, 4.2, 4.2, 'body'); d.el(35, 37.5, 2.4, 2.4, 'ear', { light: 0.7 });
+      d.el(29.5, 45, 7, 6.2, 'body');
+      d.el(27, 48, 3.5, 2.4, 'belly');
+      if (!d.back) {
+        d.eye(26.5, 44, 1.9, 2.3, { look: [-0.3, 0] });
+        d.eye(32.5, 44, 1.9, 2.3, { look: [-0.3, 0] });
+        d.px(24, 47, 'ear'); d.px(25, 47, 'ear');
+        d.px(26, 49, 'white');
+      }
+      d.el(27, 52.5, 2.6, 2, 'seed', { edge: true });
+      d.el(24.5, 52.5, 1.6, 1.6, 'body', { edge: true }); d.el(29.5, 52.5, 1.6, 1.6, 'body', { edge: true });
+    }
+  };
+
+  DESIGNS.bulrusher = {
+    pal: { body: '#b8763e', belly: '#f0d8b0', ear: '#e89aa0', reed: '#6a9a40', reedd: '#48762c', cat: '#6a3e20', iris: '#e8a020' },
+    draw: function (d) {
+      // reed staff behind, with a cattail tip
+      d.ln(17, 60, 23, 14, 'reed', 1, 0.8);
+      d.el(23.5, 10, 2.2, 4.5, 'cat', { edge: true });
+      // tail ending in a big cattail club
+      d.cv(40, 50, 54, 52, 52, 36, 'body', 2.2, 1.3);
+      d.el(52, 30, 3.6, 7, 'cat', { edge: true });
+      d.px(51, 27, 'belly', 0.9); d.px(53, 32, 'belly', 0.9);
+      // legs and body
+      d.el(26.5, 55, 4.8, 6, 'body', { bias: -0.05 }); d.el(37.5, 55, 4.8, 6, 'body', { bias: -0.05 });
+      d.el(25, 60.5, 5, 2, 'body', { bias: -0.12 }); d.el(39, 60.5, 5, 2, 'body', { bias: -0.12 });
+      d.el(32, 44, 10.5, 11, 'body');
+      d.el(31, 47, 6.5, 7.5, 'belly', { clip: function (x, y) { return y > 40; } });
+      // woven reed cape over the shoulders
+      d.po([[20, 34], [44, 34], [46, 44], [40, 42], [36, 45], [32, 42], [28, 45], [24, 42], [18, 44]], 'reed', { edge: true });
+      for (var i = 0; i < 5; i++) d.ln(22 + i * 5, 35, 21 + i * 5.2, 43, 'reedd', 0.35);
+      // arm gripping the staff
+      d.ln(24, 40, 20, 46, 'body', 2.6, 2.2, { edge: true });
+      d.el(19.5, 47, 2.6, 2.6, 'body', { edge: true });
+      // head inside a woven hood, ears poking out
+      d.el(31, 26, 10, 8.5, 'reed');
+      d.ln(22, 26, 40, 26, 'reedd', 0.35); d.ln(23, 22, 39, 22, 'reedd', 0.35);
+      d.el(24, 18, 3.2, 3.2, 'body'); d.el(24, 18, 1.8, 1.8, 'ear', { light: 0.7 });
+      d.el(38, 17, 3.2, 3.2, 'body'); d.el(38, 17, 1.8, 1.8, 'ear', { light: 0.7 });
+      d.el(30, 29, 7, 6, 'body');
+      d.el(27.5, 32, 3.8, 2.4, 'belly');
+      if (!d.back) {
+        d.eye(27, 28, 1.9, 2, { look: [-0.4, 0], lid: 0.3, lidMat: 'body' });
+        d.eye(33, 28, 1.9, 2, { look: [-0.4, 0], lid: 0.3, lidMat: 'body' });
+        d.px(24.5, 31, 'ear');
+        d.px(26, 34, 'white'); d.px(27, 34, 'white');
+      }
     }
   };
 

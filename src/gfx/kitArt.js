@@ -712,6 +712,7 @@
     var key = id + '|' + view + '|' + (prism ? 1 : 0) + '|' + (tint || 0);
     if (cache[key]) return cache[key];
     var k = PK.KITS[id];
+    if (k.art && k.art.design) return (cache[key] = PK.kitDesigns.render(k.art.design, view, prism, tint));
     var spec = Object.assign({ n: k.name, stage: k.stage }, k.art);
     var b = new Builder(spec, view, prism);
     var info = b.build();
@@ -725,6 +726,7 @@
     var key = id + '|icon|' + (prism ? 1 : 0) + '|' + (tint || 0);
     if (cache[key]) return cache[key];
     var k = PK.KITS[id];
+    if (k.art && k.art.design) return (cache[key] = PK.kitDesigns.render(k.art.design, 'icon', prism, tint));
     var spec = Object.assign({ n: k.name, stage: k.stage, icon: true }, k.art);
     spec.s = 0.5;
     var b = new Builder(spec, 'front', prism, 64);
