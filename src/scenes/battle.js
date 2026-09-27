@@ -32,12 +32,17 @@
 
   function Scene(opts, done) {
     this.opaque = true;
+    this.wide = true;
     this.opts = opts;
     this.done = done;
     var st = PK.game.state;
     this.safari = !!opts.safari;
     this.b = new PK.Battle({ wild: opts.wild, double: opts.double, playerParty: st.party, enemyParty: opts.enemy, trainer: opts.trainer, trainer2: opts.trainer2, ai: opts.ai, enemyItems: opts.items || 0 });
-    this.pos = this.b.double ? POS2 : POS1;
+    // Spread the classic layout over a wide screen: foes drift right, the player's side stays left.
+    var ex = PK.FW - PK.BASE_W, base = this.b.double ? POS2 : POS1;
+    this.ex = ex;
+    this.pos = {};
+    for (var pk in base) this.pos[pk] = { x: base[pk].x + Math.round(ex * (pk[0] === 'e' ? 0.75 : 0.2)), y: base[pk].y };
     this.bg = bgFor(opts.theme || 'vale');
     this.night = opts.night;
     this.parts = [];
@@ -725,14 +730,26 @@
     var bt = this.bt(key), k = bt.kit();
     if (!k) return;
     var enemy = key[0] === 'e', dbl = this.b.double, x, y, w, bh;
-    if (!dbl) { if (enemy) { x = 6; y = 8; w = 110; bh = 28; } else { x = 124; y = 76; w = 112; bh = 37; } }
+    var sl = bt.slot;
+    if (!dbl) { if (enemy) { x = 6; y = 8; w = 110; bh = 28; } else { x = 124 + this.ex; y = 76; w = 112; bh = 37; } }
     else {
-      var sl = bt.slot;
-      if (enemy) { x = 4 + sl * 6; y = 4 + sl * 22; w = 104; bh = 20; }
-      else { x = 132 - sl * 6; y = 76 + sl * 20; w = 104; bh = 20; }
+      if (enemy) { x = 4 + sl * 6 + (this.ex > 60 ? sl * 112 : 0); y = 4 + (this.ex > 60 ? 0 : sl * 22); w = 104; bh = 20; }
+      else { x = 132 - sl * 6 + this.ex; y = 76 + sl * 20; w = 104; bh = 20; }
     }
     hudBox(ctx, x, y, w, bh, !enemy);
     var T = PK.ui.THEME;
+    if (enemy) {
+      // Foe types, so the player can plan matchups.
+      var tys = PK.stats.types(k), tx = x + 4, ty = y + bh + 1;
+      if (dbl && !(this.ex > 60)) { tx = x + w + 2; ty = y + 2; }
+      for (var ti = 0; ti < tys.length; ti++) {
+        var tc0 = PK.TYPES[tys[ti]].color, tw = F().width(tys[ti].toUpperCase()) + 6;
+        ctx.fillStyle = PK.color.shade(tc0, -0.45); ctx.fillRect(tx, ty, tw, 10);
+        ctx.fillStyle = tc0; ctx.fillRect(tx + 1, ty + 1, tw - 2, 8);
+        F().draw(ctx, tys[ti].toUpperCase(), tx + 3, ty + 1, '#ffffff', PK.color.shade(tc0, -0.5));
+        if (dbl && !(this.ex > 60)) ty += 11; else tx += tw + 2;
+      }
+    }
     var lv = 'Lv' + k.level;
     var tagW = k.status ? 22 : 0;
     var nameW = w - 16 - F().width(lv) - 4 - tagW;
@@ -764,8 +781,8 @@
     ctx.fillStyle = PK.color.shade(c[2], -0.12);
     ctx.fillRect(0, 88, PK.W, 3);
     if (this.b.double) {
-      this.platform(ctx, 178, 63, 62, 11, c);
-      this.platform(ctx, 72, 126, 70, 12, c);
+      this.platform(ctx, 178 + Math.round(this.ex * 0.75), 63, 62, 11, c);
+      this.platform(ctx, 72 + Math.round(this.ex * 0.2), 126, 70, 12, c);
     } else {
       this.platform(ctx, this.pos.e0.x, this.pos.e0.y, 46, 10, c);
       this.platform(ctx, this.pos.p0.x, this.pos.p0.y - 2, 56, 11, c);
@@ -783,10 +800,10 @@
   S.drawPanel = function (ctx) {
     var T = PK.ui.THEME;
     var busy = this.mode !== 'action' && this.mode !== 'moves' && this.mode !== 'target' && this.mode !== 'safari';
-    var D = PK.ui.DARK;
-    if (busy && this.wipe <= 0) PK.ui.box(ctx, 4, 116, 232, 42, D);
+    var D = PK.ui.DARK, W = PK.W, R = W - PK.BASE_W;
+    if (busy && this.wipe <= 0) PK.ui.box(ctx, 4, 116, W - 8, 42, D);
     if (this.mode === 'action' || this.mode === 'safari') {
-      PK.ui.box(ctx, 4, 116, 232, 42, D);
+      PK.ui.box(ctx, 4, 116, W - 8, 42, D);
       if (this.mode === 'safari') {
         F().draw(ctx, 'What will', 14, 125, D.text, D.shadow);
         F().draw(ctx, F().fit(PK.game.state.player.name, 80) + ' do?', 14, 139, D.text, D.shadow);
@@ -795,48 +812,49 @@
         F().draw(ctx, 'What will', 14, 125, D.text, D.shadow);
         F().draw(ctx, nm + ' do?', 14, 139, D.text, D.shadow);
       }
-      PK.ui.box(ctx, 120, 116, 116, 42);
+      PK.ui.box(ctx, 120 + R, 116, 116, 42);
       var balls = PK.game.state.safari ? PK.game.state.safari.balls : 0;
       var labels = this.mode === 'safari' ? ['CAPSULE', 'SNACK', 'CLAP', 'RUN'] : ['ATTACK', 'BAG', 'KITS', 'FLEE'];
       for (var i = 0; i < 4; i++) {
-        var lx = 134 + (i % 2) * 52, ly = 125 + (i >> 1) * 14;
+        var lx = 134 + R + (i % 2) * 52, ly = 125 + (i >> 1) * 14;
         if (i === this.cursor) F().draw(ctx, '▶', lx - 8, ly, T.hi);
         F().draw(ctx, labels[i], lx, ly, T.text, T.shadow);
       }
-      if (this.mode === 'safari') F().right(ctx, '×' + balls, 230, 107, '#ffffff', '#34443c');
-      if (this.canBack && this.mode === 'action') F().draw(ctx, 'B: back', 124, 107, '#ffffff', '#34443c');
+      if (this.mode === 'safari') F().right(ctx, '×' + balls, W - 10, 107, '#ffffff', '#34443c');
+      if (this.canBack && this.mode === 'action') F().draw(ctx, 'B: back', 124 + R, 107, '#ffffff', '#34443c');
     } else if (this.mode === 'moves' || this.mode === 'target') {
       var k = this.actor.kit();
-      PK.ui.box(ctx, 4, 116, 162, 42);
+      PK.ui.box(ctx, 4, 116, 162 + R, 42);
       if (this.mode === 'target') {
         var tb = this.targets[this.targetCursor];
         F().draw(ctx, 'Attack which foe?', 14, 125, T.text, T.shadow);
         F().draw(ctx, '▶ ' + F().fit(PK.stats.name(tb.kit()), 120), 14, 139, T.hi, T.shadow);
       } else {
         for (var j = 0; j < 4; j++) {
-          var mx = 14 + (j % 2) * 76, my = 125 + (j >> 1) * 14;
+          var colW = Math.floor((152 + R) / 2);
+          var mx = 14 + (j % 2) * colW, my = 125 + (j >> 1) * 14;
           var mv = k.moves[j];
           if (j === this.moveCursor) F().draw(ctx, '▶', mx - 8, my, T.hi);
-          F().draw(ctx, mv ? F().fit(PK.MOVES[mv.id].name, 68) : '-', mx, my, mv && mv.pp === 0 ? T.dim : T.text, T.shadow);
+          F().draw(ctx, mv ? F().fit(PK.MOVES[mv.id].name, colW - 8) : '-', mx, my, mv && mv.pp === 0 ? T.dim : T.text, T.shadow);
         }
       }
       var cm = k.moves[this.moveCursor];
       if (cm && this.mode === 'moves') {
-        var dl = F().wrap(PK.moveUI.fullDesc(PK.MOVES[cm.id]), 150).slice(0, 3);
+        var dl = F().wrap(PK.moveUI.fullDesc(PK.MOVES[cm.id]), 150 + R).slice(0, 3);
         var bh = dl.length * 10 + 8;
-        PK.ui.box(ctx, 4, 116 - bh, 162, bh);
+        PK.ui.box(ctx, 4, 116 - bh, 162 + R, bh);
         for (var q = 0; q < dl.length; q++) F().draw(ctx, dl[q], 11, 116 - bh + 5 + q * 10, T.text, T.shadow);
       }
-      PK.ui.box(ctx, 166, 116, 70, 42);
+      PK.ui.box(ctx, 166 + R, 116, 70, 42);
       var cur = k.moves[this.moveCursor];
       if (cur) {
         var md = PK.MOVES[cur.id];
-        F().draw(ctx, 'CH', 174, 125, T.dim);
-        F().right(ctx, cur.pp + '/' + md.pp, 228, 125, cur.pp === 0 ? T.hi : T.text, T.shadow);
+        F().draw(ctx, 'CH', 174 + R, 125, T.dim);
+        F().right(ctx, cur.pp + '/' + md.pp, 228 + R, 125, cur.pp === 0 ? T.hi : T.text, T.shadow);
         var tc = PK.TYPES[md.type].color;
-        ctx.fillStyle = tc; ctx.fillRect(172, 137, 58, 11);
-        ctx.fillStyle = PK.color.shade(tc, -0.4); ctx.fillRect(172, 147, 58, 1);
-        F().center(ctx, md.type + (md.cat === 'S' ? '' : md.cat === 'P' ? ' P' : ' T'), 201, 139, '#ffffff', PK.color.shade(tc, -0.5));
+        ctx.fillStyle = tc; ctx.fillRect(172 + R, 137, 58, 11);
+        ctx.fillStyle = PK.color.shade(tc, -0.4); ctx.fillRect(172 + R, 147, 58, 1);
+        F().center(ctx, md.type + (md.cat === 'S' ? '' : md.cat === 'P' ? ' P' : ' T'), 201 + R, 139, '#ffffff', PK.color.shade(tc, -0.5));
       }
     }
   };
@@ -844,8 +862,9 @@
   S.draw = function (ctx) {
     var self = this;
     this.drawBg(ctx);
-    if (this.trainerE2) ctx.drawImage(this.trainerE2.img, 204 - 24 + this.trainerE2.dx, this.pos.e0.y - 60);
-    if (this.trainerE) ctx.drawImage(this.trainerE.img, (this.trainerE2 ? 152 : this.pos.e0.x) - 24 + this.trainerE.dx, this.pos.e0.y - 60);
+    var ee = Math.round(this.ex * 0.75);
+    if (this.trainerE2) ctx.drawImage(this.trainerE2.img, 204 + ee - 24 + this.trainerE2.dx, this.pos.e0.y - 60);
+    if (this.trainerE) ctx.drawImage(this.trainerE.img, (this.trainerE2 ? 152 + ee : this.pos.e0.x) - 24 + this.trainerE.dx, this.pos.e0.y - 60);
     var keys = Object.keys(this.show).sort(function (a, b) {
       if (a[0] !== b[0]) return a[0] === 'e' ? -1 : 1;
       return (self.pos[a] ? self.pos[a].y : 0) - (self.pos[b] ? self.pos[b].y : 0);
@@ -863,11 +882,12 @@
     var T = PK.ui.THEME;
     if (this.lastStatPanel) {
       var sp = this.lastStatPanel;
-      PK.ui.box(ctx, 140, 22, 96, 86);
+      var sx0 = PK.W - 100;
+      PK.ui.box(ctx, sx0, 22, 96, 86);
       for (var q = 0; q < 6; q++) {
-        F().draw(ctx, PK.STAT_NAMES[q], 148, 30 + q * 12, T.text, T.shadow);
+        F().draw(ctx, PK.STAT_NAMES[q], sx0 + 8, 30 + q * 12, T.text, T.shadow);
         var val = sp.totals ? String(sp.after[q]) : '+' + (sp.after[q] - sp.before[q]);
-        F().right(ctx, val, 228, 30 + q * 12, T.text, T.shadow);
+        F().right(ctx, val, sx0 + 88, 30 + q * 12, T.text, T.shadow);
       }
     }
     if (this.wipe > 0) {

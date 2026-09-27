@@ -709,7 +709,7 @@
   };
 
   // ---------------- scene ----------------
-  function Overworld() { this.opaque = true; }
+  function Overworld() { this.opaque = true; this.wide = true; }
   Overworld.prototype.update = function () {
     var p = W.p, inp = PK.input;
     if (W.bumpT > 0) W.bumpT--;

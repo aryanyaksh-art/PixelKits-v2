@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "pixelkits",
+      "name": "pixelkits2",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["tools/serve.py", "8766"],
-      "port": 8766
+      "runtimeArgs": ["tools/serve.py", "8767"],
+      "port": 8767
     }
   ]
 }

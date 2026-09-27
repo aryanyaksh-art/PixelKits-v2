@@ -18,11 +18,21 @@
     var c = PK.canvas;
     var pad = document.getElementById('touchpad');
     var padH = pad && pad.offsetParent !== null ? pad.offsetHeight : 0;
-    var aw = window.innerWidth, ah = window.innerHeight - padH - 8;
-    var s = Math.min(aw / PK.W, ah / PK.H);
-    if (s >= 2) s = Math.floor(s);
+    var aw = window.innerWidth - 8, ah = window.innerHeight - padH - 8;
+    var s = Math.min(aw / PK.BASE_W, ah / PK.H);
+    // Whole-number zoom keeps pixels even; fall back to fractional zoom when it wastes too much screen.
+    if (s >= 3 && Math.floor(s) / s >= 0.92) s = Math.floor(s);
     s = Math.max(1, s);
-    c.style.width = Math.floor(PK.W * s) + 'px';
+    // Widen the canvas to the window's shape instead of letterboxing a 3:2 screen.
+    var fw = Math.max(PK.BASE_W, Math.min(432, Math.floor(aw / s))) & ~1;
+    if (fw !== PK.FW || c.width !== fw) {
+      PK.FW = fw;
+      c.width = fw;
+      c.height = PK.H;
+      PK.ctx.imageSmoothingEnabled = false;
+      if (PK.layout) PK.layout();
+    }
+    c.style.width = Math.floor(fw * s) + 'px';
     c.style.height = Math.floor(PK.H * s) + 'px';
   };
 
@@ -54,13 +64,13 @@
       if (fade.a > 0) {
         ctx.globalAlpha = fade.a;
         ctx.fillStyle = fade.color;
-        ctx.fillRect(0, 0, PK.W, PK.H);
+        ctx.fillRect(0, 0, PK.FW, PK.H);
         ctx.globalAlpha = 1;
       }
       if (flash.a > 0) {
         ctx.globalAlpha = flash.a;
         ctx.fillStyle = flash.color;
-        ctx.fillRect(0, 0, PK.W, PK.H);
+        ctx.fillRect(0, 0, PK.FW, PK.H);
         ctx.globalAlpha = 1;
       }
     },
