@@ -587,9 +587,11 @@
       'WWWWWW...WWWWWW',
       'W.............W',
       'W.............W',
-      'W.............W'
+      'W.............W',
+      'W......M......W'
     ],
     entry: [7, 8],
+    exit: { map: 'pinecrest', x: 19, y: 13 },
     npcs: {
       harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' },
       wall: { at: [7, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
@@ -598,6 +600,7 @@
       t3: { at: [7, 7], sprite: 'miner', dir: 'down' }
     },
     eventsAt: guardRow(7, 'pcgym_3', 't3'),
+    lockExit: function () { return beat('pc_warden') ? null : 'The doors are barred shut. Carved over them: NO ONE LEAVES UNTIL THE CHALLENGE IS DONE.'; },
     onLose: pcgOnLose
   });
 
