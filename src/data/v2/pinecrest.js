@@ -611,7 +611,7 @@
   ], {
     music: 'mountain', entry: [7, 7],
     warps: [['pc_inn2', 15, 3, 'down']],
-    props: [['counter', 0, 2, { w: 3 }], ['shelfjars', 3, 2], ['window', 4, 1], ['fireplace', 6, 2], ['window', 8, 1], ['clock', 10, 1], ['bookcase', 11, 2, { text: 'Guest books going back a hundred years. Page after page of "the stairs, THE STAIRS".' }], ['plant', 13, 2],
+    props: [['counter', 0, 2, { w: 3 }], ['shelfjars', 3, 2], ['window', 4, 1], ['fireplace', 6, 2], ['window', 8, 1], ['clock', 10, 1], ['bookcase', 11, 2, { text: 'Guest books going back a hundred years. Page after page of "the stairs, THE STAIRS".' }], ['pc', 13, 2],
       ['dining', 2, 5], ['dining', 11, 5], ['rug', 6, 4, { w: 4, h: 2, color: '#b8484e' }], ['plant', 0, 6], ['plant', 15, 6]],
     npcs: {
       greta: { at: [1, 3], sprite: 'innkeeper', dir: 'down', talk: 'pc_innkeeper' },
@@ -654,7 +654,7 @@
   room('pc_bath', 'Bathhouse', 'spa', 14, ['..............', '.cccc.........', '..............', '..............', '......M.......'], {
     music: 'clinic', entry: [6, 6], wall1: 'WWWWWWWWWW%WWW',
     warpsAt: [[10, 1, 'pc_bath_spring', 6, 7, 'up']],
-    props: [['shelfjars', 0, 2, { text: 'Folded towels, stacked in perfect towers.' }], ['window', 7, 1], ['plant', 12, 2], ['couch', 1, 5, { color: '#3e6e8a' }], ['plant', 13, 5], ['clock', 5, 1]],
+    props: [['shelfjars', 0, 2, { text: 'Folded towels, stacked in perfect towers.' }], ['window', 7, 1], ['plant', 12, 2], ['couch', 1, 5, { color: '#3e6e8a' }], ['plant', 13, 5], ['clock', 5, 1], ['pc', 9, 2]],
     npcs: { hollis: { at: [2, 2], sprite: 'bathkeeper', dir: 'down', talk: 'pc_bathkeeper' } }
   });
   room('pc_bath_spring', 'Hot Spring', 'spa', 14, ['..............', '..............', '..............', '..............', '..............', '......M.......'], {

@@ -703,8 +703,9 @@
     var pr = W.propAt(fx, fy);
     if (pr) {
       if (pr.talk) return typeof pr.talk === 'function' ? pr.talk(W, pr) : PK.SCRIPTS[pr.talk](W, pr);
-      if (pr.use === 'storage') return PK.menus.storage();
-      if (pr.use === 'bed') {
+      var use = pr.use || (PK.BUILDINGS[pr.k] || {}).use;
+      if (use === 'storage') return PK.menus.storage();
+      if (use === 'bed') {
         if (await PK.ui.yesno(pr.text ? PK.ui.fmt(typeof pr.text === 'function' ? pr.text() : pr.text) + ' Take a rest?' : 'A comfy bed. Take a rest?')) { await PK.fx.fadeOut(20); await W.heal(); await PK.fx.fadeIn(20); await PK.ui.say('Your Kits are fully rested!'); }
         return;
       }
