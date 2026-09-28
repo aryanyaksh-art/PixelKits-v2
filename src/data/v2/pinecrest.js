@@ -505,9 +505,11 @@
       'W......M......W'
     ],
     entry: [7, 39],
+    // each challenge room frames fully on screen (rather than just following the player) so a
+    // puzzle you need to see all at once, like the memory floor, is never half off-screen
+    rooms: [[31, 39], [18, 30], [9, 17], [2, 8]],
     tileText: { y: 'Rails for the challenge minecart.' }, statue: 'A stone statue of a miner holding a pickaxe high.',
     npcs: {
-      helper: { at: [2, 38], sprite: 'miner2', dir: 'right', talk: 'pcg_helper' },
       b1: { at: [4, 35], sprite: 'boulder', push: true },
       b2: { at: [10, 35], sprite: 'boulder', push: true },
       b3: { at: [7, 37], sprite: 'boulder', push: true },
@@ -859,27 +861,7 @@
       if (PK.audio) PK.audio.sfx('smash');
       PK.fx.shake(10, 2);
       await w.say('KA-CHUNK! The doors slam shut and a heavy bar drops across them.');
-      await w.say('HARROW (over a speaking tube): Four challenges. Three of my miners. Then me. Nobody leaves until it\'s done.');
-    }
-  };
-  S.pcg_helper = async function (w) {
-    var pick = await w.ask('HELPER JUNO: Need anything? The Warden says I can help, a little.', ['Heal my Kits', 'Reset the boulders', 'Spar with me', 'Nothing']);
-    if (pick === 0) { await w.heal(); return w.say('HELPER JUNO: All patched up. Keep going!'); }
-    if (pick === 1) {
-      var st = g().state;
-      if (st.boulders) delete st.boulders.pc_gym;
-      if (st.cleared) delete st.cleared.pc_gym;
-      await PK.fx.fadeOut(14);
-      w.load('pc_gym', 7, 38, 'up');
-      await PK.fx.fadeIn(14);
-      return w.say('HELPER JUNO: The miners hauled every boulder back and dug the pits out again. Try a different angle!');
-    }
-    if (pick === 2) {
-      delete g().state.defeated.pcgym_spar;
-      var r = await w.battle('pcgym_spar', { canLose: true });
-      PK.game.healParty();
-      delete g().state.defeated.pcgym_spar;
-      return w.say(r === 'win' ? 'HELPER JUNO: Nice! Your Kits are getting stronger. I patched them up for you.' : 'HELPER JUNO: Good effort! Rest up and try again whenever you like.');
+      await w.say('HARROW (over a speaking tube): Four challenges. Three of my miners. Then me. Nobody leaves until it\'s done. No shortcuts, no help from outside these doors.');
     }
   };
   S.pcg_panel = async function (w) {

@@ -603,11 +603,19 @@
     fill(x, '#7a5230', 2, 4, 12, 1); fill(x, '#7a5230', 2, 13, 12, 1);
     for (var i = 0; i < 9; i++) { dot(x, '#7a5230', 3 + i, 5 + i); dot(x, '#7a5230', 12 - i, 5 + i); }
   }
-  function railFence(x) {
+  // vertical=true rotates the rail fence 90 deg so a run climbing/descending a slope
+  // shows upright rails with a crossbar instead of sideways rails stacked on top of each other.
+  function railFence(x, vertical) {
     var wd = ramp('#8a5a30');
-    fill(x, wd[0], 0, 5, 16, 3); fill(x, wd[2], 0, 5, 16, 2);
-    fill(x, wd[0], 0, 10, 16, 3); fill(x, wd[2], 0, 10, 16, 2); fill(x, wd[3], 0, 10, 16, 1);
-    fill(x, wd[0], 6, 2, 4, 13); fill(x, wd[1], 7, 2, 2, 12); fill(x, wd[3], 7, 2, 1, 1);
+    if (vertical) {
+      fill(x, wd[0], 5, 0, 3, 16); fill(x, wd[2], 5, 0, 2, 16);
+      fill(x, wd[0], 10, 0, 3, 16); fill(x, wd[2], 10, 0, 2, 16); fill(x, wd[3], 10, 0, 1, 16);
+      fill(x, wd[0], 2, 6, 13, 4); fill(x, wd[1], 2, 7, 12, 2); fill(x, wd[3], 2, 7, 1, 1);
+    } else {
+      fill(x, wd[0], 0, 5, 16, 3); fill(x, wd[2], 0, 5, 16, 2);
+      fill(x, wd[0], 0, 10, 16, 3); fill(x, wd[2], 0, 10, 16, 2); fill(x, wd[3], 0, 10, 16, 1);
+      fill(x, wd[0], 6, 2, 4, 13); fill(x, wd[1], 7, 2, 2, 12); fill(x, wd[3], 7, 2, 1, 1);
+    }
   }
   function stoneWall(x, r) {
     var s = ramp('#a09a8e');
@@ -679,11 +687,18 @@
     for (var j = 0; j < 4; j++) dot(x, c, 11 - j, 9 + j);
     dot(x, c, 12, 4); dot(x, c, 13, 5);
   }
-  // minecart rails (solid: carts only)
-  function rail(x) {
-    for (var i = 1; i < 16; i += 4) fill(x, '#6a4a2a', i, 3, 2, 10);
-    fill(x, '#8a8e9a', 0, 4, 16, 1); fill(x, '#8a8e9a', 0, 11, 16, 1);
-    fill(x, '#c8ccd4', 0, 4, 16, 1);
+  // minecart rails (solid: carts only). vertical=true rotates the whole pattern 90 deg
+  // so a track running top-to-bottom shows rails going that way instead of sideways.
+  function rail(x, vertical) {
+    if (vertical) {
+      for (var i = 1; i < 16; i += 4) fill(x, '#6a4a2a', 3, i, 10, 2);
+      fill(x, '#8a8e9a', 4, 0, 1, 16); fill(x, '#8a8e9a', 11, 0, 1, 16);
+      fill(x, '#c8ccd4', 4, 0, 1, 16);
+    } else {
+      for (var j = 1; j < 16; j += 4) fill(x, '#6a4a2a', j, 3, 2, 10);
+      fill(x, '#8a8e9a', 0, 4, 16, 1); fill(x, '#8a8e9a', 0, 11, 16, 1);
+      fill(x, '#c8ccd4', 0, 4, 16, 1);
+    }
   }
   // snow-capped rock outcrop for the summit
   function snowRock(x) {
@@ -776,7 +791,7 @@
       case 'U': well(x); break;
       case '&': barrel(x); break;
       case '$': crate(x); break;
-      case '-': railFence(x); break;
+      case '-': railFence(x, !!(flags & 4)); break;
       case '_': stoneWall(x, r); break;
       case '/': bench(x); break;
       case '^': steps(x, P); break;
@@ -786,7 +801,7 @@
       case '+': mailbox(x); break;
       case 'o': pit(x, P); break;
       case 'q': groundBase(x, P, r); cracked(x, P, r); break;
-      case 'y': groundBase(x, P, r); rail(x); break;
+      case 'y': groundBase(x, P, r); rail(x, !!(flags & 4)); break;
       case 'j': snowRock(x); break;
       case '%':
         interiorWall(x, P, 0);
@@ -824,6 +839,11 @@
     if (!interior && OBJ.indexOf(ch) >= 0) {
       var nb = [map.at(tx - 1, ty), map.at(tx + 1, ty), map.at(tx, ty + 1), map.at(tx, ty - 1)].filter(function (q) { return q === 'g' || q === 'd'; })[0];
       if (nb) { ctx.drawImage(tileCanvas(map.theme, nb, 0, variant, 0), px, py); flags |= 2; }
+    }
+    // rail fences and minecart rails: orient upright when the run climbs/descends rather than runs sideways
+    if (ch === '-' || ch === 'y') {
+      var vn = map.at(tx, ty - 1) === ch, vs = map.at(tx, ty + 1) === ch;
+      if (vn || vs) flags |= 4;
     }
     ctx.drawImage(tileCanvas(map.theme, ch, f, variant, flags), px, py);
     var n = map.at(tx, ty - 1), s = map.at(tx, ty + 1), w = map.at(tx - 1, ty), e = map.at(tx + 1, ty);

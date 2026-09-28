@@ -933,6 +933,19 @@
     var cx, cy;
     if (mw <= PK.W) cx = -Math.floor((PK.W - mw) / 2); else cx = PK.clamp(Math.round(p.px + 8 - PK.W / 2), 0, mw - PK.W);
     if (mh <= PK.H) cy = -Math.floor((PK.H - mh) / 2); else cy = PK.clamp(Math.round(p.py + 8 - PK.H / 2), 0, mh - PK.H);
+    // Some maps mark "rooms" (tile-row bands) that should always show in full, like a puzzle
+    // you need to see all at once, instead of just following the player around inside it.
+    if (m.rooms) {
+      var py0 = Math.floor(p.y);
+      for (var ri = 0; ri < m.rooms.length; ri++) {
+        var rb = m.rooms[ri];
+        if (py0 < rb[0] || py0 > rb[1]) continue;
+        var rh = (rb[1] - rb[0] + 1) * TS;
+        if (rh > PK.H) break;
+        cy = PK.clamp(Math.round(rb[0] * TS - (PK.H - rh) / 2), 0, mh - PK.H);
+        break;
+      }
+    }
     ctx.fillStyle = m.interior ? '#000000' : '#101018';
     ctx.fillRect(0, 0, PK.W, PK.H);
     var f = W.frames.length > 1 ? Math.floor(PK.frame / 20) % W.frames.length : 0;
