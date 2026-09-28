@@ -603,11 +603,12 @@
     fill(x, '#7a5230', 2, 4, 12, 1); fill(x, '#7a5230', 2, 13, 12, 1);
     for (var i = 0; i < 9; i++) { dot(x, '#7a5230', 3 + i, 5 + i); dot(x, '#7a5230', 12 - i, 5 + i); }
   }
-  // vertical=true rotates the rail fence 90 deg so a run climbing/descending a slope
-  // shows upright rails with a crossbar instead of sideways rails stacked on top of each other.
-  function railFence(x, vertical) {
+  // orient: 0 = horizontal (default), 1 = vertical. A fence corner still reads fine turning at
+  // a right angle (the post already sits in the middle of every tile), so corner codes just
+  // fall back to the vertical post-and-rail rendering rather than needing their own art.
+  function railFence(x, orient) {
     var wd = ramp('#8a5a30');
-    if (vertical) {
+    if (orient) {
       fill(x, wd[0], 5, 0, 3, 16); fill(x, wd[2], 5, 0, 2, 16);
       fill(x, wd[0], 10, 0, 3, 16); fill(x, wd[2], 10, 0, 2, 16); fill(x, wd[3], 10, 0, 1, 16);
       fill(x, wd[0], 2, 6, 13, 4); fill(x, wd[1], 2, 7, 12, 2); fill(x, wd[3], 2, 7, 1, 1);
@@ -687,10 +688,26 @@
     for (var j = 0; j < 4; j++) dot(x, c, 11 - j, 9 + j);
     dot(x, c, 12, 4); dot(x, c, 13, 5);
   }
-  // minecart rails (solid: carts only). vertical=true rotates the whole pattern 90 deg
-  // so a track running top-to-bottom shows rails going that way instead of sideways.
-  function rail(x, vertical) {
-    if (vertical) {
+  // minecart rails (solid: carts only). orient: 0 horizontal, 1 vertical, or one of the 4
+  // corner codes below, which curve the track through a quarter circle instead of meeting
+  // a straight run at a hard right angle.
+  var RAIL_CORNER = { 2: 'ne', 3: 'nw', 4: 'se', 5: 'sw' };
+  // pivot = the corner the curve bends around (the concave inside of the turn); a circle
+  // centered there naturally clips to a quarter within the tile, and its radius at 5/12
+  // lines up exactly with the straight tile's own rails at x/y = 11 and x/y = 4.
+  var RAIL_PIVOT = { ne: [16, 0], nw: [0, 0], se: [16, 16], sw: [0, 16] };
+  function railCorner(x, kind) {
+    var pv = RAIL_PIVOT[kind], cx = pv[0], cy = pv[1];
+    for (var yy = 0; yy < 16; yy++) for (var xx = 0; xx < 16; xx++) {
+      var d = Math.hypot(xx + 0.5 - cx, yy + 0.5 - cy);
+      var onTie = ((Math.floor(d) - 2) % 4) < 2;
+      if (d >= 5.5 && d < 11.1 && onTie) fill(x, '#6a4a2a', xx, yy, 1, 1);
+      if ((d >= 4.6 && d < 5.6) || (d >= 11 && d < 12)) fill(x, '#8a8e9a', xx, yy, 1, 1);
+    }
+  }
+  function rail(x, orient) {
+    if (RAIL_CORNER[orient]) return railCorner(x, RAIL_CORNER[orient]);
+    if (orient === 1) {
       for (var i = 1; i < 16; i += 4) fill(x, '#6a4a2a', 3, i, 10, 2);
       fill(x, '#8a8e9a', 4, 0, 1, 16); fill(x, '#8a8e9a', 11, 0, 1, 16);
       fill(x, '#c8ccd4', 4, 0, 1, 16);
@@ -791,7 +808,7 @@
       case 'U': well(x); break;
       case '&': barrel(x); break;
       case '$': crate(x); break;
-      case '-': railFence(x, !!(flags & 4)); break;
+      case '-': railFence(x, ((flags >> 4) & 7) !== 0 ? 1 : 0); break;
       case '_': stoneWall(x, r); break;
       case '/': bench(x); break;
       case '^': steps(x, P); break;
@@ -801,7 +818,7 @@
       case '+': mailbox(x); break;
       case 'o': pit(x, P); break;
       case 'q': groundBase(x, P, r); cracked(x, P, r); break;
-      case 'y': groundBase(x, P, r); rail(x, !!(flags & 4)); break;
+      case 'y': groundBase(x, P, r); rail(x, (flags >> 4) & 7); break;
       case 'j': snowRock(x); break;
       case '%':
         interiorWall(x, P, 0);
@@ -840,10 +857,15 @@
       var nb = [map.at(tx - 1, ty), map.at(tx + 1, ty), map.at(tx, ty + 1), map.at(tx, ty - 1)].filter(function (q) { return q === 'g' || q === 'd'; })[0];
       if (nb) { ctx.drawImage(tileCanvas(map.theme, nb, 0, variant, 0), px, py); flags |= 2; }
     }
-    // rail fences and minecart rails: orient upright when the run climbs/descends rather than runs sideways
+    // rail fences and minecart rails: orient upright when the run climbs/descends rather than
+    // runs sideways, and curve through a proper corner where a run turns a right angle
     if (ch === '-' || ch === 'y') {
-      var vn = map.at(tx, ty - 1) === ch, vs = map.at(tx, ty + 1) === ch;
-      if (vn || vs) flags |= 4;
+      var mN = map.at(tx, ty - 1) === ch, mS = map.at(tx, ty + 1) === ch;
+      var mW = map.at(tx - 1, ty) === ch, mE = map.at(tx + 1, ty) === ch;
+      var orient = 0; // 0 h, 1 v, 2 ne, 3 nw, 4 se, 5 sw
+      if ((mN || mS) && (mW || mE)) orient = mN ? (mE ? 2 : 3) : (mE ? 4 : 5);
+      else if (mN || mS) orient = 1;
+      flags |= orient << 4;
     }
     ctx.drawImage(tileCanvas(map.theme, ch, f, variant, flags), px, py);
     var n = map.at(tx, ty - 1), s = map.at(tx, ty + 1), w = map.at(tx - 1, ty), e = map.at(tx + 1, ty);

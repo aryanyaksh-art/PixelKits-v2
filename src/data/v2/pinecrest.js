@@ -246,7 +246,7 @@
       'TTTTTTTTTTTTTTTTTTTT::TTTTTTTTTTTTTTTTTT'
     ],
     buildings: [
-      { k: 'rockgym', at: [16, 8], to: 'pc_gym' },
+      { k: 'rockgym', at: [16, 8], to: 'pc_gym1' },
       { k: 'shrine', at: [4, 3], to: 'pc_shrine' },
       { k: 'cablecar', at: [30, 10], to: 'pc_cable_top', roof: '#3a78c8' }
     ],
@@ -457,46 +457,31 @@
     enc: { cave: [[26, 11, 13, 25], [33, 11, 13, 30], [38, 11, 12, 20], [40, 12, 13, 4]], rate: 0.5 }
   });
 
-  // ================= the gym: four challenges with a miner between each =================
-  var SAFE = [[7, 16], [7, 15], [8, 15], [9, 15], [9, 14], [9, 13], [8, 13], [7, 13], [6, 13], [5, 13], [5, 12], [4, 12], [3, 12], [3, 11], [3, 10]];
+  // ================= the gym: four challenges, each its own room =================
+  var SAFE = [[7, 7], [6, 7], [6, 6], [6, 5], [5, 5], [5, 4], [5, 3], [6, 3], [7, 3], [7, 2], [7, 1]];
   function safe(x, y) { return SAFE.some(function (q) { return q[0] === x && q[1] === y; }); }
-  D('pc_gym', {
-    name: 'Pinecrest Challenge Hall', interior: true, theme: 'gym_Terra', music: 'challenge',
+  // shared by every room: losing anywhere in the Hall sends you all the way back to the start
+  function pcgReset(w) {
+    var st = g().state;
+    ['pcg_cart', 'pcg_pick'].forEach(function (f) { g().setFlag(f, false); });
+    ['pcgym_1', 'pcgym_2', 'pcgym_3'].forEach(function (id) { delete st.defeated[id]; });
+    if (st.boulders) delete st.boulders.pc_gym1;
+    if (st.cleared) delete st.cleared.pc_gym1;
+    w.load('pc_gym1', 7, 8, 'up');
+  }
+  async function pcgOnLose(w) {
+    pcgReset(w);
+    await PK.fx.fadeIn(20);
+    await PK.ui.say('HARROW (over a speaking tube): Back to the start. Boulders, carts, floor, wall. All of it. That\'s how the mountain works.');
+    await PK.ui.say('The miners healed your Kits and reset every challenge in the hall.');
+  }
+
+  D('pc_gym1', {
+    name: 'Challenge Hall: Boulders', interior: true, theme: 'gym_Terra', music: 'challenge',
     rows: [
-      'WWWWWWWWWWWWWWW',
-      'WWWWWWWWWWWWWWW',
-      'W.............W',
-      'W.............W',
-      'W.............W',
-      'W.............W',
-      'WWWWWWW.WWWWWWW',
       'WWWWWW...WWWWWW',
-      'WWWWWWW.WWWWWWW',
       'W.............W',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'WqqqqqqqqqqqqqW',
-      'W.............W',
-      'WWWWWWW.WWWWWWW',
-      'WWWWWW...WWWWWW',
-      'WWWWWWW.WWWWWWW',
-      'W.............W',
-      'W.............W',
-      'Wyyyyy........W',
-      'W....y........W',
-      'Wyyyyy........W',
-      'W.............W',
-      'W.............W',
-      'WWWWWWW.WWWWWWW',
-      'WWWWWW...WWWWWW',
-      'WWWWWWW.WWWWWWW',
-      'W.............W',
-      'WoooooooooooooW',
-      'WoooooooooooooW',
+      'WWWWWWoooWWWWWW',
       'W.............W',
       'W.............W',
       'W..Q.......Q..W',
@@ -504,48 +489,95 @@
       'W.............W',
       'W......M......W'
     ],
-    entry: [7, 39],
-    // each challenge room frames fully on screen (rather than just following the player) so a
-    // puzzle you need to see all at once, like the memory floor, is never half off-screen
-    rooms: [[31, 39], [18, 30], [9, 17], [2, 8]],
-    tileText: { y: 'Rails for the challenge minecart.' }, statue: 'A stone statue of a miner holding a pickaxe high.',
+    entry: [7, 7], statue: 'A stone statue of a miner holding a pickaxe high.',
+    // the boulder gate can only be told solvable, not seen, by static analysis
+    links: [['pc_gym1', 7, 1]],
     npcs: {
-      b1: { at: [4, 35], sprite: 'boulder', push: true },
-      b2: { at: [10, 35], sprite: 'boulder', push: true },
-      b3: { at: [7, 37], sprite: 'boulder', push: true },
-      t1: { at: [6, 29], sprite: 'miner', dir: 'right', keeper: 'pcgym_1', sight: 1 },
-      gatem: { at: [7, 20], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
-      panel: { at: [12, 22], sprite: 'panel', noTurn: true, talk: 'pcg_panel' },
-      t2: { at: [8, 19], sprite: 'miner2', dir: 'left', keeper: 'pcgym_2', sight: 1 },
-      memory: { at: [1, 17], sprite: 'echo', note: 4, noTurn: true, talk: 'pcg_memory' },
-      t3: { at: [6, 7], sprite: 'miner', dir: 'right', keeper: 'pcgym_3', sight: 1 },
-      wall: { at: [7, 6], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
-      harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' }
+      b1: { at: [6, 4], sprite: 'boulder', push: true },
+      b2: { at: [7, 4], sprite: 'boulder', push: true },
+      b3: { at: [8, 4], sprite: 'boulder', push: true },
+      t1: { at: [7, 1], sprite: 'miner', dir: 'down', keeper: 'pcgym_1', sight: 3 }
     },
+    warpsAt: [[7, 0, 'pc_gym2', 7, 8, 'up']],
     onEnter: 'pcg_enter',
     lockExit: function () { return beat('pc_warden') ? null : 'The doors are barred shut. Carved over them: NO ONE LEAVES UNTIL THE CHALLENGE IS DONE.'; },
+    onLose: pcgOnLose
+  });
+
+  D('pc_gym2', {
+    name: 'Challenge Hall: Minecart', interior: true, theme: 'gym_Terra', music: 'challenge',
+    rows: [
+      'WWWWWW...WWWWWW',
+      'W.............W',
+      'W.............W',
+      'W.............W',
+      'W.............W',
+      'Wy............W',
+      'Wy............W',
+      'Wyyyyy........W',
+      'W.............W'
+    ],
+    entry: [7, 8],
+    npcs: {
+      t2: { at: [7, 1], sprite: 'miner2', dir: 'down', keeper: 'pcgym_2', sight: 3 },
+      gatem: { at: [7, 0], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
+      panel: { at: [12, 3], sprite: 'panel', noTurn: true, talk: 'pcg_panel' }
+    },
+    warpsAt: [[7, 0, 'pc_gym3', 7, 8, 'up']],
+    onLose: pcgOnLose
+  });
+
+  D('pc_gym3', {
+    name: 'Challenge Hall: Memory Floor', interior: true, theme: 'gym_Terra', music: 'challenge',
+    rows: [
+      'WWWWWW...WWWWWW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'WqqqqqqqqqqqqqW',
+      'W.............W'
+    ],
+    entry: [7, 8],
+    tileText: { y: 'Rails for the challenge minecart.' },
+    npcs: { memory: { at: [1, 8], sprite: 'echo', note: 4, noTurn: true, talk: 'pcg_memory' } },
+    warpsAt: [[7, 0, 'pc_gym4', 7, 8, 'up']],
     onStep: async function (w, x, y) {
-      if (y < 10 || y > 16 || x < 1 || x > 13 || safe(x, y)) return false;
+      if (y < 1 || y > 7 || x < 1 || x > 13 || safe(x, y)) return false;
       if (PK.audio) PK.audio.sfx('smash');
       PK.fx.shake(14, 3);
       await PK.ui.say('CRACK! The floor crumbled away!');
       await PK.fx.fadeOut(14);
-      w.load('pc_gym', 7, 17, 'up');
+      w.load('pc_gym3', 7, 8, 'up');
       await PK.fx.fadeIn(14);
-      await PK.ui.say('...You tumbled down to the start of the room. The floor behind you creaks back into place.');
+      await PK.ui.say('...You tumbled back down to the start of the room. The floor behind you creaks back into place.');
       return true;
     },
-    onLose: async function (w) {
-      var st = g().state;
-      ['pcg_cart', 'pcg_pick'].forEach(function (f) { g().setFlag(f, false); });
-      ['pcgym_1', 'pcgym_2', 'pcgym_3'].forEach(function (id) { delete st.defeated[id]; });
-      if (st.boulders) delete st.boulders.pc_gym;
-      if (st.cleared) delete st.cleared.pc_gym;
-      w.load('pc_gym', 7, 38, 'up');
-      await PK.fx.fadeIn(20);
-      await PK.ui.say('HARROW (over a speaking tube): Back to the start. Boulders, carts, floor, wall. All of it. That\'s how the mountain works.');
-      await PK.ui.say('The miners healed your Kits and reset every challenge in the hall.');
-    }
+    onLose: pcgOnLose
+  });
+
+  D('pc_gym4', {
+    name: 'Challenge Hall: Warden\'s Chamber', interior: true, theme: 'gym_Terra', music: 'challenge',
+    rows: [
+      'WWWWWWWWWWWWWWW',
+      'W.............W',
+      'W.............W',
+      'W.............W',
+      'W.............W',
+      'WWWWWW...WWWWWW',
+      'W.............W',
+      'W.............W',
+      'W.............W'
+    ],
+    entry: [7, 8],
+    npcs: {
+      harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' },
+      wall: { at: [7, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
+      t3: { at: [7, 7], sprite: 'miner', dir: 'down', keeper: 'pcgym_3', sight: 3 }
+    },
+    onLose: pcgOnLose
   });
 
   // ================= interiors =================

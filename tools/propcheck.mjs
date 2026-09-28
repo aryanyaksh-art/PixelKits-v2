@@ -26,6 +26,8 @@ for (const id in PK.MAPS) {
   }
   if (!start || !m.interior) continue;
   const seen = new Set([start.join(',')]), q = [start];
+  // puzzle-gated tiles (boulder pits, etc.) that can't be told solvable by static analysis
+  (m.links || []).forEach(l => { if (l[0] === id) { seen.add(l[1] + ',' + l[2]); q.push([l[1], l[2]]); } });
   while (q.length) {
     const [x, y] = q.shift();
     for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
