@@ -640,12 +640,18 @@
     W.refreshNpcs();
   };
   // Story progress can make NPCs appear mid-visit: add any whose condition just became true.
+  // Re-syncs NPCs against their `cond`: adds newly-true ones, and hides ones whose cond just
+  // went false (e.g. a gate/seal NPC standing in for a blocked passage, once its flag flips).
   W.refreshNpcs = function () {
     var m = W.map;
     if (!m) return;
     m.npcDefs.forEach(function (d) {
       var key = d.id || d.key;
-      if (W.npcs.some(function (n) { return n.d === d; }) || !condOk(d)) return;
+      var existing = W.npcs.filter(function (n) { return n.d === d; })[0];
+      var ok = condOk(d);
+      // only ever hides here (never un-hides): scripts control revealing a startHidden npc themselves
+      if (existing) { if (!ok) existing.hidden = true; return; }
+      if (!ok) return;
       W.npcs.push({ d: d, id: key, x: d.x, y: d.y, px: d.x * TS, py: d.y * TS, dir: d.dir || 'down', moving: false, t: 0, hx: d.x, hy: d.y, timer: 60 + PK.rnd(120), sprite: d.sprite || 'boy', emote: null, hidden: !!d.startHidden });
     });
   };

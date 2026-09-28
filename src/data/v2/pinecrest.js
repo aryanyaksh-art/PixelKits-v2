@@ -704,7 +704,7 @@
   });
   room('pc_shrine', 'Summit Shrine', 'tower', 12, ['............', '............', '............', '............', '....M.......'], {
     music: 'tender', entry: [4, 6],
-    props: [['carving', 4, 1, { notes: [4, 4, 4], text: 'A long carving of a mountain split by a crack. Two halves of a tablet float on either side, and between them, a sleeping Kit with a crystal frill.' }], ['candles', 1, 2], ['candles', 10, 2], ['statue', 3, 3, { icon: 42 }], ['statue', 8, 3, { icon: 42 }], ['rug', 4, 4, { w: 4, h: 2, color: '#6a5a8a' }]],
+    props: [['candles', 1, 2], ['candles', 10, 2], ['statue', 3, 3, { icon: 42 }], ['statue', 8, 3, { icon: 42 }], ['rug', 4, 4, { w: 4, h: 2, color: '#6a5a8a' }]],
     npcs: { keeper: { at: [6, 2], sprite: 'oldwoman', dir: 'down', talk: 'pc_shrinekeeper' } }
   });
 
