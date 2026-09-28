@@ -536,6 +536,8 @@
     npcs: {
       t2: { at: [7, 1], sprite: 'miner2', dir: 'down' },
       gatem: { at: [7, 0], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
+      gatem_l: { at: [6, 0], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
+      gatem_r: { at: [8, 0], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
       panel: { at: [12, 3], sprite: 'panel', noTurn: true, talk: 'pcg_panel' }
     },
     eventsAt: guardRow(1, 'pcgym_2', 't2'),
@@ -591,6 +593,8 @@
     npcs: {
       harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' },
       wall: { at: [7, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
+      wall_l: { at: [6, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
+      wall_r: { at: [8, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
       t3: { at: [7, 7], sprite: 'miner', dir: 'down' }
     },
     eventsAt: guardRow(7, 'pcgym_3', 't3'),
