@@ -460,6 +460,20 @@
   // ================= the gym: four challenges, each its own room =================
   var SAFE = [[7, 7], [6, 7], [6, 6], [6, 5], [5, 5], [5, 4], [5, 3], [6, 3], [7, 3], [7, 2], [7, 1]];
   function safe(x, y) { return SAFE.some(function (q) { return q[0] === x && q[1] === y; }); }
+  // A door/gate is 3 tiles wide so a beaten guard resting in the middle never seals the only
+  // way through — but that also means you could just hug a side column and never trigger their
+  // sight line. These force the fight on all 3 columns of that row until the guard is beaten.
+  function guardRow(y, trainerId, npcId) {
+    var run = async function (w) {
+      if (beat(trainerId)) return;
+      var n = w.npc(npcId), tr = PK.TRAINERS[trainerId];
+      if (n) w.facePlayer(n);
+      if (tr.intro) await w.say(tr.intro);
+      var r = await w.battle(trainerId);
+      if (r === 'win' && tr.after) await w.say(tr.after);
+    };
+    return [6, 7, 8].map(function (x) { return { at: [x, y], run: run, cond: function () { return !beat(trainerId); } }; });
+  }
   // shared by every room: losing anywhere in the Hall sends you all the way back to the start
   function pcgReset(w) {
     var st = g().state;
@@ -496,8 +510,9 @@
       b1: { at: [6, 4], sprite: 'boulder', push: true },
       b2: { at: [7, 4], sprite: 'boulder', push: true },
       b3: { at: [8, 4], sprite: 'boulder', push: true },
-      t1: { at: [7, 1], sprite: 'miner', dir: 'down', keeper: 'pcgym_1', sight: 3 }
+      t1: { at: [7, 1], sprite: 'miner', dir: 'down' }
     },
+    eventsAt: guardRow(1, 'pcgym_1', 't1'),
     warpsAt: [[7, 0, 'pc_gym2', 7, 8, 'up']],
     onEnter: 'pcg_enter',
     lockExit: function () { return beat('pc_warden') ? null : 'The doors are barred shut. Carved over them: NO ONE LEAVES UNTIL THE CHALLENGE IS DONE.'; },
@@ -519,10 +534,11 @@
     ],
     entry: [7, 8],
     npcs: {
-      t2: { at: [7, 1], sprite: 'miner2', dir: 'down', keeper: 'pcgym_2', sight: 3 },
+      t2: { at: [7, 1], sprite: 'miner2', dir: 'down' },
       gatem: { at: [7, 0], sprite: 'gate', noTurn: true, cond: notFlag('pcg_cart'), text: 'An iron gate. It\'s wired to the minecart track.' },
       panel: { at: [12, 3], sprite: 'panel', noTurn: true, talk: 'pcg_panel' }
     },
+    eventsAt: guardRow(1, 'pcgym_2', 't2'),
     warpsAt: [[7, 0, 'pc_gym3', 7, 8, 'up']],
     onLose: pcgOnLose
   });
@@ -575,8 +591,9 @@
     npcs: {
       harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' },
       wall: { at: [7, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
-      t3: { at: [7, 7], sprite: 'miner', dir: 'down', keeper: 'pcgym_3', sight: 3 }
+      t3: { at: [7, 7], sprite: 'miner', dir: 'down' }
     },
+    eventsAt: guardRow(7, 'pcgym_3', 't3'),
     onLose: pcgOnLose
   });
 
