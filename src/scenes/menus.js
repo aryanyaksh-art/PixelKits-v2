@@ -749,8 +749,10 @@
       var idx = this.scroll + r, k = list[idx];
       if (!k) break;
       var y = 30 + r * 14;
-      if (idx === this.i) { ctx.fillStyle = t.sel; ctx.fillRect(7, y - 2, 90, 13); F().draw(ctx, '▶', 9, y + 1, t.hi); }
-      F().draw(ctx, F().fit(PK.stats.name(k), 50), 16, y + 1, k.hp > 0 ? t.text : t.dim, t.shadow);
+      if (idx === this.i) { ctx.fillStyle = t.sel; ctx.fillRect(7, y - 2, 90, 13); F().draw(ctx, '▶', 8, y + 1, t.hi); }
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(PK.kitArt.icon(k.id, k.prism, k.tint), 15, y - 2, 12, 12);
+      F().draw(ctx, F().fit(PK.stats.name(k), 40), 29, y + 1, k.hp > 0 ? t.text : t.dim, t.shadow);
       F().right(ctx, 'Lv' + k.level, 95, y + 1, t.dim);
     }
     if (this.scroll > 0) F().draw(ctx, '▲', 86, 25, t.hi);
