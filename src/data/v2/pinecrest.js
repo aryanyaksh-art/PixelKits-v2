@@ -541,7 +541,7 @@
       panel: { at: [12, 3], sprite: 'panel', noTurn: true, talk: 'pcg_panel' }
     },
     eventsAt: guardRow(1, 'pcgym_2', 't2'),
-    warpsAt: [[7, 0, 'pc_gym3', 7, 8, 'up']],
+    warpsAt: [[7, 0, 'pc_gym3', 7, 8, 'up'], [7, 8, 'pc_gym1', 7, 7, 'down']],
     onLose: pcgOnLose
   });
 
@@ -561,7 +561,7 @@
     entry: [7, 8],
     tileText: { y: 'Rails for the challenge minecart.' },
     npcs: { memory: { at: [1, 8], sprite: 'echo', note: 4, noTurn: true, talk: 'pcg_memory' } },
-    warpsAt: [[7, 0, 'pc_gym4', 7, 8, 'up']],
+    warpsAt: [[7, 0, 'pc_gym4', 7, 8, 'up'], [7, 8, 'pc_gym2', 7, 8, 'down']],
     onStep: async function (w, x, y) {
       if (y < 1 || y > 7 || x < 1 || x > 13 || safe(x, y)) return false;
       if (PK.audio) PK.audio.sfx('smash');
@@ -592,6 +592,7 @@
     ],
     entry: [7, 8],
     exit: { map: 'pinecrest', x: 19, y: 13 },
+    warpsAt: [[6, 8, 'pc_gym3', 7, 8, 'down']],
     npcs: {
       harrow: { at: [7, 3], sprite: 'warden1', dir: 'down', talk: 'pcg_warden' },
       wall: { at: [7, 5], sprite: 'pickwall', noTurn: true, cond: notFlag('pcg_pick'), talk: 'pcg_pickwall' },
