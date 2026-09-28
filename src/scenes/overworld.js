@@ -1174,6 +1174,11 @@
     PK.clearScenes();
     PK.linkMaps();
     var st = PK.game.state;
+    // a save can point at a map that no longer exists after an update (an old area got renamed
+    // or removed) — land safely at the game's own start rather than crashing to a black screen
+    if (!PK.MAPS[st.player.map]) {
+      st.player.map = 'bh_home2f'; st.player.x = 1; st.player.y = 3; st.player.dir = 'down'; st.player.surf = false;
+    }
     PK.push(new Overworld());
     W.busy = 0;
     W.load(st.player.map, st.player.x, st.player.y, st.player.dir);
