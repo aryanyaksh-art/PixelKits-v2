@@ -2,34 +2,28 @@
 
 **A retro creature-collecting RPG that runs in your browser.**
 
-> **v2 is a full rebuild in progress:** a brand-new roster with a unique design for every Kit, bigger hand-built towns and routes, gyms with their own challenges, and a reworked story. The original game stays at https://github.com/aryanyaksh-art/PixelKits. The feature list below describes v1 and will be rewritten as v2 takes shape.
+**▶ Play:** https://aryanyaksh-art.github.io/PixelKits-v2/
 
-Explore the land of **Lumora**, catch and raise **110 original Kits**, challenge **8 Gym Wardens**, stop the **Hollow Syndicate**, climb **Crown Summit** to face the **High Council** and the **Champion** — then sail to the secret **Moonlit Isles** and uncover the secrets of **Starfall**.
+PixelKits v2 is a full rebuild of [PixelKits](https://github.com/aryanyaksh-art/PixelKits): a brand-new roster where every Kit has its own hand-drawn design, big hand-built towns and routes, gyms with their own challenges, and a new story. It is being built town by town and is still in progress.
 
-PixelKits is inspired by the classic handheld monster-collecting RPGs of the late '90s and early 2000s. Every creature, character, place, move, item, sprite, tile, sound and song in it was made from scratch for this project.
-
-**▶ Play:** https://aryanyaksh-art.github.io/PixelKits/
+Every creature, character, place, move, item, sprite, tile, sound and song in it was made from scratch for this project.
 
 ---
 
-## Features
+## What's in it so far
 
-- **110 original Kits** across 16 types (Plain, Blaze, Tide, Leaf, Volt, Frost, Brawl, Venom, Terra, Gale, Mind, Swarm, Shade, Lumen, Metal, Wyrm), with 2- and 3-stage evolutions by level, by elemental shard, or by time of day. Rare **Prism** color variants (1 in 512).
-- **Deep battle system**: single and **double battles** (2 vs 2, with targeting and moves that hit both foes), **32 abilities**, **25 temperaments** (+10% / -10% stat natures), hidden **genes** and **Training Points** earned from battles, type matchups, critical hits, status conditions, stat stages, priority, multi-hit, recoil, drain, switching, items and catching.
-- **Three regions** — Verdant Vale, Sunscar Coast and Frostcrown Highlands — plus the Crown Summit League, 85 maps in all: towns, trails, forests, caves, a volcano, a desert, an ice cavern, a villain tower and ancient ruins.
-- **Secret areas**: the Hidden Hollow and Glacier Grotto caves, and the post-game **Moonlit Isles** (ferry from Saltmarsh) with 10 island-only Kits, a new Syndicate story and a Moon Guardian.
-- **Wildwood Reserve** safari park: 30 Safari Capsules, 500 steps, Snacks and Claps instead of battling.
-- **8 Gyms** with themed puzzles, **93 Keepers** who spot you from a distance (some in pairs for double battles), a rival who grows with you, the **Hollow Syndicate**, the **High Council** of four and the **Champion**.
-- **Rally Bell** rematches (keepers come back stronger), a **Recall Master** who re-teaches forgotten moves, stat **Roots** and **Boost Candy**.
-- **Lumora Map** that shows where you are; the **Wayfinder** flies you to any town you've visited.
-- **Trail Bike**, running (hold B), Machete / Pickaxe / Raft field tools, a Seeker Lens for hidden items, Exit Cords for caves. Cleared bushes and rocks stay cleared.
-- **Day/night cycle** from your real clock — some Kits only appear at night or in the morning.
-- **Move details everywhere**: a move card when learning, a full move screen (type, power, accuracy, charges, description) when choosing what to forget, descriptions in the battle move menu, shops, Skill Discs and the Recall Master.
-- **Edit your Kits** (party menu → EDIT, or the Name Sage in Pinecrest): rename, reorder or forget moves, and pick one of 9 color tints.
-- **Menus**: party, 4-page summary, bag with pockets, KitLog, shops, clinics, storage terminal, keeper card, options.
-- **3 save files**, plus **export/import save codes** to move a save between devices.
-- **Original chiptune soundtrack** (30 tracks) and sound effects synthesized live with WebAudio, and a unique procedural cry for every Kit.
-- **Touch controls** on phones and tablets.
+- **Brookhollow**, a riverside mill village, starting on the night of a flood. Pull your first Kit out of the river, then help the village recover.
+- **Willow Trail**, a long river road with a reservoir, meadows, a forest, a weir and a hidden cave.
+- **Pinecrest**, a whole mountain: foothills, Base Camp, Miners' Row, the High Ledge and a snowy summit, with six caves (one pitch black), a mine and a crystal grotto.
+- **The Pinecrest Challenge Hall**: boulder pushing, minecart switches, a memory floor and a pickaxe wall, each its own room, with a miner to beat between each. Once you walk in, you can't leave until you win.
+- **48 original Kits** so far (the goal is 151), mostly in 3-stage evolution lines, each with its own design.
+- **Quests**: a main story per town plus side quests, tracked in a quest bar and a QUESTS menu.
+- **A customizable player** (body, skin, hair, hat and outfit colors) and unique looks for the townsfolk.
+- **Every building can be entered**, with multi-room, multi-floor interiors, food stalls and shops.
+- **Fast day/night cycle** (a full day is about 20 minutes of play). Some Kits only come out at night.
+- **Original chiptune music** for each situation: towns, routes, caves, cutscenes, gyms and battles.
+- **Battles** in singles and doubles, with abilities, temperaments, status, held items, catching and evolution. The foe's types are shown in battle.
+- **Region map** that scrolls with the world, fishing, 3 save files, and touch controls on phones and tablets.
 
 ## Controls
 
@@ -47,10 +41,7 @@ On touch devices an on-screen D-pad and buttons appear automatically.
 
 ## Running locally
 
-No build step and no dependencies. Either:
-
-- open `index.html` directly in a browser, or
-- run the included dev server and visit http://localhost:8765:
+No build step and no dependencies. Either open `index.html` in a browser, or run the dev server and visit http://localhost:8765:
 
 ```bash
 python tools/serve.py
@@ -59,35 +50,31 @@ python tools/serve.py
 ## Development tools
 
 ```bash
-node tools/validate.mjs   # checks all data: maps, warps, edges, reachability, trainers, items, music
-node tools/sim.mjs 3000   # headless battle simulator (stress test + balance numbers)
-node tools/balance.mjs    # typical player team vs every boss
-node tools/npcblock.mjs   # finds trainers/NPCs that block a path when standing at their posts
-node tools/namecheck.mjs  # originality check of every name (reference lists kept outside the repo)
-node tools/namecheck.mjs  # originality check of every name (reference lists kept outside the repo)
+node tools/validate.mjs    # checks all data: maps, warps, edges, reachability, trainers, items, music
+node tools/npcblock.mjs    # finds NPCs that block a path when standing at their posts
+node tools/propcheck.mjs   # checks that furniture never blocks entrances, exits or stairs
+node tools/namecheck.mjs   # originality check of every name (reference lists kept outside the repo)
+node tools/balance.mjs     # a typical player team vs each boss (win rates)
+node tools/sim.mjs 2000    # headless battle stress test
+node tools/bump.mjs        # stamps script links with a version so browsers load new files after a push
 ```
 
-Debug mode: open `index.html?debug=1` for a **DEBUG** entry in the in-game menu (warp, heal, levels, items) and press <kbd>`</kbd> to toggle 4× speed. Art galleries: `?gallery=kits`, `?gallery=tiles`, `?gallery=chars`, `?gallery=buildings`.
+Debug mode: open `index.html?debug=1` for a **DEBUG** entry in the in-game menu (warp, heal, levels, items) and press <kbd>`</kbd> to toggle 4× speed. `?gallery=designs` shows every Kit design.
 
 ## Project layout
 
 ```
 index.html, style.css
-src/engine/   loop & scene stack, input, renderer & effects, bitmap font, RNG, chiptune audio
-src/gfx/      pixel-art builder, tiles, buildings, characters, Kit art generator, battle effects
-src/data/     types, moves, Kits, abilities, items, trainers, music, maps (world1-4), story scripts
-src/systems/  Kit stats/EXP, battle rules, game state & saving
-src/scenes/   overworld, battle, menus, region map, title/intro/credits, debug
-tools/        dev server, validator, simulators
+src/engine/   loop and scene stack, input, renderer and effects, bitmap font, RNG, chiptune audio
+src/gfx/      pixel-art builder, tiles, buildings, furniture, characters, Kit designs, battle effects
+src/data/     types, moves, Kits, abilities, items, trainers, music, map loader
+src/data/v2/  the world, one file per area (brookhollow, willow, pinecrest)
+src/systems/  Kit stats and EXP, battle rules, game state and saving, quests
+src/scenes/   overworld, battle, menus, region map, minigames, title, debug
+tools/        dev server, validators, simulators
 ```
 
-## Handoff
-
-See [HANDOFF.md](HANDOFF.md) for a full technical and design handoff (architecture, data formats, tools, originality rules, revamp ideas).
-
-## Originality
-
-See [ORIGINALITY.md](ORIGINALITY.md) for how PixelKits keeps its content original.
+See [HANDOFF.md](HANDOFF.md) for the full technical and design handoff, and [ORIGINALITY.md](ORIGINALITY.md) for how the game keeps its content original.
 
 ## License
 

@@ -6,18 +6,13 @@ const RUNS = +(process.argv[2] || 200);
 
 // [boss, player level, player team (species)] - team grows through the game
 const plan = [
-  ['warden1', 12, [4, 10]],
-  ['warden2', 17, [5, 11, 21]],
-  ['warden3', 22, [5, 11, 22, 17]],
-  ['warden4', 27, [5, 11, 22, 18, 49]],
-  ['warden5', 32, [5, 11, 22, 18, 49, 28]],
-  ['warden6', 37, [6, 11, 22, 18, 49, 28]],
-  ['director', 41, [6, 11, 22, 18, 49, 28]],
-  ['warden7', 44, [6, 11, 22, 18, 49, 67]],
-  ['warden8', 48, [6, 11, 22, 18, 49, 67]],
-  ['council1', 53, [6, 11, 22, 18, 49, 67]],
-  ['council4', 56, [6, 11, 22, 18, 49, 67]],
-  ['champion', 58, [6, 11, 22, 18, 49, 67]]
+  ['cinder_1', 6, [4]],
+  ['sibling1', 7, [4, 10]],
+  ['sibling2', 12, [4, 10, 12]],
+  ['pc_warden', 15, [4, 10, 12, 28]],
+  ['sibling3', 15, [4, 10, 12, 28]],
+  ['cinder_3', 14, [4, 10, 12, 28]],
+  ['elder_morrow', 17, [4, 10, 12, 28, 40]]
 ];
 
 function battle(pTeam, eTeam, ai) {
@@ -36,16 +31,18 @@ function battle(pTeam, eTeam, ai) {
 
 for (const [boss, lvl, team] of plan) {
   const tr = PK.TRAINERS[boss];
+  if (!tr) { console.log(boss, '- missing trainer, skipped'); continue; }
   let wins = 0;
   for (let r = 0; r < RUNS; r++) {
     // rotate the starter line across the three choices (Blaze 4-6, Leaf 1-3, Tide 7-9)
     const shift = [0, -3, 3][r % 3];
     const t2 = team.map((id, i) => i === 0 ? id + shift : id);
     const pTeam = t2.map((id, i) => PK.stats.create(id, lvl + (i === 0 ? 2 : 0), { noPrism: true }));
-    const et = typeof tr.team === 'function' ? tr.team({ flags: { starter: 4 } }) : tr.team;
+    const flags = { starter: 4 };
+    const et = typeof tr.team === 'function' ? tr.team({ flags }) : tr.team;
     const eTeam = et.map(e => PK.stats.create(e[0], e[1], { noPrism: true, genes: 12 }));
     if (battle(pTeam, eTeam, tr.ai)) wins++;
   }
   const pct = Math.round(wins / RUNS * 100);
-  console.log(`${boss.padEnd(10)} player Lv${lvl} x${team.length}  win rate ${String(pct).padStart(3)}%  ${pct < 45 ? '<-- hard' : pct > 95 ? '<-- easy' : ''}`);
+  console.log(`${boss.padEnd(12)} player Lv${lvl} x${team.length}  win rate ${String(pct).padStart(3)}%  ${pct < 45 ? '<-- hard' : pct > 95 ? '<-- easy' : ''}`);
 }
