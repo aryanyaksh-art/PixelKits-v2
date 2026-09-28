@@ -436,7 +436,7 @@
       'WW..T.................T.WW',
       'WW......................WW',
       'WWW.....WWW.....WWW....WWW',
-      'WWWW...WWWWW...WWWWW..WWWW',
+      'WWWW...WWWWW...WWWWW...WWW',
       'WWWWW..............WWW..WW',
       'WWWWWWWWWWWWWWWWWWWWW..WWW',
       'WWWWWWWWWWWWWWWWWWWWWWOWWW'
