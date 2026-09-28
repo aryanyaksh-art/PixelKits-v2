@@ -258,7 +258,7 @@
     for (var s = 0; s < 30; s += 5) a.f(((s / 5) | 0) % 2 ? '#fcfcfc' : col, 1 + s + 1, 10, 3, 1);
     a.f(sh(col, 0.3), 1, 4, 30, 1);
     a.box('#a8743e', 1, 20, 30, 11); a.f('#c8925a', 1, 20, 30, 2);
-    var palette = { fruit: ['#e03a3a', '#f8c030', '#6ac040', '#f07a2a'], fish: ['#9ab0c8', '#c8d8e8', '#7890a8', '#b0c4d8'], bread: ['#d88a3a', '#f0c070', '#b8682a', '#e8a850'], flowers: ['#f070b0', '#f8e060', '#a070e0', '#ffffff'] }[goods] || ['#e03a3a'];
+    var palette = { fruit: ['#e03a3a', '#f8c030', '#6ac040', '#f07a2a'], fish: ['#9ab0c8', '#c8d8e8', '#7890a8', '#b0c4d8'], bread: ['#d88a3a', '#f0c070', '#b8682a', '#e8a850'], flowers: ['#f070b0', '#f8e060', '#a070e0', '#ffffff'], milk: ['#fcfcfc', '#e8e0d0', '#f4ecd8', '#fcfcfc'] }[goods] || ['#e03a3a'];
     for (var g = 0; g < 7; g++) { var gx = 3 + g * 4, gc = palette[g % palette.length]; a.f(sh(gc, -0.4), gx, 17, 4, 3); a.f(gc, gx, 16, 3, 3); a.p(sh(gc, 0.4), gx, 16); }
     return a.c;
   } };
@@ -432,6 +432,216 @@
     a.line('#c8a060', 21, 36, 21, 80, 1); a.line('#c8a060', 27, 36, 27, 80, 1);
     for (var y = 40; y < 80; y += 5) a.f('#8a5a30', 21, y, 7, 2);
     a.f(OUT, 20, 22, 10, 13); a.f('#5a3a22', 21, 23, 8, 12);
+    return a.c;
+  } };
+
+  // ================================================================ Pinecrest
+  // Steep A-frame chalet with a gable balcony
+  KINDS.chalet = { w: 4, h: 4, door: 1, anim: true, draw: function (o) {
+    var a = new Art(64, 64), roof = o.roof || '#6a3a2e', wall = o.color || '#9a6a3a';
+    a.chimney(46, 6, 16, '#7a7068', true, o.frame);
+    // gable face of planks
+    a.x.fillStyle = OUT; a.x.beginPath(); a.x.moveTo(5, 46); a.x.lineTo(32, 8); a.x.lineTo(59, 46); a.x.fill();
+    a.x.fillStyle = sh(wall, 0.12); a.x.beginPath(); a.x.moveTo(8, 45); a.x.lineTo(32, 11); a.x.lineTo(56, 45); a.x.fill();
+    for (var x = 12; x < 54; x += 5) a.f(sh(wall, -0.18), x, 14 + Math.abs(32 - x) * 1.35, 1, 40);
+    a.win(26, 22, 12, 10, { frame: '#f4ecd8' });
+    // log ground floor
+    a.f(OUT, 4, 40, 56, 24);
+    for (var y = 41; y < 62; y += 4) { a.f(wall, 5, y, 54, 4); a.f(sh(wall, 0.2), 5, y, 54, 1); a.f(sh(wall, -0.3), 5, y + 3, 54, 1); }
+    // balcony rail across the gable
+    a.f(OUT, 10, 36, 44, 3); a.f('#c8925a', 11, 37, 42, 1);
+    for (var r = 12; r < 53; r += 4) a.f('#7a4a26', r, 38, 1, 3);
+    // roof edges sweeping almost to the ground
+    a.line(OUT, 32, 3, 0, 48, 8); a.line(OUT, 32, 3, 64, 48, 8);
+    a.line(roof, 32, 5, 1, 47, 5); a.line(roof, 32, 5, 63, 47, 5);
+    a.line(sh(roof, 0.3), 32, 4, 2, 45, 1); a.line(sh(roof, 0.3), 32, 4, 62, 45, 1);
+    if (o.snow) { a.line('#ffffff', 32, 2, 4, 41, 2); a.line('#ffffff', 32, 2, 60, 41, 2); }
+    a.win(40, 47, 12, 9, { box: true, shutters: '#3e6e4e' });
+    a.door(18, 49, 'green');
+    if (o.icon) a.iconSign(o.icon, 38, 18);
+    a.foundation(4, 61, 56);
+    return a.c;
+  } };
+
+  // Red goat barn: big cross-braced doors, hayloft and a goat weathervane
+  KINDS.barn = { w: 6, h: 4, door: 2, draw: function (o) {
+    var a = new Art(96, 64), roof = o.roof || '#5a5a64', wall = '#b8483a';
+    a.line(OUT, 48, 0, 48, 8, 1);
+    PK.drawIcon && PK.drawIcon(a, 'goat', 42, -1);
+    a.roof(0, 6, 96, 26, roof, 'slate', { inset: 12 });
+    a.planks(wall, 3, 30, 90, 34);
+    a.f('#f4f0e4', 3, 30, 90, 2);
+    // hayloft
+    a.f(OUT, 39, 12, 18, 15); a.f('#f4f0e4', 40, 13, 16, 13); a.f('#4a2a20', 42, 15, 12, 10); a.f('#e8c860', 42, 20, 12, 5); a.f('#c8a040', 44, 21, 1, 3); a.f('#c8a040', 49, 22, 1, 3);
+    // big doors (walk in at the left half)
+    a.f(OUT, 29, 37, 38, 27); a.f('#f4f0e4', 30, 38, 36, 26);
+    [[31, 18], [49, 16]].forEach(function (d) {
+      a.f(wall, d[0], 40, d[1], 24);
+      a.line('#f4f0e4', d[0], 40, d[0] + d[1] - 1, 63, 2); a.line('#f4f0e4', d[0] + d[1] - 1, 40, d[0], 63, 2);
+    });
+    a.f('#3a2418', 33, 49, 14, 15);
+    a.win(8, 40, 10, 9, { frame: '#f4f0e4' }); a.win(76, 40, 10, 9, { frame: '#f4f0e4' });
+    a.iconSign('milk', 12, 52);
+    a.foundation(3, 61, 90);
+    return a.c;
+  } };
+
+  // Climbing gear shop: stone base, timber top, coiled rope and a pickaxe on the wall
+  KINDS.gearshop = { w: 5, h: 4, door: 1, draw: function (o) {
+    var a = new Art(80, 64), roof = o.roof || '#3e5a4a';
+    a.roof(0, 4, 80, 24, roof, 'slate');
+    a.timber('#e8dcc4', '#5e3a20', 3, 26, 74, 16);
+    a.win(10, 30, 10, 8, {}); a.win(58, 30, 10, 8, {});
+    a.stone('#a8a090', 3, 41, 74, 23);
+    a.win(40, 44, 30, 12, { cross: false });
+    a.ring('#c8a060', 47, 50, 4, 2); a.f('#7a7e8a', 55, 46, 6, 2); a.line('#8a5a30', 58, 47, 62, 55, 1); a.f('#e84848', 64, 50, 4, 5);
+    a.ring(OUT, 32, 33, 5.5); a.ring('#c8a060', 32, 33, 4.5, 2); a.ring('#a07a40', 32, 33, 3, 2.2);
+    a.iconSign('rope', 26, 44);
+    a.door(18, 49, 'brown');
+    a.foundation(3, 61, 74);
+    return a.c;
+  } };
+
+  // Mountain inn: three storeys, balconies, dormers and lanterns
+  KINDS.inn = { w: 8, h: 6, door: 3, anim: true, draw: function (o) {
+    var a = new Art(128, 96), roof = o.roof || '#7a3a30';
+    a.chimney(100, 2, 18, '#8a7a6a', true, o.frame);
+    a.chimney(18, 4, 14, '#8a7a6a', true, (o.frame || 0) + 1);
+    a.roof(0, 8, 128, 30, roof, 'slate', { inset: 8 });
+    [[30, 14], [82, 14]].forEach(function (d) { a.box('#efe6d2', d[0], d[1], 16, 14); a.f(sh(roof, -0.1), d[0] - 2, d[1] - 3, 20, 3); a.f(OUT, d[0] - 2, d[1] - 4, 20, 1); a.win(d[0] + 3, d[1] + 3, 10, 9, {}); });
+    a.timber('#efe6d2', '#5e3a20', 3, 36, 122, 26);
+    [10, 36, 76, 102].forEach(function (x) { a.win(x, 42, 14, 11, { shutters: '#7a3a30' }); });
+    a.f(OUT, 3, 58, 122, 4); a.f('#a8743e', 3, 59, 122, 2);
+    for (var r = 6; r < 124; r += 5) a.f('#6a4424', r, 60, 1, 4);
+    a.stone('#b0a898', 3, 62, 122, 34);
+    a.win(10, 68, 16, 12, { box: true }); a.win(98, 68, 16, 12, { box: true }); a.win(74, 68, 16, 12, { box: true });
+    [[42, 70], [66, 70]].forEach(function (l) { a.f(OUT, l[0], l[1], 5, 7); a.f(['#f8d870', '#ffe890'][(o.frame || 0) % 2], l[0] + 1, l[1] + 1, 3, 5); });
+    a.iconSign('bed', 28, 84);
+    a.door(50, 81, 'arch');
+    a.foundation(3, 93, 122);
+    return a.c;
+  } };
+
+  // Bathhouse over a hot spring: wide low roof, round windows, steam from the vents and an outdoor pool
+  KINDS.bathhouse = { w: 7, h: 4, door: 3, anim: true, draw: function (o) {
+    var a = new Art(112, 64), roof = o.roof || '#3e6e8a', fr = o.frame || 0;
+    [[24, 2], [60, 0], [96, 4]].forEach(function (s, i) {
+      var q = (fr + i) % 3;
+      a.ring('rgba(240,244,250,0.8)', s[0] + q, s[1] + 8 - q, 3.4); a.ring('rgba(240,244,250,0.6)', s[0] + 3 - q, s[1] + 3 - q, 2.4);
+    });
+    a.roof(0, 8, 112, 20, roof, 'tile', { inset: 6 });
+    a.planks('#c8a070', 3, 26, 86, 38);
+    [14, 32].forEach(function (x) { a.roundWin(x, 38, 5); });
+    // curtained doorway
+    a.f(OUT, 45, 34, 26, 30); a.f('#3a2418', 46, 35, 24, 29);
+    for (var c = 0; c < 3; c++) { a.f('#3e6e8a', 47 + c * 8, 36, 7, 12); a.f('#5a8aa8', 47 + c * 8, 36, 7, 2); }
+    a.iconSign('spring', 25, 48);
+    // outdoor pool with rocks
+    a.f(OUT, 89, 44, 22, 20); a.f('#8a8078', 90, 45, 20, 18);
+    a.f('#4a8ad0', 92, 48, 16, 13); a.f('#8ac8f0', 92, 48, 16, 2); a.f('#d8f0ff', 94 + fr * 3, 52, 4, 1);
+    a.ring('rgba(240,244,250,0.7)', 97 + fr, 43 - fr, 2.5); a.ring('rgba(240,244,250,0.6)', 104 - fr, 41 - fr, 2);
+    a.foundation(3, 61, 86);
+    return a.c;
+  } };
+
+  // Miners' hall: a long log hall with crossed picks, a lantern and a helmet on a peg
+  KINDS.miners = { w: 7, h: 4, door: 2, anim: true, draw: function (o) {
+    var a = new Art(112, 64), roof = o.roof || '#4a4a52';
+    a.chimney(88, 2, 16, '#7a7068', true, o.frame);
+    a.roof(0, 6, 112, 22, roof, 'slate', { inset: 5 });
+    a.f(OUT, 2, 26, 108, 38);
+    for (var y = 27; y < 62; y += 4) { a.f('#7a5634', 3, y, 106, 4); a.f('#9a7044', 3, y, 106, 1); a.f('#5a3e24', 3, y + 3, 106, 1); a.ring('#b89060', 3, y + 2, 1.5); a.ring('#b89060', 109, y + 2, 1.5); }
+    a.win(8, 34, 14, 10, { shutters: '#4a4a52' }); a.win(62, 34, 14, 10, { shutters: '#4a4a52' }); a.win(88, 34, 14, 10, { shutters: '#4a4a52' });
+    a.iconSign('pick', 48, 32);
+    a.f(OUT, 25, 40, 5, 7); a.f(['#f8d870', '#ffe890'][(o.frame || 0) % 2], 26, 41, 3, 5);
+    a.ring(OUT, 84, 52, 4); a.ring('#e8b030', 84, 52, 3); a.f('#e8b030', 80, 52, 9, 2); a.f('#fff4c0', 83, 49, 2, 2);
+    a.door(34, 49, 'brown');
+    a.foundation(3, 61, 106);
+    return a.c;
+  } };
+
+  // Mine entrance: timber-framed portal cut into the rock, rails running inside
+  KINDS.mine = { w: 4, h: 3, door: 1, anim: true, draw: function (o) {
+    var a = new Art(64, 48), fr = o.frame || 0;
+    var pg = new PK.PG(64, 48); pg.lx = -0.5; pg.ly = -0.7;
+    pg.ellipse(32, 30, 34, 26, 0); pg.ellipse(8, 36, 12, 14, 0); pg.ellipse(56, 36, 12, 14, 0);
+    a.x.drawImage(pg.render([PK.color.ramp('#847a70')]), 0, 0);
+    a.f('#5a524a', 8, 20, 3, 1); a.f('#5a524a', 50, 16, 4, 1); a.f('#5a524a', 44, 40, 3, 1);
+    a.f('#141018', 15, 21, 22, 27);
+    a.f(OUT, 11, 18, 5, 30); a.f('#7a5230', 12, 19, 3, 29); a.f(OUT, 36, 18, 5, 30); a.f('#7a5230', 37, 19, 3, 29);
+    a.f(OUT, 9, 15, 34, 5); a.f('#9a6a3a', 10, 16, 32, 3); a.f('#c8925a', 10, 16, 32, 1);
+    a.f('#6a6e7a', 18, 40, 1, 8); a.f('#6a6e7a', 33, 40, 1, 8);
+    for (var t = 41; t < 48; t += 3) a.f('#5a3e24', 17, t, 18, 1);
+    a.f(OUT, 44, 22, 5, 7); a.f(['#f8d870', '#ffe890'][fr % 2], 45, 23, 3, 5); a.f(OUT, 46, 18, 1, 4);
+    return a.c;
+  } };
+
+  // Stonecarver's workshop with a Kit statue on a plinth out front
+  KINDS.carver = { w: 5, h: 3, door: 1, draw: function (o) {
+    var a = new Art(80, 48), roof = o.roof || '#6a6a74';
+    a.roof(0, 2, 58, 16, roof, 'slate', { inset: 4 });
+    a.stone('#c0b8a8', 3, 16, 52, 32);
+    a.win(32, 22, 16, 11, { cross: false });
+    a.f('#a8a098', 36, 27, 4, 5); a.f('#c8c0b4', 42, 25, 3, 7);
+    a.iconSign('chisel', 38, 36);
+    a.door(18, 33, 'brown');
+    a.foundation(3, 45, 52);
+    // statue: a sitting stone goat on a plinth
+    a.box('#a8a098', 60, 36, 16, 10); a.f('#c8c0b4', 60, 36, 16, 2);
+    var pg = new PK.PG(20, 32); pg.lx = -0.5; pg.ly = -0.7;
+    pg.ellipse(11, 24, 7, 6, 0); pg.ellipse(6, 13, 4.5, 4.5, 0); pg.line(8, 9, 11, 3, 0, 1.2, 0.6); pg.line(5, 9, 5, 3, 0, 1.2, 0.6);
+    a.x.drawImage(pg.render([PK.color.ramp('#b8b0a4')]), 58, 6);
+    return a.c;
+  } };
+
+  // Cable car station: big wheel housing, the cable climbing away and a car swaying on it
+  KINDS.cablecar = { w: 5, h: 4, door: 1, anim: true, draw: function (o) {
+    var a = new Art(80, 64), roof = o.roof || '#c84a3a', fr = o.frame || 0;
+    a.line('#3a3a44', 58, 14, 80, 2, 1); a.line('#3a3a44', 58, 18, 80, 6, 1);
+    var cx = 72 - fr, cy = 6 + fr * 0.5;
+    a.line(OUT, cx, cy, cx, cy + 5, 1); a.f(OUT, cx - 6, cy + 5, 12, 9); a.f('#d83a3a', cx - 5, cy + 6, 10, 7); a.f('#8ac8f0', cx - 4, cy + 7, 3, 3); a.f('#8ac8f0', cx + 1, cy + 7, 3, 3);
+    a.box('#8a8e9a', 34, 8, 28, 14); a.ring(OUT, 48, 15, 6); a.ring('#5a5a64', 48, 15, 5, 3); a.ring('#b0b4c0', 48, 15, 2);
+    a.roof(0, 18, 80, 14, roof, 'slate', { inset: 3 });
+    a.plaster('#e8e4dc', 3, 30, 74, 34);
+    a.win(40, 36, 30, 12, { cross: false });
+    a.iconSign('car', 26, 36);
+    a.door(18, 49, 'glass');
+    a.foundation(3, 61, 74);
+    return a.c;
+  } };
+
+  // Ancient summit shrine: stone pillars, steps and a carved rune tablet over the door
+  KINDS.shrine = { w: 5, h: 4, door: 2, draw: function (o) {
+    var a = new Art(80, 64);
+    a.roof(0, 2, 80, 18, o.roof || '#6a7078', 'tile', { inset: 12 });
+    a.line('#ffffff', 14, 4, 66, 4, 2);
+    a.stone('#b8b4ac', 6, 18, 68, 40);
+    [[8, 20], [64, 20]].forEach(function (p) { a.f(OUT, p[0] - 1, p[1], 10, 40); a.f('#d4d0c8', p[0], p[1], 8, 39); a.f('#e8e4dc', p[0], p[1], 2, 39); a.f('#a8a49c', p[0], p[1], 8, 3); });
+    a.f(OUT, 28, 22, 24, 12); a.f('#8a8680', 29, 23, 22, 10);
+    [[31, 25], [36, 28], [41, 25], [46, 27]].forEach(function (r) { a.f('#e8c860', r[0], r[1], 3, 1); a.f('#e8c860', r[0] + 1, r[1] + 1, 1, 3); });
+    a.f('#4a8a4a', 12, 50, 6, 2); a.f('#4a8a4a', 60, 46, 5, 2);
+    a.f(OUT, 32, 37, 16, 21); a.f('#2a2430', 33, 38, 14, 20);
+    a.f('#a8a49c', 26, 58, 28, 3); a.f('#c8c4bc', 22, 61, 36, 3);
+    return a.c;
+  } };
+
+  // Pinecrest rock gym: a stone keep with a mountain emblem, snowy battlements and a mine gantry
+  KINDS.rockgym = { w: 7, h: 5, door: 3, anim: true, draw: function (o) {
+    var a = new Art(112, 80), fr = o.frame || 0;
+    // gantry with a hanging bucket on the right
+    a.f(OUT, 96, 6, 4, 50); a.f('#7a5230', 97, 7, 2, 49); a.f(OUT, 78, 6, 30, 4); a.f('#9a6a3a', 79, 7, 28, 2);
+    a.line('#3a3a44', 104, 9, 104, 24 + fr, 1); a.f(OUT, 100, 24 + fr, 9, 7); a.f('#6a6e7a', 101, 25 + fr, 7, 5);
+    a.stone('#9a948a', 4, 16, 90, 64);
+    for (var b = 4; b < 94; b += 12) { a.f(OUT, b - 1, 10, 9, 7); a.f('#9a948a', b, 11, 7, 6); a.f('#ffffff', b, 10, 7, 2); }
+    a.f('#ffffff', 4, 16, 90, 1);
+    // mountain emblem
+    a.ring(OUT, 49, 36, 13); a.ring('#e8b840', 49, 36, 12); a.ring('#7a5a3a', 49, 36, 10);
+    a.x.fillStyle = '#b8b0a4'; a.x.beginPath(); a.x.moveTo(40, 43); a.x.lineTo(47, 29); a.x.lineTo(51, 35); a.x.lineTo(54, 31); a.x.lineTo(59, 43); a.x.fill();
+    a.x.fillStyle = '#ffffff'; a.x.beginPath(); a.x.moveTo(45, 33); a.x.lineTo(47, 29); a.x.lineTo(49, 32); a.x.fill();
+    [[14, 28], [72, 28]].forEach(function (w) { a.f(OUT, w[0] - 1, w[1] - 1, 10, 16); a.f('#2a2430', w[0], w[1], 8, 14); a.f('#f8d870', w[0] + 2, w[1] + 8, 4, 5); });
+    a.f('#c83a3a', 20, 50, 8, 14); a.f('#c83a3a', 70, 50, 8, 14); a.f('#e8b840', 22, 54, 4, 4); a.f('#e8b840', 72, 54, 4, 4);
+    a.f(OUT, 39, 55, 24, 25); a.f('#3a2a20', 40, 56, 22, 24); a.f('#5a4030', 40, 56, 22, 3);
+    a.foundation(4, 77, 90);
     return a.c;
   } };
 

@@ -56,7 +56,7 @@
           }
           rows[y][x] = '.';
         } else if (c === '#') rows[y][x] = '.';
-        else if (NPC_KEYS.indexOf(c) >= 0) {
+        else if (NPC_KEYS.indexOf(c) >= 0 && m.npcs && m.npcs[c] && !m.npcs[c].at) {
           var nd = m.npcs && m.npcs[c];
           if (!nd) throw new Error('Map ' + m.id + ': no npc for marker ' + c + ' at ' + x + ',' + y);
           nd = Object.assign({ key: c }, nd);

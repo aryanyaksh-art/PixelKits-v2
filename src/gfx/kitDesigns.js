@@ -867,6 +867,484 @@
     }
   };
 
+  // ================================================================ Pinecrest mountain
+  // ===== cliff goat: stone-browed kid -> curl-horned ram -> peak-horned summit goat (Terra -> Terra -> Terra/Brawl) =====
+  DESIGNS.crampling = {
+    pal: { fur: '#c8b490', tuft: '#f2eadc', rock: '#8e8a86', hoof: '#4a3a30', iris: '#6a4a2a' },
+    draw: function (d) {
+      d.el(47, 42, 3, 2.4, 'tuft');
+      d.ln(43, 47, 44, 59, 'fur', 2.2, 1.8); d.ln(39, 48, 39, 59, 'fur', 2.2, 1.8);
+      d.el(44, 60, 2.4, 1.5, 'hoof'); d.el(39, 60, 2.4, 1.5, 'hoof');
+      d.el(38, 45, 10, 7, 'fur');
+      d.ln(29, 48, 28, 59, 'fur', 2.3, 1.9); d.ln(33, 49, 33, 59, 'fur', 2.3, 1.9);
+      d.el(28, 60, 2.5, 1.5, 'hoof'); d.el(33, 60, 2.5, 1.5, 'hoof');
+      d.el(29, 45, 5, 5.5, 'tuft');
+      d.po([[28, 31], [37, 29], [31, 35]], 'fur', { edge: true });
+      d.el(24, 35, 8, 7, 'fur');
+      d.el(17.5, 38, 4.5, 3.5, 'tuft');
+      d.po([[17, 41], [21, 41], [19, 46]], 'tuft');
+      d.po([[19, 29], [20, 22], [24, 29]], 'rock', { edge: true });
+      d.po([[24, 29], [27, 23], [28.5, 30]], 'rock', { edge: true });
+      d.el(23.5, 30, 5.5, 2.4, 'rock', { edge: true });
+      if (!d.back) {
+        d.eye(22, 34, 2.4, 2.7, { look: [-0.4, 0] });
+        d.px(14, 37, 'ink'); d.ln(15, 40, 18, 40.5, 'mouth', 0.4);
+      }
+    }
+  };
+  DESIGNS.ledgeram = {
+    pal: { wool: '#ddd0b4', fur: '#a08868', rock: '#827c76', rockd: '#58524e', hoof: '#3e3028', iris: '#c89030' },
+    draw: function (d) {
+      d.ln(46, 46, 47, 59, 'fur', 3, 2.4); d.ln(41, 47, 41, 59, 'fur', 3, 2.4);
+      d.el(47, 60, 3, 1.7, 'hoof'); d.el(41, 60, 3, 1.7, 'hoof');
+      d.el(52, 37, 3, 2.6, 'wool');
+      d.el(40, 40, 14, 10, 'wool');
+      // stone shoulder plates
+      d.po([[30, 31], [40, 28], [47, 31], [43, 36], [33, 37]], 'rock', { edge: true });
+      d.ln(34, 33, 42, 31, 'rockd', 0.4);
+      // front legs with stone knee guards
+      d.ln(30, 46, 29, 59, 'fur', 3.2, 2.5); d.ln(35, 47, 35, 59, 'fur', 3.2, 2.5);
+      d.el(29, 52, 2.8, 2.2, 'rock', { edge: true }); d.el(35, 53, 2.8, 2.2, 'rock', { edge: true });
+      d.el(28.5, 60, 3.2, 1.7, 'hoof'); d.el(35, 60, 3.2, 1.7, 'hoof');
+      // neck, head, curled stone horn
+      d.ln(28, 36, 22, 30, 'fur', 5, 4.5);
+      d.el(19, 28, 7.5, 7, 'fur');
+      d.el(12, 32, 5, 4, 'fur');
+      d.el(26, 24, 7.5, 7.5, 'rock', { edge: true });
+      d.el(26, 24, 4.6, 4.6, 'rockd');
+      d.el(25.5, 24.5, 2.4, 2.4, 'rock');
+      d.po([[17, 21], [21, 16], [23, 22]], 'rock', { edge: true });
+      if (!d.back) {
+        d.eye(16.5, 27.5, 2.2, 2.4, { look: [-0.5, 0], lid: 0.3, lidMat: 'fur' });
+        d.px(8, 31, 'ink'); d.ln(9, 34.5, 14, 35, 'mouth', 0.4);
+      }
+    }
+  };
+  DESIGNS.peakhorn = {
+    pal: { fur: '#eeeae0', beard: '#b8b0a4', rock: '#6c6872', rockd: '#4a4650', snow: '=#ffffff', hoof: '#2e2830', iris: '#e0a030' },
+    draw: function (d) {
+      d.ln(48, 44, 50, 59, 'fur', 3.4, 2.6); d.ln(43, 45, 43, 59, 'fur', 3.4, 2.6);
+      d.el(50, 60.5, 3.2, 1.6, 'hoof'); d.el(43, 60.5, 3.2, 1.6, 'hoof');
+      d.el(53, 34, 3, 2.5, 'fur');
+      d.el(41, 38, 14, 10, 'fur');
+      // crags along the spine
+      [[34, 28, 4], [40, 27, 5], [47, 28.5, 4]].forEach(function (p) { d.po([[p[0] - p[2], p[1] + 3], [p[0] - 1, p[1] - p[2]], [p[0] + p[2], p[1] + 3]], 'rock', { edge: true }); });
+      // front legs with rock greaves
+      d.ln(31, 44, 30, 59, 'fur', 3.5, 2.7); d.ln(36, 45, 36, 59, 'fur', 3.5, 2.7);
+      d.po([[27, 50], [33, 50], [32.5, 57], [27.5, 57]], 'rock', { edge: true });
+      d.po([[33, 51], [39, 51], [38.5, 57], [33.5, 57]], 'rock', { edge: true });
+      d.el(29.5, 60.5, 3.4, 1.6, 'hoof'); d.el(36, 60.5, 3.4, 1.6, 'hoof');
+      // chest mane, neck, head, beard
+      d.el(29, 40, 7, 8, 'fur');
+      d.ln(29, 34, 21, 22, 'fur', 6, 5);
+      d.el(19, 20, 7, 6.5, 'fur');
+      d.el(11.5, 24, 5.5, 3.6, 'fur');
+      d.po([[10, 26], [18, 26], [14, 37]], 'beard');
+      // two great horns shaped like mountain peaks, snow on the tips
+      d.po([[15, 16], [17, 1], [22, 15]], 'rock', { edge: true });
+      d.po([[20, 15], [27, 2], [27.5, 16]], 'rock', { edge: true });
+      d.po([[16.2, 7], [17, 1], [18.8, 7]], 'snow');
+      d.po([[23.8, 8], [27, 2], [27.3, 8]], 'snow');
+      d.ln(17.5, 8, 19, 14, 'rockd', 0.4); d.ln(25.5, 9, 24.5, 14, 'rockd', 0.4);
+      d.po([[23, 19], [30, 16], [25, 22]], 'fur', { edge: true });
+      if (!d.back) {
+        d.eye(16.5, 19.5, 2, 2.2, { look: [-0.5, 0], lid: 0.35, lidMat: 'fur' });
+        d.px(7, 23, 'ink'); d.ln(8, 26, 13, 26.5, 'mouth', 0.4);
+      }
+    }
+  };
+
+  // ===== boulder beetle: pebble-backed beetle -> boulder-shelled pickaxe beetle (Swarm/Terra) =====
+  DESIGNS.pebbeetle = {
+    pal: { shell: '#a09a90', shelld: '#6e685f', moss: '#6a9a48', body: '#3a3440', leg: '#2a2430', iris: '#e0b040' },
+    draw: function (d) {
+      [[24, 54, 20, 61], [32, 55, 31, 61.5], [42, 54, 46, 61]].forEach(function (l) { d.ln(l[0], l[1], l[2], l[3], 'leg', 1.2, 0.8); });
+      d.el(33, 53, 12, 5.5, 'body');
+      d.el(35, 45, 13.5, 10.5, 'shell');
+      d.speckle('shell', 'shelld', 16, 23, 36, 48, 54, 0.3);
+      d.cv(31, 35.5, 34, 45, 31, 55, 'shelld', 0.45);
+      d.el(40, 38.5, 4, 2, 'moss', { edge: true });
+      d.el(20.5, 50, 5.5, 5, 'body');
+      d.cv(19, 45.5, 16, 38, 11, 38, 'leg', 0.6); d.cv(22, 45.5, 22, 38, 18, 36, 'leg', 0.6);
+      d.el(11, 38, 1.4, 1.4, 'shell'); d.el(18, 36, 1.4, 1.4, 'shell');
+      if (!d.back) {
+        d.eye(18.5, 49.5, 1.9, 2.1, { look: [-0.5, 0] });
+        d.ln(15.5, 53, 18, 53.5, 'mouth', 0.4);
+      }
+    }
+  };
+  DESIGNS.bouldrone = {
+    pal: { shell: '#8c8278', shelld: '#5a524a', crack: '#3a3430', body: '#2e2a36', leg: '#221e28', horn: '#c8bea8', glow: '=#ffb040', moss: '#5a8a40' },
+    draw: function (d) {
+      [[20, 50, 14, 61], [28, 52, 26, 61.5], [44, 52, 47, 61.5], [52, 50, 58, 61]].forEach(function (l) { d.ln(l[0], l[1], l[2], l[3], 'leg', 2, 1.3); d.el(l[2], l[3], 2.2, 1, 'leg'); });
+      d.el(36, 50, 16, 7, 'body');
+      d.el(38, 37, 20, 16, 'shell');
+      d.speckle('shell', 'shelld', 30, 20, 23, 56, 52, 0.28);
+      d.ln(30, 22, 33, 31, 'crack', 0.5); d.ln(33, 31, 29, 38, 'crack', 0.5); d.ln(46, 24, 44, 33, 'crack', 0.5); d.ln(44, 33, 50, 40, 'crack', 0.5);
+      d.el(44, 22, 6, 2.2, 'moss', { edge: true });
+      // head with a pickaxe horn
+      d.el(15, 46, 8, 7, 'body');
+      d.cv(11, 41, 5, 31, 11, 21, 'horn', 2.6, 1.2, { edge: true });
+      d.po([[3, 23], [11, 18], [22, 20], [12, 22.5]], 'horn', { edge: true });
+      d.ln(8, 52, 5, 55, 'horn', 1, 0.5); d.ln(12, 53, 10, 57, 'horn', 1, 0.5);
+      if (!d.back) {
+        d.el(11, 45, 1.8, 1.4, 'glow'); d.el(17.5, 44, 1.8, 1.4, 'glow');
+      }
+    }
+  };
+
+  // ===== cave bat: fuzzy sonar pup -> big-mouthed flier -> stalactite-winged bat (Gale/Shade) =====
+  DESIGNS.echip = {
+    pal: { fur: '#6e5c82', ear: '#f0a8b8', wing: '#4a3e5e', fang: '=#ffffff' },
+    draw: function (d) {
+      d.float = true;
+      d.po([[24, 40], [8, 32], [12, 40], [6, 44], [14, 46], [12, 52], [24, 48]], 'wing', { edge: true });
+      d.po([[40, 40], [56, 32], [52, 40], [58, 44], [50, 46], [52, 52], [40, 48]], 'wing', { edge: true });
+      d.po([[24, 34], [17, 12], [31, 29]], 'fur', { edge: true });
+      d.po([[33, 29], [47, 12], [40, 34]], 'fur', { edge: true });
+      d.po([[25, 31], [19, 17], [29, 29]], 'ear'); d.po([[35, 29], [45, 17], [39, 31]], 'ear');
+      d.el(32, 42, 11, 10.5, 'fur');
+      d.el(27, 54, 1.8, 1.3, 'ear'); d.el(37, 54, 1.8, 1.3, 'ear');
+      if (!d.back) {
+        // eyes squeezed shut: it sees with sound
+        d.cv(25, 40, 27, 38, 29, 40, 'ink', 0.5); d.cv(35, 40, 37, 38, 39, 40, 'ink', 0.5);
+        d.el(32, 45.5, 3, 2.2, 'mouth');
+        d.po([[29.8, 44], [31, 44], [30.4, 46.3]], 'fang'); d.po([[33, 44], [34.2, 44], [33.6, 46.3]], 'fang');
+        d.px(24, 43, 'cheek'); d.px(40, 43, 'cheek');
+      }
+    }
+  };
+  DESIGNS.flittermaw = {
+    pal: { fur: '#5a4a72', wing: '#3a2e50', memb: '#7a5a90', fang: '=#ffffff', ear: '#d890a8', iris: '#f0d040' },
+    draw: function (d) {
+      d.float = true;
+      d.po([[26, 30], [2, 14], [4, 30], [1, 36], [8, 40], [6, 48], [18, 44], [24, 50]], 'memb', { edge: true });
+      d.po([[38, 30], [62, 14], [60, 30], [63, 36], [56, 40], [58, 48], [46, 44], [40, 50]], 'memb', { edge: true });
+      [[26, 30, 2, 14], [26, 32, 1, 36], [25, 36, 6, 48]].forEach(function (b) { d.ln(b[0], b[1], b[2], b[3], 'wing', 0.9, 0.5); d.ln(64 - b[0], b[1], 64 - b[2], b[3], 'wing', 0.9, 0.5); });
+      d.el(32, 42, 7.5, 10, 'fur');
+      d.ln(29, 51, 28, 57, 'fur', 1.2); d.ln(35, 51, 36, 57, 'fur', 1.2);
+      d.po([[24, 22], [20, 6], [30, 18]], 'fur', { edge: true }); d.po([[34, 18], [44, 6], [40, 22]], 'fur', { edge: true });
+      d.po([[25, 20], [22, 10], [29, 18]], 'ear'); d.po([[35, 18], [42, 10], [39, 20]], 'ear');
+      d.el(32, 27, 10, 9, 'fur');
+      if (!d.back) {
+        d.eye(27.5, 23, 1.8, 1.8, { look: [0, 0] }); d.eye(36.5, 23, 1.8, 1.8, { look: [0, 0] });
+        d.el(32, 31, 6.5, 4.5, 'mouth');
+        d.el(32, 33.5, 3.5, 1.5, 'tongue');
+        d.po([[27, 27.5], [29, 27.5], [28, 31]], 'fang'); d.po([[35, 27.5], [37, 27.5], [36, 31]], 'fang');
+        d.po([[29.5, 35.5], [31, 35.5], [30.3, 33]], 'fang'); d.po([[33, 35.5], [34.5, 35.5], [33.8, 33]], 'fang');
+      }
+    }
+  };
+  DESIGNS.stalagwing = {
+    pal: { fur: '#40364e', wing: '#2a2238', memb: '#4e3e62', stone: '#8e8898', glow: '=#8ff0ff', fang: '=#ffffff', ear: '#6a4a7a' },
+    draw: function (d) {
+      d.float = true;
+      // wings like a cave ceiling, stalactites hanging from their lower edge
+      [1, -1].forEach(function (s) {
+        function X(x) { return s > 0 ? x : 64 - x; }
+        d.po([[X(28), 26], [X(12), 10], [X(2), 7], [X(4), 22], [X(1), 36], [X(27), 42]], 'memb', { edge: true });
+        d.ln(X(28), 27, X(2), 7, 'wing', 1.2, 0.6); d.ln(X(27), 30, X(4), 22, 'wing', 1, 0.5); d.ln(X(27), 34, X(1), 36, 'wing', 1, 0.5);
+        [[3, 35.5, 6], [9, 37, 9], [15, 38.5, 6], [21, 40, 10]].forEach(function (t) { d.po([[X(t[0] - 2.2), t[1]], [X(t[0]), t[1] + t[2]], [X(t[0] + 2.2), t[1] + 0.8]], 'stone', { edge: true }); });
+        d.po([[X(8), 12], [X(10), 5], [X(12), 13]], 'stone', { edge: true });
+      });
+      d.el(32, 40, 8, 11, 'fur');
+      d.po([[28, 36], [36, 36], [32, 47]], 'stone', { edge: true });
+      d.ln(29, 50, 28, 58, 'fur', 1.3); d.ln(35, 50, 36, 58, 'fur', 1.3);
+      d.el(27.5, 58.5, 2, 1, 'stone'); d.el(36.5, 58.5, 2, 1, 'stone');
+      d.po([[25, 22], [21, 2], [30, 17]], 'fur', { edge: true }); d.po([[34, 17], [43, 2], [39, 22]], 'fur', { edge: true });
+      d.po([[26, 19], [23, 7], [29, 17]], 'ear'); d.po([[35, 17], [41, 7], [38, 19]], 'ear');
+      d.el(32, 24, 9, 8, 'fur');
+      if (!d.back) {
+        d.el(28, 22.5, 2.3, 1.6, 'glow'); d.el(36, 22.5, 2.3, 1.6, 'glow');
+        d.ln(25, 20, 30, 21.5, 'ink', 0.5); d.ln(34, 21.5, 39, 20, 'ink', 0.5);
+        d.ln(28.5, 28, 35.5, 28, 'mouth', 0.5);
+        d.po([[29, 28], [30.4, 28], [29.7, 31]], 'fang'); d.po([[33.6, 28], [35, 28], [34.3, 31]], 'fang');
+      }
+    }
+  };
+
+  // ===== blind cave salamander: wick-tailed newt -> lantern-spotted salamander (Tide -> Tide/Lumen) =====
+  DESIGNS.palewick = {
+    pal: { body: '#f2dce0', belly: '#fff4f0', spot: '#e0a8b8', glow: '=#fff2a0', halo: '=#fffbe8' },
+    draw: function (d) {
+      d.cv(42, 54, 56, 54, 54, 37, 'body', 4, 1.2);
+      d.el(54, 34, 2.2, 3, 'glow'); d.px(54, 31, 'halo');
+      d.ln(26, 56, 24, 60, 'body', 2, 1.6); d.ln(39, 57, 40, 60, 'body', 2, 1.6);
+      d.el(23.5, 60.5, 2.6, 1.4, 'body'); d.el(40.5, 60.5, 2.6, 1.4, 'body');
+      d.el(33, 53, 11, 6.5, 'body');
+      d.el(31, 57, 8, 2.5, 'belly', { clip: function (x, y) { return y > 55; } });
+      d.speckle('body', 'spot', 10, 26, 48, 44, 56, 0.5);
+      d.el(19, 47, 8.5, 7, 'body');
+      d.cv(16, 41, 14, 36, 10, 35, 'body', 0.7, 0.4); d.cv(21, 40.5, 22, 35, 26, 33, 'body', 0.7, 0.4);
+      d.el(10, 35, 1.1, 1.1, 'glow'); d.el(26, 33, 1.1, 1.1, 'glow');
+      if (!d.back) {
+        // no eyes at all, just two pale spots
+        d.px(15, 45, 'spot'); d.px(22, 45, 'spot');
+        d.cv(13, 50, 18, 52.5, 23, 50, 'mouth', 0.45);
+        d.px(12, 48, 'cheek'); d.px(25, 48, 'cheek');
+      }
+    }
+  };
+  DESIGNS.gloamander = {
+    pal: { body: '#b8a8d0', belly: '#e8e0f4', spot: '=#9af0ff', glow: '=#fff2a0', frill: '#7a6a98' },
+    draw: function (d) {
+      d.cv(46, 50, 63, 46, 58, 27, 'body', 5, 1.6);
+      d.el(58, 24, 3, 4, 'glow');
+      d.ln(24, 52, 20, 60, 'body', 3, 2.4); d.el(19, 61, 3.2, 1.4, 'body');
+      d.ln(44, 53, 47, 60, 'body', 3, 2.4); d.el(48, 61, 3.2, 1.4, 'body');
+      d.el(34, 48, 15, 8.5, 'body');
+      d.el(32, 53.5, 11, 3, 'belly', { clip: function (x, y) { return y > 52; } });
+      d.ln(30, 53, 28, 60, 'body', 2.6, 2); d.el(27.5, 61, 3, 1.3, 'body');
+      d.po([[20, 34], [24, 26], [27, 36]], 'frill', { edge: true }); d.po([[24, 36], [30, 30], [30, 39]], 'frill', { edge: true });
+      d.el(17, 40, 10, 7.5, 'body');
+      [[26, 41], [32, 40], [38, 40.5], [44, 42], [50, 44.5], [56, 40]].forEach(function (p) { d.el(p[0], p[1], 1.5, 1.3, 'spot'); });
+      d.el(14, 35.5, 1.8, 1.8, 'spot');
+      if (!d.back) {
+        d.cv(8, 43, 14, 46, 21, 44, 'mouth', 0.45);
+        d.px(10, 41, 'belly'); d.px(18, 41, 'belly');
+      }
+    }
+  };
+
+  // ===== glow moth: ringed glowgrub -> lantern-winged moth (Swarm/Lumen) =====
+  DESIGNS.glowgrub = {
+    pal: { body: '#ece2b8', band: '=#c8ff7a', head: '#d8b890', iris: '#4a3a2a' },
+    draw: function (d) {
+      [[47, 53, 6.5], [39, 50, 8], [30, 47, 9]].forEach(function (s) { d.el(s[0], s[1], s[2], s[2] * 0.9, 'body', { edge: true }); });
+      d.cv(43, 45, 44.5, 52, 43, 58, 'band', 0.7); d.cv(34.5, 40, 36, 48, 34.5, 56, 'band', 0.8);
+      d.el(53, 55, 1.8, 1.8, 'band');
+      [[26, 55.5], [32, 56], [38, 57], [44, 58.5]].forEach(function (p) { d.el(p[0], p[1], 1.2, 1.4, 'head'); });
+      d.el(19, 47, 8, 7.5, 'head');
+      d.ln(13, 52, 11, 55, 'head', 0.9, 0.5); d.ln(17, 53, 16, 56, 'head', 0.9, 0.5);
+      if (!d.back) {
+        d.eye(16, 46, 2, 2.2, { lid: 0.45, lidMat: 'head' }); d.eye(22, 46, 2, 2.2, { lid: 0.45, lidMat: 'head' });
+        d.px(19, 50, 'mouth');
+      }
+    }
+  };
+  DESIGNS.glimmoth = {
+    pal: { wing: '#5e6e92', wing2: '#8a9ab8', spot: '=#d4ff8a', fur: '#ece2c6', ant: '#b8a878', iris: '#2a2a3a' },
+    draw: function (d) {
+      d.float = true;
+      [1, -1].forEach(function (s) {
+        function X(x) { return s > 0 ? x : 64 - x; }
+        d.po([[X(30), 34], [X(8), 12], [X(2), 24], [X(8), 38], [X(29), 40]], 'wing', { edge: true });
+        d.po([[X(30), 40], [X(14), 43], [X(10), 55], [X(22), 57], [X(30), 46]], 'wing2', { edge: true });
+        d.el(X(13), 25, 4.2, 3.8, 'spot'); d.el(X(13), 25, 1.9, 1.7, 'wing');
+        d.el(X(19), 50, 2.2, 2.2, 'spot');
+        d.cv(X(30), 26, X(26), 15, X(20), 11, 'ant', 0.8, 0.5);
+        [[27, 18], [24, 14]].forEach(function (a) { d.ln(X(a[0]), a[1], X(a[0] - 2), a[1] - 1, 'ant', 0.35); });
+      });
+      d.el(32, 45, 4.5, 10, 'fur');
+      d.el(32, 36, 6.5, 3, 'fur');
+      d.el(32, 30, 6, 5.5, 'fur');
+      if (!d.back) {
+        d.eye(29.5, 30, 1.7, 1.9, { look: [0, 0] }); d.eye(34.5, 30, 1.7, 1.9, { look: [0, 0] });
+      }
+    }
+  };
+
+  // ===== crystal lizard: quartz-backed lizard -> crystal-spined lizard -> crystal-frilled basilisk (Terra -> Terra/Lumen) =====
+  DESIGNS.quartzel = {
+    pal: { skin: '#78aca0', belly: '#e2ead0', crys: '#e4eeff', crys2: '=#ffffff', iris: '#e8a030' },
+    draw: function (d) {
+      d.cv(42, 55, 56, 58, 60, 50, 'skin', 3, 0.8);
+      d.ln(40, 55, 45, 60, 'skin', 2.2, 1.6); d.el(46, 61, 2.6, 1, 'skin');
+      d.el(35, 52, 11, 6.5, 'skin');
+      d.el(33, 55.5, 8, 2.5, 'belly', { clip: function (x, y) { return y > 54; } });
+      d.ln(28, 55, 24, 60, 'skin', 2.2, 1.6); d.el(23, 61, 2.6, 1, 'skin');
+      d.po([[30, 47], [34, 31], [38.5, 46]], 'crys', { edge: true, light: 0.7 });
+      d.po([[36.5, 47], [41, 38], [43, 48]], 'crys', { edge: true, light: 0.7 });
+      d.ln(33, 44, 34, 34, 'crys2', 0.4);
+      d.el(20, 48, 8, 6, 'skin');
+      d.el(13.5, 50, 4.5, 3.4, 'skin');
+      if (!d.back) {
+        d.eye(18.5, 46.5, 2.3, 2.4, { look: [-0.4, 0] });
+        d.px(10, 49, 'ink'); d.ln(10, 52, 17, 52.5, 'mouth', 0.4);
+      }
+    }
+  };
+  DESIGNS.facetail = {
+    pal: { skin: '#5a8c94', belly: '#d8e4d8', crys: '#a8d4ff', crys2: '=#ffffff', iris: '#f0c030' },
+    draw: function (d) {
+      d.cv(44, 50, 60, 54, 59, 38, 'skin', 3.6, 1.4);
+      [[59, 34, 7, 2.6], [55, 37, 5, 2], [62, 38, 4, 1.6]].forEach(function (c) { d.po([[c[0] - c[3], c[1] + 2], [c[0], c[1] - c[2]], [c[0] + c[3], c[1] + 2]], 'crys', { edge: true }); });
+      d.ln(46, 50, 50, 60, 'skin', 3, 2.2); d.el(51, 61, 3, 1.2, 'skin');
+      d.el(34, 46, 14, 8, 'skin');
+      d.el(32, 51, 10, 3, 'belly', { clip: function (x, y) { return y > 49.5; } });
+      d.ln(26, 50, 22, 60, 'skin', 3, 2.2); d.el(21, 61, 3.2, 1.2, 'skin');
+      d.ln(36, 51, 36, 60, 'skin', 2.6, 2); d.el(35.5, 61, 3, 1.1, 'skin');
+      [[24, 40, 4, 2.4], [30, 38, 7, 3], [37, 37, 8, 3.2], [44, 39, 6, 2.6], [50, 43, 4, 2]].forEach(function (c) { d.po([[c[0] - c[3], c[1] + 2], [c[0], c[1] - c[2]], [c[0] + c[3], c[1] + 2]], 'crys', { edge: true, light: 0.66 }); d.ln(c[0] - 0.6, c[1], c[0], c[1] - c[2] + 2, 'crys2', 0.35); });
+      d.el(16, 40, 8.5, 6.5, 'skin');
+      d.el(9, 43, 5, 3.5, 'skin');
+      d.po([[7, 40], [9, 34], [11, 40]], 'crys', { edge: true });
+      if (!d.back) {
+        d.eye(14.5, 38.5, 2.2, 2.3, { look: [-0.5, 0], lid: 0.25, lidMat: 'skin' });
+        d.px(5, 42, 'ink'); d.ln(5, 45.5, 13, 46, 'mouth', 0.4);
+      }
+    }
+  };
+  DESIGNS.crystalisk = {
+    pal: { skin: '#3a6272', belly: '#c8dce0', crys: '#9adcff', crys2: '=#eaffff', glow: '=#c8f8ff', iris: '#ff5a8a' },
+    draw: function (d) {
+      // crystal frill fanning out behind the head
+      for (var i = 0; i < 7; i++) {
+        var a = -2.75 + i * 0.36, cx = 30, cy = 20, len = i % 2 ? 15 : 19;
+        d.po([[cx + Math.cos(a - 0.16) * 6, cy + Math.sin(a - 0.16) * 6], [cx + Math.cos(a) * len, cy + Math.sin(a) * len], [cx + Math.cos(a + 0.16) * 6, cy + Math.sin(a + 0.16) * 6]], 'crys', { edge: true, light: 0.7 });
+      }
+      d.cv(40, 54, 58, 60, 62, 44, 'skin', 5, 1.5);
+      [[52, 55, 4], [58, 51, 3.5], [61, 45, 3]].forEach(function (c) { d.po([[c[0] - 1.6, c[1]], [c[0] + 1, c[1] - c[2] - 2], [c[0] + 1.8, c[1] - 0.5]], 'crys', { edge: true }); });
+      d.el(40, 50, 7, 9, 'skin');
+      d.el(42, 61, 5, 1.8, 'skin'); d.el(26, 61, 5, 1.8, 'skin');
+      d.ln(28, 50, 27, 60, 'skin', 3.6, 3);
+      d.el(32, 39, 10, 14, 'skin');
+      d.el(28, 42, 5.5, 10, 'belly', { clip: function (x, y) { return x < 32; } });
+      d.el(29, 32, 2.3, 2.3, 'glow', { edge: true });
+      d.ln(26, 35, 19, 43, 'skin', 2.6, 2); d.po([[16, 44], [19, 42], [18, 46]], 'crys');
+      d.el(26, 20, 8, 7, 'skin');
+      d.el(17.5, 23, 6, 3.8, 'skin');
+      if (!d.back) {
+        d.eye(23.5, 18.5, 2.3, 1.8, { slit: true, look: [-0.5, 0], lid: 0.3, lidMat: 'skin' });
+        d.ln(19, 16.5, 26, 16, 'ink', 0.5);
+        d.px(12.5, 22, 'ink'); d.ln(12, 25, 21, 25.5, 'mouth', 0.4); d.px(15, 26, 'white');
+      }
+    }
+  };
+
+  // ===== fossil Kit: amber-studded jaw beast -> rune-armored titan (Terra/Wyrm) =====
+  DESIGNS.amberjaw = {
+    pal: { skin: '#8e6c4c', skind: '#5e4630', amber: '#f0a02a', bone: '#e8dcbc', iris: '#f0d060' },
+    draw: function (d) {
+      d.cv(47, 50, 57, 52, 59, 45, 'skin', 4, 2);
+      d.ln(46, 51, 47, 60, 'skin', 3.4, 3); d.el(47, 61, 3.8, 1.4, 'skin');
+      d.el(38, 46, 13, 9, 'skin');
+      d.ln(26, 42, 34, 50, 'skind', 0.4); d.ln(34, 50, 42, 42, 'skind', 0.4); d.ln(42, 42, 48, 49, 'skind', 0.4);
+      d.el(36, 38, 4, 3, 'amber', { edge: true }); d.el(44, 40, 3, 2.5, 'amber', { edge: true }); d.el(29, 39.5, 2.5, 2, 'amber', { edge: true });
+      d.ln(31, 51, 31, 60, 'skin', 3.6, 3.2); d.el(30.5, 61, 4, 1.4, 'skin');
+      [[27, 61.5], [29.5, 62], [33.5, 61.5], [44, 61.5], [50, 61.5]].forEach(function (p) { d.px(p[0], p[1], 'bone'); });
+      // big square head and jaw
+      d.el(18, 43, 10, 8, 'skin');
+      d.po([[7, 46], [26, 47], [24, 55], [10, 54]], 'skind', { edge: true });
+      [10, 13, 16, 19, 22].forEach(function (x) { d.po([[x - 1, 47], [x, 44], [x + 1, 47]], 'bone'); });
+      d.el(19, 36.5, 5.5, 2.2, 'bone', { edge: true });
+      if (!d.back) {
+        d.eye(16, 40.5, 2, 2.2, { look: [-0.5, 0], lid: 0.3, lidMat: 'skin' });
+        d.px(8, 42, 'ink');
+      }
+    }
+  };
+  DESIGNS.runemaw = {
+    pal: { skin: '#6e5236', skind: '#4a3622', amber: '#f4a824', rune: '=#ffe48a', bone: '#e4d6b4', iris: '#ffd040' },
+    draw: function (d) {
+      d.cv(52, 46, 62, 50, 60, 38, 'skin', 5, 2.5);
+      d.el(60, 36, 3.5, 3.5, 'amber', { edge: true });
+      d.ln(50, 48, 52, 60, 'skin', 4.6, 4); d.el(52, 61, 5, 1.6, 'skin');
+      d.el(38, 42, 17, 12, 'skin');
+      // bone plates along the back with glowing rune carvings
+      [[25, 31, 5], [33, 27, 6], [42, 27, 6], [50, 31, 5]].forEach(function (p) {
+        d.po([[p[0] - p[2], p[1] + 5], [p[0] - p[2] + 1.5, p[1] - 1], [p[0] + p[2] - 1.5, p[1] - 1], [p[0] + p[2], p[1] + 5]], 'bone', { edge: true });
+        d.ln(p[0] - 2, p[1] + 1, p[0], p[1] + 3.5, 'rune', 0.4); d.ln(p[0], p[1] + 3.5, p[0] + 2, p[1] + 1, 'rune', 0.4);
+      });
+      d.el(38, 46, 6, 4, 'amber', { edge: true });
+      d.ln(36, 44.5, 40, 47.5, 'rune', 0.35);
+      d.ln(30, 50, 29, 60, 'skin', 4.6, 4); d.el(28, 61, 5, 1.6, 'skin');
+      d.ln(40, 51, 40, 60, 'skin', 4.2, 3.6); d.el(40, 61, 4.6, 1.5, 'skin');
+      [[24, 62], [27, 62], [37.5, 62], [48.5, 62], [55, 62]].forEach(function (p) { d.po([[p[0] - 1, p[1]], [p[0] - 0.5, p[1] - 2.5], [p[0] + 1, p[1]]], 'bone'); });
+      // massive head, tusks and forehead amber
+      d.el(15, 38, 11, 9, 'skin');
+      d.po([[3, 42], [24, 44], [22, 52], [6, 51]], 'skind', { edge: true });
+      d.cv(8, 44, 4, 38, 9, 32, 'bone', 1.8, 0.6, { edge: true });
+      [11, 15, 19].forEach(function (x) { d.po([[x - 1, 44], [x, 41], [x + 1, 44]], 'bone'); });
+      d.el(16, 31, 3.4, 3, 'amber', { edge: true });
+      d.po([[12, 29], [20, 29], [19, 26], [13, 26]], 'bone', { edge: true });
+      if (!d.back) {
+        d.eye(12, 36, 2, 2, { look: [-0.5, 0], lid: 0.35, lidMat: 'skin' });
+        d.ln(8, 34, 15, 33.5, 'ink', 0.5);
+      }
+    }
+  };
+
+  // ===== snow hare: icicle-eared lop -> snowdrift-maned hare (Frost -> Frost/Gale) =====
+  DESIGNS.flurrip = {
+    pal: { fur: '#f4f8ff', ice: '#a8dcf4', nose: '#f0a0b0', iris: '#4a90d0' },
+    draw: function (d) {
+      d.el(46, 48, 4.2, 4, 'fur');
+      d.el(34, 50, 11, 9, 'fur');
+      d.el(25, 60, 4.5, 1.8, 'fur'); d.el(40, 60, 4, 1.6, 'fur');
+      d.cv(19, 33, 11, 32, 12, 46, 'fur', 2.6, 1.8, { edge: true });
+      d.po([[10.3, 46], [13.8, 46], [12, 53]], 'ice', { edge: true });
+      d.cv(29, 33, 37, 31, 36, 46, 'fur', 2.6, 1.8, { edge: true });
+      d.po([[34.2, 46], [37.8, 46], [36, 53]], 'ice', { edge: true });
+      d.el(24, 38, 8.5, 7.5, 'fur', { edge: true });
+      d.px(30, 51, 'ice'); d.px(33, 47, 'ice'); d.px(40, 53, 'ice');
+      if (!d.back) {
+        d.eye(20.5, 38, 2.2, 2.5, { look: [-0.2, 0] }); d.eye(27.5, 38, 2.2, 2.5, { look: [-0.2, 0] });
+        d.px(24, 41, 'nose'); d.ln(23, 43, 25, 43, 'mouth', 0.35);
+      }
+    }
+  };
+  DESIGNS.avalop = {
+    pal: { fur: '#eef4ff', drift: '#c4d4ea', ice: '#94ccef', ice2: '=#ffffff', nose: '#e890a8', iris: '#2a70c0' },
+    draw: function (d) {
+      // ears streaming back with icicle tips
+      d.cv(31, 18, 40, 8, 54, 8, 'fur', 2.8, 1.6, { edge: true });
+      d.po([[52.5, 9], [56, 8], [55, 15]], 'ice', { edge: true });
+      d.cv(28, 18, 34, 4, 46, 2, 'fur', 2.6, 1.5, { edge: true });
+      d.po([[44.5, 2.5], [48, 2], [47, 9]], 'ice', { edge: true });
+      d.el(38, 50, 7, 8.5, 'fur');
+      d.el(42, 60, 6.5, 2.2, 'fur'); d.el(22, 60, 6, 2.2, 'fur');
+      d.ln(27, 48, 23, 59, 'fur', 3, 2.4);
+      d.el(31, 44, 9, 11, 'fur');
+      // snowdrift mane around the neck
+      [[22, 34, 5], [28, 31, 6], [35, 32, 5.5], [40, 36, 4], [25, 39, 4]].forEach(function (b) { d.el(b[0], b[1], b[2], b[2] * 0.8, 'drift', { edge: true }); });
+      d.ln(23, 42, 17, 49, 'fur', 2.4, 2); d.po([[14, 50], [17, 48], [16.5, 52]], 'ice');
+      d.el(27, 23, 7.5, 7, 'fur');
+      if (!d.back) {
+        d.eye(24, 22.5, 2, 2.3, { look: [-0.4, 0], lid: 0.2, lidMat: 'fur' }); d.eye(30, 22.5, 2, 2.3, { look: [-0.4, 0], lid: 0.2, lidMat: 'fur' });
+        d.px(26.5, 26, 'nose'); d.ln(25.5, 28, 27.5, 28, 'mouth', 0.35);
+      }
+      d.px(33, 46, 'ice2'); d.px(29, 50, 'ice2');
+    }
+  };
+
+  // ===== frost owl: snowball owlet -> icicle-crowned owl (Frost/Gale) =====
+  DESIGNS.hailet = {
+    pal: { fur: '#eef4fa', feather: '#b8cfe6', beak: '#e8b040', iris: '#58a8e8', ice: '=#cfeeff' },
+    draw: function (d) {
+      d.el(28, 61, 2.6, 1.2, 'beak'); d.el(36, 61, 2.6, 1.2, 'beak');
+      d.el(32, 50, 11, 11, 'fur');
+      d.el(21.5, 51, 3, 6, 'feather', { edge: true }); d.el(42.5, 51, 3, 6, 'feather', { edge: true });
+      d.po([[23, 41], [22, 35], [27, 39]], 'feather'); d.po([[37, 39], [42, 35], [41, 41]], 'feather');
+      d.ln(28, 56, 36, 56, 'ice', 0.4); d.ln(32, 52.5, 32, 59.5, 'ice', 0.4); d.ln(29.5, 53.5, 34.5, 58.5, 'ice', 0.35); d.ln(34.5, 53.5, 29.5, 58.5, 'ice', 0.35);
+      if (!d.back) {
+        d.eye(27, 46, 3.2, 3.4, { look: [0, 0] }); d.eye(37, 46, 3.2, 3.4, { look: [0, 0] });
+        d.po([[30.8, 49.5], [33.2, 49.5], [32, 52.5]], 'beak');
+      }
+    }
+  };
+  DESIGNS.glacrown = {
+    pal: { fur: '#f2f6fc', feather: '#a8c4e0', cape: '#6a88b0', beak: '#e0a830', iris: '#9ad8f8', ice: '#9ad8f8', ice2: '=#ffffff' },
+    draw: function (d) {
+      d.el(27, 61, 3, 1.3, 'beak'); d.el(37, 61, 3, 1.3, 'beak');
+      d.el(32, 43, 11, 16, 'fur');
+      // cape-like wings with frost patterns
+      [1, -1].forEach(function (s) {
+        function X(x) { return s > 0 ? x : 64 - x; }
+        d.po([[X(24), 30], [X(14), 38], [X(12), 58], [X(18), 54], [X(22), 58], [X(25), 44]], 'cape', { edge: true });
+        d.ln(X(19), 40, X(16), 52, 'ice', 0.35); d.ln(X(16), 46, X(20), 49, 'ice', 0.35);
+      });
+      [[30, 38], [34, 42], [29, 46], [35, 49], [31, 53]].forEach(function (p) { d.po([[p[0] - 1.5, p[1]], [p[0], p[1] + 2], [p[0] + 1.5, p[1]]], 'feather'); });
+      d.el(32, 24, 10, 8.5, 'fur');
+      // crown of icicles
+      [[25, 18, 7], [29, 16, 10], [35, 16, 10], [39, 18, 7], [32, 16, 6]].forEach(function (c) { d.po([[c[0] - 2, c[1]], [c[0], c[1] - c[2]], [c[0] + 2, c[1]]], 'ice', { edge: true, light: 0.7 }); d.ln(c[0] - 0.4, c[1] - 1, c[0], c[1] - c[2] + 2, 'ice2', 0.3); });
+      if (!d.back) {
+        d.eye(27.5, 24, 2.6, 2.6, { look: [0, 0] }); d.eye(36.5, 24, 2.6, 2.6, { look: [0, 0] });
+        d.ln(24, 20.5, 30, 22, 'ink', 0.5); d.ln(34, 22, 40, 20.5, 'ink', 0.5);
+        d.po([[30.5, 27], [33.5, 27], [32, 31]], 'beak');
+      }
+    }
+  };
+
   var cache = {};
   function render(key, view, prism, tint) {
     var ck = key + '|' + view + '|' + (prism ? 1 : 0) + '|' + (tint || 0);

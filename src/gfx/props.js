@@ -622,6 +622,14 @@
       case 'star': f('#e8b840', 5, 1, 2, 7); f('#e8b840', 2, 4, 8, 2); f('#e8b840', 3, 6, 2, 2); f('#e8b840', 7, 6, 2, 2); break;
       case 'eye': f('#fcfcfc', 2, 3, 8, 4); a.ring('#8a40c8', x + 6, y + 5, 2); a.ring(OUT, x + 6, y + 5, 0.8); break;
       case 'tent': f('#6a8a4a', 3, 2, 6, 6); f('#6a8a4a', 1, 6, 10, 2); f('#2a2a2a', 5, 5, 2, 3); break;
+      case 'pick': f('#8a5a30', 2, 7, 1, 1); f('#8a5a30', 3, 6, 1, 1); f('#8a5a30', 4, 5, 1, 1); f('#8a5a30', 5, 4, 1, 1); f('#8a5a30', 6, 3, 1, 1); f('#7a7e8a', 3, 1, 3, 1); f('#7a7e8a', 6, 2, 2, 1); f('#7a7e8a', 8, 3, 1, 3); f('#7a7e8a', 2, 2, 1, 1); break;
+      case 'rope': a.ring('#c8a060', x + 6, y + 5, 4, 2); a.ring('#a07a40', x + 6, y + 5, 2.6, 1.8); f('#c8a060', 9, 6, 2, 3); break;
+      case 'bed': f('#8a5a30', 1, 4, 10, 4); f('#e84848', 3, 3, 8, 3); f('#fcfcfc', 1, 2, 3, 3); f('#8a5a30', 1, 1, 1, 7); f('#8a5a30', 10, 5, 1, 3); break;
+      case 'spring': f('#4a8ad0', 1, 6, 10, 3); f('#8ac8f0', 2, 6, 8, 1); f('#e8e8f0', 3, 1, 1, 4); f('#e8e8f0', 6, 0, 1, 5); f('#e8e8f0', 9, 1, 1, 4); f('#e8e8f0', 4, 3, 1, 1); f('#e8e8f0', 7, 2, 1, 1); break;
+      case 'milk': f('#fcfcfc', 4, 2, 4, 7); f('#fcfcfc', 5, 1, 2, 1); f('#5a8ad0', 4, 5, 4, 2); f('#c8c8d0', 7, 3, 1, 6); break;
+      case 'chisel': f('#8a5a30', 2, 1, 2, 4); f('#7a7e8a', 3, 5, 1, 4); f('#a8a098', 6, 5, 5, 4); f('#c8c0b4', 6, 5, 5, 1); f('#7a7068', 8, 3, 2, 2); break;
+      case 'car': f('#5a5a64', 0, 1, 12, 1); f('#5a5a64', 5, 1, 1, 3); f('#d83a3a', 2, 4, 8, 5); f('#8ac8f0', 3, 5, 2, 2); f('#8ac8f0', 7, 5, 2, 2); break;
+      case 'goat': f('#e8e0d0', 3, 4, 7, 3); f('#e8e0d0', 1, 2, 3, 3); f('#8a8078', 1, 0, 1, 2); f('#8a8078', 3, 0, 1, 2); f('#e8e0d0', 4, 7, 1, 2); f('#e8e0d0', 8, 7, 1, 2); f(OUT, 2, 3, 1, 1); break;
     }
   }
   PK.drawIcon = icon;
@@ -670,6 +678,57 @@
     var a = canvas(o, 18);
     block(a, 1, 4, 14, 13, '#b8864e', 3); for (var i = 0; i < 10; i++) { a.p('#7a5230', 3 + i, 7 + i * 0.9); a.p('#7a5230', 12 - i, 7 + i * 0.9); }
     if (o.icon) { a.f('#f4ecd8', 3, 7, 10, 8); icon(a, o.icon, 3, 6); }
+    return a.c;
+  } });
+
+  // ================= Pinecrest =================
+  // Carved stone slab on a cave wall; o.notes = colored notes in order (the echo song)
+  var NOTES = ['#e86060', '#f0c040', '#60c060', '#6090f0', '#c070e0'];
+  def('carving', { w: 2, h: 1, deco: true, walk: true, text: 'An old carving on the rock.', draw: function (o) {
+    var a = canvas(o, 16), W = o.w * 16, n = o.notes || [];
+    a.f(OUT, 1, 1, W - 2, 14); a.f('#9a9088', 2, 2, W - 4, 12); a.f('#b8b0a4', 2, 2, W - 4, 1);
+    n.forEach(function (c, i) {
+      var x = 5 + i * ((W - 10) / Math.max(1, n.length - 1 || 1)) - (n.length === 1 ? 0 : 0);
+      a.ring(OUT, x, 8, 2.8); a.ring(NOTES[c], x, 8, 2); a.p('#ffffff', x - 1, 7);
+      if (i < n.length - 1) a.f('#6a6058', x + 3, 8, (W - 10) / Math.max(1, n.length - 1) - 6, 1);
+    });
+    return a.c;
+  } });
+  // Stone statue of a Kit on a plinth
+  def('statue', { w: 1, h: 1, dh: 32, text: 'A stone statue of a Kit, carved with loving detail.', draw: function (o) {
+    var a = canvas(o, 32);
+    block(a, 1, 22, 14, 9, '#a8a098', 2);
+    if (PK.kitArt) {
+      var ic = PK.kitArt.icon(o.icon || 28), c = PK.makeCanvas(32, 32), x = c.getContext('2d');
+      x.drawImage(ic, 0, 0); x.globalCompositeOperation = 'source-atop'; x.fillStyle = 'rgba(168,160,150,0.85)'; x.fillRect(0, 0, 32, 32);
+      a.x.drawImage(c, 0, 0, 32, 32, -1, 2, 18, 18);
+    }
+    return a.c;
+  } });
+  // Mine cart on a short piece of track
+  def('minecart', { w: 1, h: 1, dh: 20, text: 'A mine cart full of rocks. Some of them glitter.', draw: function (o) {
+    var a = canvas(o, 20);
+    a.f('#6a4a2a', 0, 17, 16, 2); a.f('#9aa0b0', 0, 16, 16, 1);
+    a.f(OUT, 1, 6, 14, 10); a.f('#6a6e7a', 2, 7, 12, 8); a.f('#9aa0b0', 2, 7, 12, 2);
+    a.ring('#8a7e72', 5, 6, 2.5); a.ring('#7a6e64', 10, 5, 3); a.p(o.color || '#a0e0ff', 9, 4); a.p('#f0d060', 5, 5);
+    a.ring(OUT, 4, 16, 2); a.ring(OUT, 12, 16, 2);
+    return a.c;
+  } });
+  // Wall rack of picks and helmets
+  def('pickrack', { w: 2, h: 1, deco: true, walk: true, text: 'Picks and helmets hung up in neat rows, each with a name scratched on the handle.', draw: function (o) {
+    var a = canvas(o, 16);
+    a.f(OUT, 1, 2, 30, 3); a.f(WOODD, 2, 3, 28, 1);
+    [4, 12, 20].forEach(function (x, i) { a.line(WOODD, x, 4, x + 4, 14, 1); a.f('#7a7e8a', x - 2, 4, 6, 2); a.f('#9aa0b0', x - 2, 4, 6, 1); });
+    a.ring(OUT, 27, 9, 4); a.ring('#e8b030', 27, 9, 3); a.f('#e8b030', 23, 10, 9, 2); a.f('#fff4c0', 26, 6, 2, 2);
+    return a.c;
+  } });
+  // Steaming hot spring pool (walk around it)
+  def('spring', { w: 3, h: 2, anim: true, text: 'The hot spring bubbles and steams. It smells a little like eggs.', draw: function (o) {
+    var a = canvas(o), W = o.w * 16, H = o.h * 16, f = o.frame || 0;
+    a.f(OUT, 0, 0, W, H); a.f('#8a8078', 1, 1, W - 2, H - 2);
+    a.f('#3a8ab0', 4, 4, W - 8, H - 8); a.f('#6ac0e0', 4, 4, W - 8, 3); a.f('#b8ecff', 6 + f * 5, 9, 6, 1); a.f('#b8ecff', W - 16 - f * 3, H - 10, 5, 1);
+    [[8, 2], [W / 2, 0], [W - 10, 3]].forEach(function (s, i) { var q = (f + i) % 3; a.ring('rgba(240,244,250,0.7)', s[0] + q, s[1] + 6 - q, 2.6); });
+    [[2, 2], [W - 5, 2], [2, H - 5], [W - 5, H - 5], [W / 2, H - 4]].forEach(function (s) { a.ring(OUT, s[0] + 1, s[1] + 1, 2.5); a.ring('#a8a098', s[0] + 1, s[1] + 1, 1.8); });
     return a.c;
   } });
 

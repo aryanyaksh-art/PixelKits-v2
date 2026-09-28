@@ -149,15 +149,26 @@
     },
     aliveCount: function () { return G.state.party.filter(function (k) { return k.hp > 0; }).length; },
     crestCount: function () { return G.state.crests.filter(Boolean).length; },
-    // --- time of day from the real clock
+    // --- time of day: a fast game clock, one full day every 20 minutes of play
+    DAY_FRAMES: 72000,
+    PHASES: [['morning', 0], ['day', 0.2], ['evening', 0.6], ['night', 0.7]],
+    dayPos: function () {
+      var s = G.state; if (!s) return 0.3;
+      return (((s.frames + (s.clockOff || 0)) % G.DAY_FRAMES) + G.DAY_FRAMES) % G.DAY_FRAMES / G.DAY_FRAMES;
+    },
     timeOfDay: function () {
       if (PK.forceTime) return PK.forceTime;
-      if (G.state && G.state.flags.storm) return 'night';
-      var h = new Date().getHours();
-      if (h >= 5 && h < 10) return 'morning';
-      if (h >= 10 && h < 18) return 'day';
-      if (h >= 18 && h < 20) return 'evening';
-      return 'night';
+      if (!G.state) return 'day';
+      if (G.state.flags.storm) return 'night';
+      var p = G.dayPos(), r = 'morning';
+      G.PHASES.forEach(function (ph) { if (p >= ph[1]) r = ph[0]; });
+      return r;
+    },
+    // jump the clock to the start of a phase ('morning', 'day', 'evening', 'night')
+    setTime: function (name) {
+      var ph = G.PHASES.filter(function (p) { return p[0] === name; })[0];
+      if (!ph || !G.state) return;
+      G.state.clockOff = Math.round(ph[1] * G.DAY_FRAMES + 60) - G.state.frames;
     },
     playTime: function (frames) {
       var s = Math.floor((frames == null ? G.state.frames : frames) / 60);

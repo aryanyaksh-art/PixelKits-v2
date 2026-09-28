@@ -349,7 +349,7 @@
       waiter: { at: [5, 5], sprite: 'kid', dir: 'up', cond: function () { return !g().flag('bell_fixed'); }, text: 'No practice battles until the bell works again. Ms. Pell\'s rules!' }
     }
   });
-  room('bh_school_bell', 'Bell Tower', 'tower', 8, [
+  room('bh_school_bell', 'Bell Loft', 'tower', 8, [
     'X.......', '........', '........'
   ], {
     warps: [['bh_school', 0, 3, 'down']],
@@ -648,7 +648,7 @@
   S.bh_boatman = async function (w) {
     if (!g().count('oldrod')) {
       await w.say('BOATMAN: Welcome to the boathouse! We fix boats, and we sell the best fishing rods on the Willow.');
-      if (await w.yesno('BOATMAN: An Old Rod is $300. Face any water and use it from your BAG to fish for Kits. Buy one?')) {
+      if (await w.yesno('BOATMAN: A Reed Rod is $300. Face any water and use it from your BAG to fish for Kits. Buy one?')) {
         if (g().state.money < 300) return w.say('BOATMAN: Ah, you\'re a little short. Come back when you have $300.');
         g().state.money -= 300;
         await w.give('oldrod');
@@ -736,6 +736,7 @@
     await w.say('GRANDMA: That child... Come on, {PLAYER}. Let\'s get you and your new friend out of the rain.');
     await PK.fx.fadeOut(40);
     g().setFlag('storm', false);
+    g().setTime('morning');
     w.setFlag('flood_over');
     PK.quest.complete('flood');
     PK.game.healParty();

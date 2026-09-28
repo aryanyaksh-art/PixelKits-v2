@@ -36,9 +36,31 @@ The user (Aryan) found v1 repetitive and asked for: the game filling the browser
 - Villains: **the Ashen Accord** (grey cloaks, ember symbol; grunts = Cinders; leaders = Elders). They want to "purify" the valley.
 - Starters were swept down from the hills; the sibling fished out the one strong against yours; the third one is loose in the hills (tracks on Willow Trail).
 
+## Pinecrest plan (user answers, 2026-09-27)
+
+- **Day/night:** fast game cycle (a full day is about 20 real minutes) instead of the real clock.
+- **Pinecrest = one huge mountain.** You enter at the bottom and climb terraces joined by stairs to the peak, with **lots of caves**: shortcut tunnels between terraces, a dark cave (needs light), the crystal grotto (Accord dig site) and an underground lake (fishing, stepping stones).
+- **Buildings:** mine + miners' hall, hot spring bathhouse (heals), stonecarver workshop, lookout + cable car, climbing gear shop, mountain inn (multi-floor, guests with mini-stories), shrine at the peak, goat herder's barn (milk stall food). All enterable and full.
+- **Main story:** the Ashen Accord is "logging" the old grove to dig underneath. They're after all three things: the relic tablet leads to the crystal vein, and the crystals hold a fossil Kit. The Accord **blasts the Willow Trail rockslide open** (that's how the road reopens). Climax: a grotto showdown with an Elder that you win, but they flee with **half the tablet** (bittersweet, sets up the next town).
+- **Sibling appears three times:** seen with the Accord at the dig (double-agent act), helps in the avalanche rescue, then waits at the shrine for a battle.
+- **Side quests:** lost goat Kits across the ledges, fossil dig in the mine (revive later), echo cave puzzle (shout in order to open a chamber), avalanche rescue (dig out a hiker).
+- **Gym:** Rock type, leader = a gruff old miner who knew Grandpa. Locked in until you win. Structure: challenge → trainer → challenge → trainer → challenge → trainer → challenge → leader. Challenges in order: **boulder push, minecart switches, crumbling floor (memory), pickaxe timing**. **Losing = full reset** (heal, all puzzles and trainers reset).
+- **Gym rewards:** break-rocks field move, the Pickaxe (opens the sealed Accord mine door), a Grandpa clue (his old helmet with a note), cable car access down to the next route.
+- **New Kits:** rock/mountain goats + boulder beetles, cave dwellers (bat, blind salamander, glow moth), crystal lizard + fossil Kit, snow/ice at the peak (snow hare, frost owl).
+
+## Pinecrest (built 2026-09-28)
+
+- Files: `src/data/v2/pinecrest.js` (all maps, interiors, quests, scripts), `src/scenes/minigames.js` (minecart switches + pickaxe timing), 21 new Kit designs (ids 28-48), buildings `chalet barn gearshop inn bathhouse miners mine carver cablecar shrine rockgym`, props `carving statue minecart pickrack spring`, themes `mount mine lodge spa workshop`, music `mountain peak mine challenge grotto`, NPC palettes `miner miner2 warden1 herder carver innkeeper guide bathkeeper elder`.
+- Map rows for the big maps come from a generator in the session scratchpad (`pc_maps.py`); the rows are committed in pinecrest.js.
+- Engine additions: pushable boulders (`npcs {push:true, sprite:'boulder'}`, fill pits `o`, positions saved in `state.boulders`), map hooks `lockExit()`, `onStep(w,x,y)`, `onLose(w)`, `onFill`, `W.hl` tile highlight, `dark: 'deep'` caves (need `minerlamp`), tiles `o` pit, `q` cracked floor, `y` rails, `j` snow rock, sprites `boulder gate pickwall panel echo dig`, `m.townPoint` for fly-in. Lowercase letters in rows are only NPC markers if the map has a matching npc key without `at`.
+- Day/night is now a fast game clock (`PK.game.DAY_FRAMES` = 20 min); `PK.game.setTime('morning')` after the flood.
+- Region map is 300 px tall and scrolls with the cursor (townmap.js `MH`, `VH`).
+- Story: Willow Trail rockslide is blasted by the Accord (`wt_blast`) → main quest *Ashes on the Mountain* (grove scene with the sibling, avalanche rescue + sibling2, summit sibling3, gym, mine door, Elder Morrow in the Crystal Grotto, Tablet Half, freed Quartzel). Side quests *Kids on the Cliffs*, *Buried in Amber* (Amberjaw fossil), *The Singing Cave* (echo stones, order green-red-blue-yellow).
+- Gym: Warden Harrow (Rock/Terra). Boulders → Miner Dov → minecart → Driller Sabe → memory floor → Foreman Garrick → pickaxe wall → Harrow. Locked in; losing resets everything; helper Juno heals, resets boulders and spars (so you can never get stuck).
+
 ## Next up
 
-1. Ask the user ~15 questions about **Pinecrest** (and many about its **gym** challenge), then build it and open the rockslide.
+1. Ask the user ~15 questions about the next town (the cable car far-side line and the Accord's note point "by the sea"), then build it.
 2. Keep designing Kits for each new area (target 151) and consider hand-authored learnsets.
 3. Title screen and menus could be made wide like the overworld.
 

@@ -5,7 +5,7 @@
   var TS = 16;
   var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
   var OPP = { up: 'down', down: 'up', left: 'right', right: 'left' };
-  var OUTDOOR = { vale: 1, coast: 1, desert: 1, snow: 1, spooky: 1, ruins: 1 };
+  var OUTDOOR = { vale: 1, coast: 1, desert: 1, snow: 1, spooky: 1, ruins: 1, mount: 1 };
 
   function drawSatchel(ctx, x, y) {
     ctx.fillStyle = '#241c2c'; ctx.fillRect(x + 3, y + 5, 10, 9); ctx.fillRect(x + 4, y + 4, 8, 11);
@@ -104,6 +104,13 @@
     W.npcs = m.npcDefs.filter(condOk).map(function (d) {
       return { d: d, id: d.id || d.key, x: d.x, y: d.y, px: d.x * TS, py: d.y * TS, dir: d.dir || 'down', moving: false, t: 0, hx: d.x, hy: d.y, timer: 60 + PK.rnd(120), sprite: d.sprite || 'boy', emote: null, hidden: !!d.startHidden };
     });
+    // pushed boulders keep their spots (and stay gone once they fill a pit)
+    var bs = (st.boulders || {})[id];
+    if (bs) W.npcs.forEach(function (n) {
+      var b = bs[n.id]; if (!b) return;
+      if (b === 'gone') n.hidden = true;
+      else { n.x = n.hx = b[0]; n.y = n.hy = b[1]; n.px = n.x * TS; n.py = n.y * TS; }
+    });
     W.prerender();
     if (!m.interior) { st.visited = st.visited || {}; st.visited[id] = true; }
     if (!m.interior && !(m.enc && m.enc.cave) && !m.dungeon) st.lastOutdoor = { map: id, x: x, y: y };
@@ -116,6 +123,7 @@
   // Arrival point for fast travel: just below the town's clinic door (or home in Brookhollow)
   W.townPoint = function (m) {
     PK.buildMap(m);
+    if (m.townPoint) return m.townPoint;
     var b = (m.buildings || []).filter(function (b) { return b.k === 'clinic'; })[0];
     if (!b && m.id === 'brookhollow') b = m.buildings[0];
     if (!b) return null;
@@ -180,7 +188,7 @@
     var list = W.map.enc && W.map.enc.water;
     if (!list) return PK.ui.say('The water looks empty.');
     W.busy++;
-    await PK.ui.say(PK.game.state.player.name + ' cast the Old Rod...', { auto: 50 });
+    await PK.ui.say(PK.game.state.player.name + ' cast the Reed Rod...', { auto: 50 });
     await PK.wait(40 + PK.rnd(60));
     W.busy--;
     if (Math.random() > 0.72) return PK.ui.say('Not even a nibble...');
@@ -277,6 +285,8 @@
       if (PK.audio) PK.audio.sfx('jump');
       return;
     }
+    var pn = W.npcAt(nx, ny);
+    if (pn && pn.d.push && !pn.moving) return W.pushBoulder(pn, d);
     if (W.blocked(nx, ny)) {
       if (W.bumpT <= 0) { if (PK.audio) PK.audio.sfx('bump'); W.bumpT = 20; }
       return;
@@ -296,8 +306,45 @@
     if (d === 'right') { y += e.off || 0; x = 0; }
     PK.run(function () { return W.warp(e.to, x, y, d, { fast: true, silent: true }); });
   };
+  // Push a boulder one tile. Boulders drop into pits ('o') and fill them.
+  W.pushBoulder = function (n, d) {
+    if (W.bumpT > 0) return;
+    W.bumpT = 14;
+    var v = DIRS[d], tx = n.x + v[0], ty = n.y + v[1], m = W.map, c = m.at(tx, ty), st = PK.game.state;
+    st.boulders = st.boulders || {};
+    var bs = st.boulders[m.id] = st.boulders[m.id] || {};
+    if (c === 'o' && !W.npcAt(tx, ty)) {
+      W.busy++;
+      if (PK.audio) PK.audio.sfx('bump');
+      PK.run(async function () {
+        await W.stepNpc(n, d);
+        n.hidden = true; bs[n.id] = 'gone';
+        if (PK.audio) PK.audio.sfx('smash');
+        PK.fx.shake(10, 2);
+        W.clearTile(tx, ty, 'd');
+        if (m.onFill) await m.onFill(W, tx, ty);
+        W.busy--;
+        W.refreshNpcs();
+      });
+      return;
+    }
+    if (c == null || W.blocked(tx, ty, true) || c === 'M' || c === '%' || c === '"' || m.doors[tx + ',' + ty] || m.warpDefs[tx + ',' + ty]) {
+      if (PK.audio) PK.audio.sfx('bump');
+      return;
+    }
+    if (PK.audio) PK.audio.sfx('bump');
+    W.busy++;
+    PK.run(async function () { await W.stepNpc(n, d); bs[n.id] = [n.x, n.y]; W.busy--; });
+  };
   W.exitInterior = function () {
     var e = W.map.exit;
+    var lock = W.map.lockExit && W.map.lockExit();
+    if (lock) {
+      if (W.busy) return;
+      W.busy++;
+      PK.run(async function () { await PK.ui.say(lock); W.busy--; });
+      return;
+    }
     PK.run(function () { return W.warp(e.map, e.x, e.y, 'down'); });
   };
 
@@ -330,6 +377,7 @@
     var wp = m.warpDefs[key];
     if (wp) return W.warp(wp.to, wp.x, wp.y, wp.dir || p.dir, { sfx: m.at(p.x, p.y) === 'X' ? 'stairs' : 'door' });
     var c = m.at(p.x, p.y);
+    if (m.onStep) { W.busy++; var stepR = await m.onStep(W, p.x, p.y); W.busy--; if (stepR) return; }
     if (c === 'M' && m.exit && W.lastDir === 'down') return W.exitInterior();
     // ice
     if (c === 'i') {
@@ -402,6 +450,7 @@
     await W.warp('wildwood_gate', 8, 2, 'down');
   };
   W.afterBattle = async function (outcome, opts) {
+    if (outcome === 'lose' && W.map.onLose) { PK.game.healParty(); return W.map.onLose(W); }
     if (outcome === 'lose' && !(opts && opts.canLose)) return W.whiteout();
     if (outcome === 'lose' && opts && opts.canLose) PK.game.healParty();
     W.playMapMusic();
@@ -901,6 +950,16 @@
       if (n.sprite === 'none') return;
       if (n.sprite === 'capsule') { PK.bfx.drawCapsule(ctx, sx + 8, sy + 6, n.d.capsule || 'capsule'); return; }
       if (n.sprite === 'item') { drawSatchel(ctx, sx, sy); return; }
+      if (n.sprite === 'boulder') { ctx.drawImage(boulderImg(), sx, sy - 3); return; }
+      if (n.sprite === 'gate') { ctx.drawImage(gateImg(n.d.gate), sx, sy - 8); return; }
+      if (n.sprite === 'pickwall') { ctx.drawImage(pickWallImg(), sx, sy - 8); return; }
+      if (n.sprite === 'panel') { ctx.drawImage(panelImg(), sx, sy - 6); return; }
+      if (n.sprite === 'dig') { ctx.drawImage(digImg(), sx, sy); return; }
+      if (n.sprite === 'echo') {
+        ctx.drawImage(echoImg(n.d.note), sx, sy - 6);
+        if (n.glow > 0) { n.glow--; ctx.fillStyle = 'rgba(255,255,220,' + (n.glow / 40) + ')'; ctx.beginPath(); ctx.arc(sx + 8, sy + 2, 12, 0, 6.3); ctx.fill(); }
+        return;
+      }
       if (n.sprite === 'loosestone') {
         // a slightly raised floor slab with cracks around it
         ctx.fillStyle = 'rgba(30,26,40,0.55)'; ctx.fillRect(sx + 2, sy + 4, 12, 10);
@@ -953,8 +1012,14 @@
       W.healing--;
       if ((PK.frame >> 3) & 1) { ctx.fillStyle = 'rgba(160,255,220,0.5)'; ctx.fillRect(4 * TS - cx, 1 * TS - cy, 48, 10); }
     }
+    // memory-floor flash and other tile highlights
+    if (W.hl && W.hl.t > 0) {
+      W.hl.t--;
+      ctx.fillStyle = W.hl.color || 'rgba(140,255,170,0.5)';
+      W.hl.tiles.forEach(function (q) { ctx.fillRect(q[0] * TS - cx + 2, q[1] * TS - cy + 2, 12, 12); });
+    }
     // time-of-day tint for outdoor maps
-    if (!m.interior && m.theme !== 'cave' && m.theme !== 'ice' && m.theme !== 'volcano') {
+    if (!m.interior && !m.dungeon && m.theme !== 'cave' && m.theme !== 'ice' && m.theme !== 'volcano') {
       var tod = PK.game.timeOfDay();
       var tint = { morning: 'rgba(255,190,140,0.08)', evening: 'rgba(255,120,60,0.16)', night: 'rgba(20,24,80,0.40)' }[tod];
       if (tint) { ctx.fillStyle = tint; ctx.fillRect(0, 0, PK.W, PK.H); }
@@ -967,8 +1032,10 @@
     }
     if (m.dark) {
       var px = p.px - cx + 8, py = p.py - cy + 8;
-      var grd = ctx.createRadialGradient(px, py, 20, px, py, 90);
-      grd.addColorStop(0, 'rgba(0,0,0,0)'); grd.addColorStop(1, 'rgba(0,0,0,0.75)');
+      // 'deep' caves are pitch black unless you carry a Miner's Lamp
+      var lit = m.dark !== 'deep' || PK.game.count('minerlamp');
+      var grd = ctx.createRadialGradient(px, py, lit ? 20 : 5, px, py, lit ? (m.dark === 'deep' ? 72 : 90) : 26);
+      grd.addColorStop(0, 'rgba(0,0,0,0)'); grd.addColorStop(1, lit ? 'rgba(0,0,0,' + (m.dark === 'deep' ? 0.9 : 0.75) + ')' : 'rgba(0,0,0,0.97)');
       ctx.fillStyle = grd; ctx.fillRect(0, 0, PK.W, PK.H);
     }
     W.drawWeather(ctx);
@@ -1013,6 +1080,72 @@
     } else ctx.drawImage(spr[fr], sx, sy - 6 - hop - (fr ? 1 : 0));
     if (p.emote) PK.chars.emote(ctx, sx + 2, sy - 24, p.emote);
   };
+
+  // ---- small object sprites used by puzzles ----
+  var SPR = {};
+  function spr(key, w, h, fn) {
+    if (SPR[key]) return SPR[key];
+    var c = PK.makeCanvas(w, h), x = c.getContext('2d');
+    fn(x);
+    SPR[key] = c;
+    return c;
+  }
+  function boulderImg() {
+    return spr('boulder', 16, 18, function (x) {
+      var g = new PK.PG(16, 18); g.lx = -0.5; g.ly = -0.7;
+      g.ellipse(8, 10.5, 7.4, 7, 0);
+      x.drawImage(g.render([PK.color.ramp('#9a8e80')]), 0, 0);
+      x.fillStyle = '#5a5046'; x.fillRect(5, 8, 1, 3); x.fillRect(6, 11, 2, 1); x.fillRect(10, 13, 3, 1); x.fillRect(11, 6, 1, 2);
+      x.fillStyle = '#d8d0c4'; x.fillRect(5, 5, 2, 1);
+    });
+  }
+  function gateImg(kind) {
+    return spr('gate' + (kind || ''), 16, 24, function (x) {
+      x.fillStyle = '#2a2430'; x.fillRect(0, 2, 16, 22);
+      x.fillStyle = kind === 'stone' ? '#8a8078' : '#6a5a4a'; x.fillRect(1, 3, 14, 20);
+      x.fillStyle = kind === 'stone' ? '#a89e94' : '#8a7458'; for (var i = 0; i < 4; i++) x.fillRect(2 + i * 3.5, 4, 2, 18);
+      x.fillStyle = '#c8a040'; x.fillRect(1, 8, 14, 2); x.fillRect(1, 17, 14, 2);
+      x.fillStyle = '#e8c860'; x.fillRect(7, 12, 2, 3);
+    });
+  }
+  function pickWallImg() {
+    return spr('pickwall', 16, 24, function (x) {
+      var g = new PK.PG(16, 24); g.lx = -0.5; g.ly = -0.7;
+      g.rect(0, 2, 16, 22, 0, { light: 0.6 });
+      x.drawImage(g.render([PK.color.ramp('#7a6e64')]), 0, 0);
+      x.fillStyle = '#4a4038'; x.fillRect(3, 6, 1, 6); x.fillRect(4, 12, 4, 1); x.fillRect(8, 12, 1, 5); x.fillRect(11, 5, 1, 4); x.fillRect(12, 9, 2, 1);
+      x.fillStyle = '#f0d060'; x.fillRect(6, 8, 1, 1); x.fillRect(12, 16, 1, 1);
+    });
+  }
+  function panelImg() {
+    return spr('panel', 16, 22, function (x) {
+      x.fillStyle = '#2a2430'; x.fillRect(1, 4, 14, 18);
+      x.fillStyle = '#5a6474'; x.fillRect(2, 5, 12, 16);
+      x.fillStyle = '#1e2a20'; x.fillRect(3, 7, 10, 6);
+      x.fillStyle = '#6aff8a'; x.fillRect(4, 9, 3, 1); x.fillRect(7, 10, 4, 1);
+      x.fillStyle = '#e84848'; x.fillRect(4, 15, 2, 2); x.fillStyle = '#f0c040'; x.fillRect(7, 15, 2, 2); x.fillStyle = '#48a8e8'; x.fillRect(10, 15, 2, 2);
+      x.fillStyle = '#8a94a4'; x.fillRect(7, 1, 1, 4); x.fillStyle = '#e84848'; x.fillRect(6, 0, 3, 2);
+    });
+  }
+  // loose soil with a pebble poking out: a spot worth digging
+  function digImg() {
+    return spr('dig', 16, 16, function (x) {
+      x.fillStyle = 'rgba(40,28,20,0.6)'; x.fillRect(2, 6, 12, 8);
+      x.fillStyle = '#8a6a4a'; x.fillRect(3, 5, 10, 7); x.fillStyle = '#a8845c'; x.fillRect(4, 5, 7, 2);
+      x.fillStyle = '#5a4430'; x.fillRect(4, 9, 2, 1); x.fillRect(9, 8, 3, 1);
+      x.fillStyle = '#e8c070'; x.fillRect(8, 6, 2, 2); x.fillStyle = '#fff4c0'; x.fillRect(8, 6, 1, 1);
+    });
+  }
+  var NOTE_COL = ['#e86060', '#f0c040', '#60c060', '#6090f0', '#c070e0'];
+  function echoImg(note) {
+    return spr('echo' + note, 16, 22, function (x) {
+      var g = new PK.PG(16, 22); g.lx = -0.5; g.ly = -0.7;
+      g.ellipse(8, 14, 6.5, 7.5, 0);
+      x.drawImage(g.render([PK.color.ramp('#8a8090')]), 0, 0);
+      x.fillStyle = NOTE_COL[note || 0]; x.fillRect(6, 11, 4, 4); x.fillStyle = '#ffffff'; x.fillRect(6, 11, 1, 1);
+    });
+  }
+  W.NOTE_COL = NOTE_COL;
 
   PK.Overworld = Overworld;
 

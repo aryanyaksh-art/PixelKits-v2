@@ -22,8 +22,8 @@
     name: 'Willow Trail', theme: 'vale', music: 'willow', region: 'Verdant Vale',
     rows: [
       'TTTTTTT~~~TTTTTTTTTTTTTTTTTTTT::TTTTTTTTTTTT',
-      'TTTTTTT~~~TTTTTTTTTTTTTTTTTTTRRRR..TTTTTTTTT',
-      'TTTTTTT~~~TTTTTTTTTTTTTTTTTT.R::R.....TTTTTT',
+      'TTTTTTT~~~TTTTTTTTTTTTTTTTTTTrrrr..TTTTTTTTT',
+      'TTTTTTT~~~TTTTTTTTTTTTTTTTTT.r::r.....TTTTTT',
       'TTTTTTT~~~TTTTTTTTT.TTTT.T..S.::..,.....TTTT',
       'TTTTTTT~~~TTTTTT..............::.........TTT',
       'TTTTTTT~~~....................::.........TTT',
@@ -95,7 +95,7 @@
     signsAt: [
       [29, 60, 'WILLOW TRAIL - North: Pinecrest   South: Brookhollow'],
       [26, 22, 'REST STOP ahead. Weary travelers welcome!'],
-      [28, 3, 'NORTH: Pinecrest. ROAD CLOSED - rockslide. Crews at work.']
+      [28, 3, function () { return g().flag('road_open') ? 'NORTH: Pinecrest. Road open. (Somebody blew up the rockslide.)' : 'NORTH: Pinecrest. ROAD CLOSED - rockslide. Crews at work.'; }]
     ],
     itemsAt: [['capsule', 2, 36, 41], ['tonic', 1, 13, 16], ['riverberry', 2, 38, 8]],
     hiddenAt: [['pluscapsule', 1, 2, 33], ['remedy', 1, 20, 3]],
@@ -110,7 +110,9 @@
       cinderB: { at: [13, 11], sprite: 'cinder2', dir: 'left', cond: notFlag('cinders_fled') },
       tracks: { at: [11, 13], sprite: 'tracks', noTurn: true, cond: function () { return PK.quest.at('trail', 'tracks'); }, talk: 'wt_tracks' },
       sibling: { at: [33, 3], sprite: 'rival', dir: 'up', cond: function () { return PK.quest.has('trail') && !g().flag('sibling_met'); } },
-      worker: { at: [34, 2], sprite: 'worker', dir: 'left', text: 'WORKER: Big rockslide after the storm! The road to Pinecrest is closed until we clear it. Could be a while.' },
+      worker: { at: [34, 2], sprite: 'worker', dir: 'left', text: 'WORKER: Big rockslide after the storm! The road to Pinecrest is closed until we clear it. Could be a while.', textIf: [['road_open', 'WORKER: A week of digging, gone in one BOOM. And they had the nerve to say "you are welcome".']] },
+      blastA: { at: [30, 2], sprite: 'cinder', dir: 'up', startHidden: true, cond: notFlag('road_open') },
+      blastB: { at: [31, 3], sprite: 'cinder2', dir: 'up', startHidden: true, cond: notFlag('road_open') },
       picnic: { at: [22, 50], sprite: 'villager1', move: 'wander', text: 'I come up here to watch the Kitefinch. On windy days the whole sky is full of them!' }
     },
     eventsAt: [
@@ -118,11 +120,15 @@
       { at: [16, 11], run: 'wt_weir_scene', cond: notFlag('cinders_fled') }, { at: [16, 12], run: 'wt_weir_scene', cond: notFlag('cinders_fled') },
       { at: [16, 13], run: 'wt_weir_scene', cond: notFlag('cinders_fled') }, { at: [16, 14], run: 'wt_weir_scene', cond: notFlag('cinders_fled') },
       { at: [30, 5], run: 'wt_sibling', cond: function () { return PK.quest.at('trail', 'sibling'); } },
-      { at: [31, 5], run: 'wt_sibling', cond: function () { return PK.quest.at('trail', 'sibling'); } }
+      { at: [31, 5], run: 'wt_sibling', cond: function () { return PK.quest.at('trail', 'sibling'); } },
+      { at: [30, 4], run: 'wt_blast', cond: function () { return PK.quest.at('trail', 'road') && !g().flag('road_open'); } },
+      { at: [31, 4], run: 'wt_blast', cond: function () { return PK.quest.at('trail', 'road') && !g().flag('road_open'); } },
+      { at: [30, 5], run: 'wt_blast', cond: function () { return PK.quest.at('trail', 'road') && !g().flag('road_open'); } },
+      { at: [31, 5], run: 'wt_blast', cond: function () { return PK.quest.at('trail', 'road') && !g().flag('road_open'); } }
     ],
     warpsAt: [[3, 29, 'willow_hollow', 7, 11, 'up']],
     onEnter: 'wt_enter',
-    edges: { s: { to: 'brookhollow', off: 0 } },
+    edges: { s: { to: 'brookhollow', off: 0 }, n: { to: 'pinecrest', off: 0 } },
     enc: {
       grass: [[12, 3, 6, 30], [10, 3, 5, 18], [18, 4, 6, 14], [15, 3, 5, 12], [20, 4, 7, 10], [24, 4, 7, 12, 'night'], [13, 7, 8, 4]],
       reeds: [[10, 3, 6, 50], [15, 3, 5, 50]],
@@ -260,6 +266,34 @@
     await w.say('{RIVAL} scrambled up over the rockslide and disappeared toward Pinecrest.');
     sib.hidden = true;
     PK.quest.advance('trail', 'road');
+    w.playMapMusic();
+  };
+
+  // The Ashen Accord blows the rockslide apart and marches up to Pinecrest
+  var SLIDE = [[29, 1, '.'], [30, 1, ':'], [31, 1, ':'], [32, 1, '.'], [29, 2, '.'], [32, 2, '.']];
+  S.wt_blast = async function (w) {
+    w.music('mystery');
+    await w.say('...Wait. Something is fizzing in the rocks. A long grey fuse, burning fast!');
+    await w.wait(30);
+    if (PK.audio) PK.audio.sfx('smash');
+    PK.fx.flash(12, '#ffffff');
+    PK.fx.shake(50, 4);
+    SLIDE.forEach(function (t) { w.clearTile(t[0], t[1], t[2]); });
+    await w.wait(40);
+    await w.say('BOOOOOM! The whole rockslide blows apart in a storm of dust and pebbles!');
+    var a = w.npc('blastA'), b = w.npc('blastB');
+    if (a) a.hidden = false;
+    if (b) b.hidden = false;
+    await w.say('CINDER: The road is open, boys! The Elder wants the heavy gear up the mountain by nightfall!');
+    if (a) { await w.moveNpc(a, 'uu'); a.hidden = true; }
+    if (b) { await w.moveNpc(b, 'uuu'); b.hidden = true; }
+    var wk = w.npc('worker');
+    if (wk) { w.facePlayer(wk); await w.emote(wk, '!'); }
+    await w.say('WORKER: They just... BLEW IT UP?! A week of digging! They said they had a "permit"!');
+    await w.say('WORKER: Well. The road to Pinecrest is open, I suppose. Be careful up there, kid.');
+    w.setFlag('road_open');
+    PK.quest.complete('trail');
+    PK.quest.start('mountain');
     w.playMapMusic();
   };
 

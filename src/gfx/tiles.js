@@ -17,7 +17,7 @@
     'A': { grass: 1, reeds: 1 }, 'E': { solid: 1, berry: 1 }, 'G': { solid: 1 }, 'I': {}, 'J': { solid: 1 },
     'N': {}, 'P': { solid: 1 }, 'U': { solid: 1 }, '&': { solid: 1 }, '$': { solid: 1 }, '-': { solid: 1 },
     '_': { solid: 1 }, '/': { solid: 1 }, '^': {}, 'F': { solid: 1 }, '<': { solid: 1 }, '(': { solid: 1, water: 1 },
-    '+': { solid: 1 }, '%': {}
+    '+': { solid: 1 }, '%': {}, 'o': { solid: 1, pit: 1 }, 'q': {}, 'y': { solid: 1 }, 'j': { solid: 1 }
   };
   PK.TILE = TILE;
 
@@ -26,6 +26,8 @@
     coast: { style: 'grass', g: ['#6aa444', '#8ec85a', '#b8e27c'], tg: ['#3a7026', '#529432', '#78b842', '#b0e06a'], path: ['#d4b880', '#ecd49c', '#f8eac4'], tree: 'palm', leaf: '#46a44a', trunk: '#9a6a3a', water: ['#1b6db6', '#2b92da', '#68c2f2', '#e0f6ff'], wall: ['#7a6048', '#a5845e', '#c7a67c'], fence: '#ffffff', fl: ['#ffffff', '#ff7a4a', '#f8e04a', '#6ad0ff'], pave: ['#9a948c', '#c0b8ae', '#dcd4c8'] },
     desert: { style: 'speck', g: ['#c89c58', '#e0bc76', '#f2d89a'], tg: ['#7c5e26', '#9e8036', '#c2a24e', '#e2cc74'], path: ['#b08850', '#c89e62', '#dcb67c'], tree: 'cactus', leaf: '#4a984a', trunk: '#6a4a2a', water: ['#1b6db6', '#2b92da', '#68c2f2', '#e0f6ff'], wall: ['#8a5a36', '#b0744a', '#cf9a66'], fence: '#c8a070', fl: ['#f8f0d0', '#e87040', '#f8d040', '#d070c0'], pave: ['#a89a84', '#c4b8a0', '#dcd2bc'] },
     snow: { style: 'speck', g: ['#b4c6e0', '#e0eaf6', '#ffffff'], tg: ['#56789a', '#7a9cba', '#a6c4dc', '#d8ecf8'], path: ['#98a4b8', '#bac4d4', '#d6dee8'], tree: 'pine', leaf: '#2f6e5a', trunk: '#6a4a36', water: ['#2a5a9a', '#3d78bc', '#78a8da', '#e8f4ff'], wall: ['#5a6478', '#7c889e', '#a6b2c6'], fence: '#8a6a4a', fl: ['#ffffff', '#a0d0ff', '#f0f8ff', '#c8b0f0'], pave: ['#8a92a0', '#aab2c0', '#c8d0dc'] },
+    mount: { style: 'grass', g: ['#5a8a4e', '#78a864', '#a2c888'], tg: ['#2a5a3a', '#3a7248', '#58925a', '#8ab87a'], path: ['#8a7a64', '#aa9a80', '#c8baa0'], tree: 'pine', leaf: '#2f6e4a', trunk: '#6a4a36', water: ['#2a5aa0', '#3e7ac4', '#7aaee0', '#e4f2ff'], wall: ['#5e5a58', '#827c78', '#a8a29c'], fence: '#8a6a4a', fl: ['#ffffff', '#b0a0f0', '#f6cf3a', '#f08ad0'], pave: ['#7e7a76', '#a09a94', '#bcb6ae'] },
+    mine: { style: 'cave', g: ['#5a4c40', '#74645a', '#907e70'], tg: ['#44382e', '#5a4c40', '#74645a', '#907e70'], path: ['#4c4038', '#66584c', '#806e60'], tree: 'stal', leaf: '#74645a', trunk: '#4c4038', water: ['#1c3c6c', '#2a5a96', '#4c80c0', '#9cc4ec'], wall: ['#302824', '#4a3e36', '#66584c'], fence: '#8a6a4a', fl: ['#a09080', '#c0b0a0', '#807060', '#b0a090'], pave: ['#5a5048', '#766a60', '#908478'] },
     spooky: { style: 'grass', g: ['#474766', '#5c5c80', '#7a7aa0'], tg: ['#241f3a', '#38325a', '#544c82', '#7c74ac'], path: ['#665862', '#82727e', '#9e8e9a'], tree: 'dead', leaf: '#5a4a6a', trunk: '#4a3a44', water: ['#26265a', '#36367a', '#5656a0', '#9a9ad0'], wall: ['#3a3646', '#534e62', '#6e6880'], fence: '#6a6070', fl: ['#d0c8f0', '#a070d0', '#70e0c0', '#f0a0d0'], pave: ['#5c5866', '#767282', '#908c9c'] },
     cave: { style: 'cave', g: ['#64503e', '#806a54', '#9c866c'], tg: ['#4a3a2c', '#64503e', '#806a54', '#9c866c'], path: ['#56463a', '#725e4a', '#8c7660'], tree: 'stal', leaf: '#806a54', trunk: '#5c4a3a', water: ['#1c3c6c', '#2a5a96', '#4c80c0', '#9cc4ec'], wall: ['#3a2e26', '#584638', '#78624c'], fence: '#8a6a4a', fl: ['#a09080', '#c0b0a0', '#807060', '#b0a090'], pave: ['#5c5040', '#78685a', '#907e6c'] },
     ice: { style: 'cave', g: ['#7496bc', '#96b6d6', '#bcd6ee'], tg: ['#4c6e94', '#6a8cb2', '#8cacd0', '#b4d0ec'], path: ['#6a88ac', '#86a4c6', '#a4c0de'], tree: 'crystal', leaf: '#9ad8f0', trunk: '#5a7aa2', water: ['#1c3c6c', '#2a5a96', '#4c80c0', '#9cc4ec'], wall: ['#3a5478', '#56749c', '#82a2c6'], fence: '#8aa0c0', fl: ['#e0f4ff', '#a8e0ff', '#ffffff', '#c8e8ff'], pave: ['#6a88ac', '#86a4c6', '#a4c0de'] },
@@ -50,6 +52,9 @@
     works: { style: 'metal', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#5a6070', '#747a8a', '#9aa0b0'], wall: ['#5a6474', '#76808e', '#98a2b0'], trim: '#2a3040', rug: ['#8a6a2a', '#b89040', '#e8c860'] },
     teller: { style: 'carpet', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#3a2450', '#503468', '#6a4a84'], wall: ['#3a2a5a', '#54407a', '#8a70b0'], trim: '#e8c060', rug: ['#8a1e3a', '#b0304e', '#d85a70'] },
     sitter: { style: 'wood', wallStyle: 'paper', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#a07040', '#c49058', '#e0b078'], wall: ['#e0c870', '#f4e098', '#fcf0c0'], trim: '#8a5a2a', rug: ['#4a8a5a', '#6aaa70', '#9ad09a'] },
+    lodge: { style: 'plank', wallStyle: 'plank', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#7a4e2c', '#9a683a', '#b8844e'], wall: ['#8a5a34', '#a87444', '#c8925a'], trim: '#4a2c16', rug: ['#8a2e36', '#b8484e', '#e0807a'] },
+    spa: { style: 'flag', wallStyle: 'plank', water: ['#2a7aa0', '#3a9ac0', '#7ad0ec', '#e4f8ff'], floor: ['#8a9a9a', '#a8b8b6', '#c8d6d2'], wall: ['#b89a74', '#d4b890', '#ecd8b4'], trim: '#5a4430', rug: ['#3e6e8a', '#5a8aa8', '#8ab8d0'] },
+    workshop: { style: 'flag', wallStyle: 'stone', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#7a7470', '#9a948e', '#b8b2aa'], wall: ['#8a8278', '#a8a094', '#c8c0b2'], trim: '#4a443e', rug: ['#6a5a8a', '#8a7aaa', '#b0a0c8'] },
     green: { style: 'flag', wallStyle: 'glass', water: ['#2e62c4', '#4a8ee6', '#84c2f8', '#e4f4ff'], floor: ['#6a7a5a', '#8a9a74', '#a8b894'], wall: ['#7aaab0', '#a8d0d4', '#dcf0f0'], trim: '#3a5a4a', rug: ['#4a8a5a', '#6aaa70', '#9ad09a'] }
   };
   PK.THEMES = TH;
@@ -659,6 +664,35 @@
     fill(x, '#e04040', 12, 1, 1, 4); fill(x, '#e04040', 13, 1, 2, 2);
   }
 
+  // a dark pit that boulders can fill
+  function pit(x, P) {
+    var f = P.floor || P.g;
+    fill(x, f[1]);
+    fill(x, '#141018', 1, 2, 14, 13); fill(x, '#221c28', 2, 3, 12, 11); fill(x, '#0a080e', 3, 6, 10, 7);
+    fill(x, PK.color.shade(f[1], -0.35), 1, 2, 14, 1);
+  }
+  // floor riddled with cracks (the memory floor)
+  function cracked(x, P, r) {
+    var c = PK.color.shade((P.floor || P.g)[0], -0.3);
+    var sx = 2 + r.int(4), sy = 3 + r.int(4);
+    for (var i = 0; i < 6; i++) dot(x, c, sx + i, sy + (i >> 1));
+    for (var j = 0; j < 4; j++) dot(x, c, 11 - j, 9 + j);
+    dot(x, c, 12, 4); dot(x, c, 13, 5);
+  }
+  // minecart rails (solid: carts only)
+  function rail(x) {
+    for (var i = 1; i < 16; i += 4) fill(x, '#6a4a2a', i, 3, 2, 10);
+    fill(x, '#8a8e9a', 0, 4, 16, 1); fill(x, '#8a8e9a', 0, 11, 16, 1);
+    fill(x, '#c8ccd4', 0, 4, 16, 1);
+  }
+  // snow-capped rock outcrop for the summit
+  function snowRock(x) {
+    var g = pg();
+    g.ellipse(8, 10, 7, 6, 0);
+    x.drawImage(g.render([ramp('#8a8a98')]), 0, 0);
+    fill(x, '#ffffff', 3, 4, 10, 2); fill(x, '#e8f0ff', 2, 6, 4, 1); fill(x, '#e8f0ff', 10, 6, 4, 1);
+  }
+
   var cache = {};
   function tileCanvas(themeName, ch, frame, variant, flags) {
     var key = themeName + '|' + ch + '|' + frame + '|' + variant + '|' + (flags || 0);
@@ -669,7 +703,7 @@
     var x = c.getContext('2d');
     var r = PK.seeded(PK.hash(key.replace('|' + frame + '|', '|')));
     var interior = INTERIOR[P.style];
-    var needGround = '.,"T:SbrRfLkvtpBQAEG&$-_/F<+U'.indexOf(ch) >= 0 || (interior && 'ctBKpCHDQM'.indexOf(ch) >= 0);
+    var needGround = '.,"T:SbrRfLkvtpBQAEG&$-_/F<+Uyj'.indexOf(ch) >= 0 || (interior && 'ctBKpCHDQM'.indexOf(ch) >= 0);
     if ((needGround && !(flags & 2)) || ch === ',' || ch === '.') groundBase(x, P, r);
     switch (ch) {
       case '.': break;
@@ -750,6 +784,10 @@
       case '<': logPile(x); break;
       case '(': lilyWater(x, P, frame, r); break;
       case '+': mailbox(x); break;
+      case 'o': pit(x, P); break;
+      case 'q': groundBase(x, P, r); cracked(x, P, r); break;
+      case 'y': groundBase(x, P, r); rail(x); break;
+      case 'j': snowRock(x); break;
       case '%':
         interiorWall(x, P, 0);
         fill(x, '#1e1a28', 2, 1, 12, 15); fill(x, PK.color.shade(P.trim, 0.1), 3, 2, 10, 14); fill(x, '#2a2024', 4, 3, 8, 13);
@@ -763,7 +801,7 @@
     return c;
   }
 
-  var OBJ = 'SbrRfLkQEG&$-_/F<+U';
+  var OBJ = 'SbrRfLkQEG&$-_/F<+Uj';
   var ANIM = { '~': 1, '=': 1, '|': 1, 'l': 1, ',': 1, 'H': 1, 'C': 1, 'A': 1, 'I': 1, 'J': 1, '(': 1 };
 
   function isWaterish(ch) { return ch === '~' || ch === '=' || ch === '|' || ch === 'I' || ch === 'J' || ch === '(' || ch === 'N'; }

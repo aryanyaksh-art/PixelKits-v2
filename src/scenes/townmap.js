@@ -4,10 +4,10 @@
   'use strict';
   var PK = window.PK;
   var F = function () { return PK.font; };
-  var MW = 240, MH = 136, OY = 18; // map area size and its top on screen
+  var MW = 240, MH = 300, OY = 18, VH = 132; // world size (1 px per tile), top of the view on screen, view height (scrolls)
 
   // Where each group of edge-connected areas sits on the map (world pixel = 1 tile)
-  var ROOTS = { brookhollow: [100, 96] };
+  var ROOTS = { brookhollow: [100, 250] };
   // Caves and other places without outdoor terrain are shown as icons
   var ICONS = {
     echo_cavern: [91, 34, 'cave'], ember_tunnels: [181, 74, 'cave'], frozen_depths: [175, 15, 'cave'], summit_road: [139, 12, 'cave'],
@@ -16,7 +16,7 @@
   };
   var FERRY = [['saltmarsh', 'emberisle']];
   // mainland between the playable areas (keeps Lumora one continent instead of separate islands)
-  var FILL = [[70, 30, 100, 104]];
+  var FILL = [[70, 184, 100, 104]];
   function fillDist(px, py) {
     var best = 1e9;
     FILL.forEach(function (r) {
@@ -55,7 +55,7 @@
     var nodes = [];
     Object.keys(pos).forEach(function (id) {
       var m = PK.MAPS[id], p = pos[id];
-      var kind = (m.buildings || []).some(function (b) { return b.k === 'clinic'; }) || id === 'brookhollow' || id === 'crown_summit' ? 'town' : 'route';
+      var kind = (m.buildings || []).some(function (b) { return b.k === 'clinic'; }) || id === 'brookhollow' || id === 'crown_summit' || m.townPoint ? 'town' : 'route';
       if (id === 'starfall_ruins') kind = 'place';
       nodes.push([id, Math.round(p.x + m.w / 2), Math.round(p.y + m.h / 2), kind]);
     });
@@ -169,8 +169,8 @@
       var P = PK.theme(PK.MAPS[ids[land[i3]]].theme);
       var base = P.g ? P.g : ['#6a9a4a', '#88b860', '#a8d080'];
       var col;
-      if (dist[i3] > 3.8) col = P.tree === 'pine' ? '#f4f8ff' : '#f0dca8'; // shore
-      else if (P.tree === 'round' || P.tree === 'palm' || P.tree === 'dead') {
+      if (dist[i3] > 3.8) col = P.tree === 'pine' && P.style === 'speck' ? '#f4f8ff' : '#f0dca8'; // shore
+      else if (P.tree === 'round' || P.tree === 'palm' || P.tree === 'dead' || (P.tree === 'pine' && P.style !== 'speck')) {
         // forest canopy: dithered with lighter clumps and a few clearings
         var n1 = Math.sin(px * 0.55 + Math.sin(py * 0.3) * 2) + Math.sin(py * 0.6 - px * 0.2);
         col = n1 > 1.2 ? PK.color.shade(P.leaf, 0.1) : n1 < -1.5 ? (P.g ? P.g[1] : P.leaf) : ((px + py) & 1) ? PK.color.shade(P.leaf, -0.3) : PK.color.shade(P.leaf, -0.12);
@@ -204,7 +204,7 @@
     // mountains in the north
     x.putImageData(img, 0, 0);
     [[70, 8], [84, 14], [96, 22], [138, 26], [150, 34], [162, 40], [128, 40], [140, 50], [46, 58], [60, 70], [74, 86], [40, 30]].forEach(function (mt) {
-      var mx = mt[0], my = mt[1];
+      var mx = mt[0], my = mt[1] + 154;
       if (land[my * MW + mx] < 0 || dist[my * MW + mx] > 3) return;
       x.fillStyle = '#7a7890'; x.beginPath(); x.moveTo(mx - 6, my + 3); x.lineTo(mx, my - 5); x.lineTo(mx + 6, my + 3); x.fill();
       x.fillStyle = '#a8a6bc'; x.beginPath(); x.moveTo(mx - 6, my + 3); x.lineTo(mx, my - 5); x.lineTo(mx, my + 3); x.fill();
@@ -247,6 +247,14 @@
   TownMap.prototype.close = function (v) { PK.pop(this); this.done(v); };
   TownMap.prototype.draw = function (ctx) {
     var st = PK.game.state, T = PK.ui.THEME, L = buildLayout();
+    // scroll the tall world so the cursor stays in view
+    var cur0 = this.list[this.i], want = cur0 ? PK.clamp(cur0[2] - VH / 2, 0, MH - VH) : MH - VH;
+    if (this.sy == null) this.sy = want;
+    this.sy += (want - this.sy) * 0.25;
+    if (Math.abs(want - this.sy) < 0.5) this.sy = want;
+    var sy = Math.round(this.sy), OY = 18 - sy;
+    ctx.fillStyle = '#4a90d4'; ctx.fillRect(0, 18, PK.W, PK.H - 18);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 18, PK.W, PK.H - 18); ctx.clip();
     ctx.drawImage(renderTerrain(), 0, OY);
     // ferry route
     ctx.fillStyle = '#e8f4ff';
@@ -286,6 +294,7 @@
       ctx.strokeStyle = '#20182a';
       ctx.strokeRect(cur[1] - 8 - c + 0.5, cy - 8 - c + 0.5, 16 + c * 2, 16 + c * 2);
     }
+    ctx.restore();
     // header
     PK.ui.box(ctx, 0, 0, PK.W, 18);
     var name = cur ? PK.ui.fmt(PK.MAPS[cur[0]].name) : '';

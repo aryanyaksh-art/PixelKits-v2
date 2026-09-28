@@ -72,8 +72,17 @@
   it('shellcrisp', 'Shell Crisp', 'items', 300, 'boost', 2, "Tough to chew! The Kit's DEF rises at the start of its next battle.");
   it('kittreat', 'Kit Treat', 'items', 100, 'joy', 20, 'A tasty treat. Makes a Kit happier. Happy Kits sometimes hang on or shake off status.');
   it('fancytreat', 'Fancy Treat', 'items', 400, 'joy', 60, 'A deluxe treat. Makes a Kit much happier.');
-  it('oldrod', 'Old Rod', 'key', 0, 'key', 0, 'A simple fishing rod. Face water and use it to fish for Kits.');
+  it('oldrod', 'Reed Rod', 'key', 0, 'key', 0, 'A simple fishing rod. Face water and use it to fish for Kits.');
   it('journal', "Grandpa's Journal", 'key', 0, 'key', 0, 'Pages from Grandpa\'s old journal. Some are missing.');
+  // v2: Pinecrest
+  it('mountainmilk', 'Mountain Milk', 'items', 160, 'heal', 55, 'Creamy milk from the Pinecrest goat barn. Restores 55 HP.');
+  it('goatcheese', 'Goat Cheese', 'items', 200, 'snack', 45, 'A wedge of tangy cheese. Restores 45 HP and makes a Kit happier.');
+  it('campstew', 'Camp Stew', 'items', 450, 'heal', 110, "The mountain inn's famous stew. Restores 110 HP.");
+  it('spicejerky', 'Spice Jerky', 'items', 300, 'boost', 3, "Chewy and hot! The Kit's TEC rises at the start of its next battle.");
+  it('minerlamp', "Miner's Lamp", 'key', 0, 'key', 0, 'A sturdy oil lamp. Lights up pitch-black caves when you carry it.');
+  it('grandpahelmet', "Grandpa's Helmet", 'key', 0, 'key', 0, "Grandpa's old mining helmet. A folded note is tucked inside the band.");
+  it('tablethalf', 'Tablet Half', 'key', 0, 'key', 0, 'The left half of an ancient stone tablet covered in runes. The Ashen Accord has the other half.');
+  it('amberfossil', 'Amber Fossil', 'key', 0, 'key', 0, 'A Kit sealed in a lump of amber long before the mountain rose. A stonecarver could free it.');
 
   // Skill Discs (reusable): teach a move
   var DISCS = ['wallop', 'blazeburst', 'riptide', 'grovebeam', 'arcbolt', 'glacierray', 'risingfist', 'blightbomb', 'landslide', 'galeslash',

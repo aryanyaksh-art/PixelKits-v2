@@ -54,6 +54,31 @@
     'o3 g4 d4 b4 d4 | o3 c4 g4 e4 g4 | o3 g4 d4 b4 g4 | o3 d4 a4 f+4 a4 | o3 g4 d4 b4 d4 | o3 c4 g4 a4 e4 | o3 d4 a4 f+4 a4 | o3 g4 d4 g4 r4',
     'v7 [k8 h8 s8 h8 k8 k8 s8 h8]8');
 
+  // v2 Pinecrest: bright mountain town, windy summit, plucky mine, gym challenge, eerie crystal grotto
+  T('mountain', 112,
+    '@1 v11 o5 d4 g8 a8 b4 a8 g8 | o5 e4 g8 e8 d2 | o5 d4 g8 a8 b4 o6 d8 c8 | o5 b2. r4 | o6 c4 o5 b8 a8 g4 e8 g8 | o5 a4 g8 e8 d2 | o5 e8 f+8 g8 a8 b4 a4 | o5 g2. r4',
+    'o3 g4 o4 d4 o3 b4 o4 d4 | o3 c4 g4 d4 a4 | o3 g4 o4 d4 o3 b4 o4 d4 | o3 g4 d4 g4 r4 | o3 c4 g4 e4 g4 | o3 c4 g4 d4 a4 | o3 e4 b4 d4 a4 | o3 g4 d4 g4 r4',
+    'v6 [k4 h8 h8 s4 h8 k8]8',
+    '@2 v6 l8 [o4 b o5 d g d]2 [o5 c e g e]2 [o4 b o5 d g d]2 [o4 b o5 d g d]2 [o5 c e g e]2 [o5 c e g e]2 [o5 c e g e]2 [o4 b o5 d g d]2');
+  T('peak', 88,
+    '@2 v11 o5 e2 b4 a4 | o5 g4 f+4 e2 | o5 d2 a4 g4 | o5 f+2. r4 | o5 e2 b4 o6 d4 | o6 c4 o5 b4 a2 | o5 g4 a4 b4 f+4 | o5 e2. r4',
+    'o3 e2 b2 | o3 c2 g2 | o3 d2 a2 | o3 b2 f+2 | o3 e2 b2 | o3 a2 e2 | o3 c2 b2 | o3 e2. r4',
+    'v5 [k4 r4 s4 r4]8',
+    '@1 v5 l8 [o5 e g b g]2 [o5 c e g e]2 [o5 d f+ a f+]2 [o4 b o5 d+ f+ d+]2 [o5 e g b g]2 [o5 c e a e]2 [o5 d g b g]2 [o5 e g b g]2');
+  T('mine', 124,
+    '@1 v10 o5 a8 r8 a8 c8 e8 r8 d8 c8 | o4 b8 r8 g+8 b8 o5 e4 r4 | o5 a8 r8 a8 c8 e8 r8 g8 e8 | o5 f8 e8 d8 c8 o4 b4 r4 | o5 c8 r8 c8 e8 a8 r8 g8 e8 | o5 f8 r8 d8 f8 e4 c4 | o4 b8 o5 c8 d8 e8 c8 o4 b8 a8 g+8 | o4 a2. r4',
+    'l8 o3 [a a e a]2 [e e b e]2 [a a e a]2 [d d a d]1 [e e b e]1 [a a e a]2 [d d a d]2 [e e b e]2 a4 e4 a4 r4',
+    'l8 v8 [k h s h k k s h]8');
+  T('challenge', 140,
+    '@1 v11 o5 d8 d8 f8 a8 g8 f8 e8 f8 | o5 d8 d8 f8 a8 b-4 a4 | o5 c8 c8 e8 g8 f8 e8 d8 e8 | o5 c+8 e8 a8 e8 c+4 r4 | o5 d8 d8 f8 a8 g8 f8 e8 f8 | o5 d8 d8 f8 a8 o6 d4 c4 | o5 b-8 a8 g8 f8 e8 f8 g8 e8 | o5 d2. r4',
+    'l8 o3 [d a d a]2 [d a d a]1 [g d g d]1 [c g c g]2 [a e a e]2 [d a d a]2 [d a d a]1 [b- f b- f]1 [b- f g d]1 [a e a e]1 [d a d a]1 d4 r4',
+    'l8 v9 [k k s h k k s s]8');
+  T('grotto', 80,
+    '@2 v9 o6 c4 r8 o5 g8 e-4 r8 d8 | o5 c2 o4 b4 r4 | o5 a-4 r8 o6 c8 o5 g4 r8 f8 | o5 g2. r4 | o6 c4 r8 o5 g8 a-4 g8 f8 | o5 e-2 d4 r4 | o4 b4 o5 c8 d8 e-4 d4 | o5 c2. r4',
+    'o3 c2 c2 | o2 g2 g2 | o2 a-2 a-2 | o2 g2 g2 | o3 c2 c2 | o2 a-2 a-2 | o2 g2 g2 | o3 c2 c2',
+    null,
+    '@1 v4 l16 [o6 c g e- g]32');
+
   T('bike', 152,
     '@2 v12 o5 a8 a8 o6 c+8 e8 d4 c+8 o5 b8 | o5 a8 b8 o6 c+8 d8 e4 r8 e8 | o6 f+8 e8 d8 c+8 o5 b4 a8 b8 | o6 c+2 o5 a4 r4 | o5 f+8 a8 o6 d8 f+8 e4 d8 c+8 | o5 b8 o6 c+8 d8 e8 f+4 e4 | o6 d8 c+8 o5 b8 a8 g+4 b4 | o5 a2. r4',
     'o3 a4 o4 e4 o3 a4 o4 e4 | o3 a4 o4 e4 c+4 e4 | o3 d4 a4 f+4 a4 | o3 a4 o4 e4 o3 a4 r4 | o3 d4 a4 f+4 a4 | o3 e4 b4 g+4 b4 | o3 d4 a4 e4 b4 | o3 a4 o4 e4 o3 a4 r4',
