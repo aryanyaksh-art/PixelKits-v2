@@ -74,7 +74,7 @@
       'TT."."..""."T""...".T.::."....T..,.".."..R".T.".......TT',
       'TT...."TT"....T".TT"T"::".."..T.""T...."T.."..........TT',
       'TT.".T.."T.T..""....""::"T...T....."T"T"....".vvvvvvvvTT',
-      'TT..."..".T""...".""..::S.........."".T."TT.""TT....T.TT',
+      'TT..."..".T""...".""..::S.........."".T."TT.""......T.TT',
       'TTWWWWWWWWWWWWWWWWWWWW^^WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWTT',
       'TTWWWWWWWWWWWWWWWWWWWW^^WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWTT',
       'TTWWWWWWWWWWWWWWWWWWWW^^WWWWWWWWWWWWWWOWWWWWWWWWWWWWWWTT',
