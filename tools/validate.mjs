@@ -151,6 +151,7 @@ while (q.length) {
     }
     const c = m.at(nx, ny);
     if (c === 'v' && dy === 1) { if (walk(m, nx, ny + 1)) push(mid, nx, ny + 1); continue; }
+    if (c === 'V' && dy === -1) { if (walk(m, nx, ny - 1)) push(mid, nx, ny - 1); continue; }
     if (c === 'b' || c === 'r') { push(mid, nx, ny); continue; } // cuttable/smashable
     if (walk(m, nx, ny)) push(mid, nx, ny);
   }

@@ -214,8 +214,8 @@
   D('pinecrest_peak', {
     name: 'Pinecrest Summit', theme: 'snow', music: 'peak', region: 'Verdant Vale', weather: 'snow',
     rows: [
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
-      'TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT',
+      'TTTTTTTTTTTTTTTTTTT:::TTTTTTTTTTTTTTTTTT',
+      'TTTTTTTTTTTTTTTTTTT:::TTTTTTTTTTTTTTTTTT',
       'TTT.."...".T".T.""........"....."....TTT',
       'TT........T..T..""...TTT."."..".....T.TT',
       'TT"..........T"...."....Tj"..T".....T.TT',
@@ -257,13 +257,17 @@
     npcs: {
       sigrid: { at: [28, 20], sprite: 'villager3', dir: 'left', keeper: 'pc_7', sight: 4 },
       sibpeak: { at: [20, 15], sprite: 'rival', dir: 'down', cond: function () { return PK.quest.at('mountain', 'summit'); } },
+      fgate0: { at: [19, 1], sprite: 'gate', noTurn: true, cond: notFlag('farpath'), talk: 'far_gate_closed' },
+      fgate1: { at: [20, 1], sprite: 'gate', noTurn: true, cond: notFlag('farpath'), talk: 'far_gate_closed' },
+      fgate2: { at: [21, 1], sprite: 'gate', noTurn: true, cond: notFlag('farpath'), talk: 'far_gate_closed' },
+      marenGate: { at: [20, 3], sprite: 'guide', dir: 'up', cond: function () { return PK.quest.done('mountain') && !g().flag('farpath'); }, talk: 'far_gate' },
       snowkid: { at: [12, 22], sprite: 'kid2', move: 'wander', text: 'It\'s snowing on top of the world! I saw a Kit that looked exactly like a snowball. Then it blinked.' }
     },
     eventsAt: [
       { at: [20, 18], run: 'pc_peak_sib', cond: qat('mountain', 'summit') }, { at: [21, 18], run: 'pc_peak_sib', cond: qat('mountain', 'summit') },
       { at: [19, 13], run: 'pc_gym_warn', cond: notFlag('gym1_warned') }
     ],
-    edges: { s: { to: 'pinecrest', off: 8 } },
+    edges: { s: { to: 'pinecrest', off: 8 }, n: { to: 'pc_far', off: 0 } },
     enc: { grass: [[45, 10, 13, 30], [47, 10, 13, 25], [28, 10, 12, 15], [29, 12, 13, 6], [13, 11, 12, 8]] }
   });
 

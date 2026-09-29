@@ -63,6 +63,21 @@
   K(47, 'Hailet', ['Frost', 'Gale'], 1, L(48, 30), 'spec', 'b1', 'Snow Owlet', { design: 'hailet' }, 'It looks just like a snowball until it opens its big blue eyes. It lives near the frozen summit.');
   K(48, 'Rimecrown', ['Frost', 'Gale'], 2, null, 'spec', 'b2', 'Crown Owl', { design: 'glacrown' }, 'A crown of icicles grows on its head. Legends call it the ruler of the summit, and climbers bow as it flies past.');
 
+  // ---- The Way Down: Far Slope (wind and wire), Windswept Trail (dune and scrub), Gullshore (shore) ----
+  K(49, 'Wirelet', ['Volt'], 1, L(50, 24), 'fast', 'e1', 'Coil Hedgehog', { design: 'zipwick' }, 'Coils of copper wire grow in place of quills, and a little spark jumps between them when it is happy.');
+  K(50, 'Arcwhisk', ['Volt'], 2, null, 'fast', 'b2', 'Arc Ferret', { design: 'arcwhisk' }, 'Arcs of blue electricity jump over its back as it slinks along. It can smell a storm hours before the first cloud shows up.');
+  K(51, 'Windlet', ['Gale'], 1, L(52, 20), 'fast', 'e1', 'Gust Fluff', { design: 'windlet' }, 'A round ball of feathers that the wind carries wherever it likes. It never seems to mind.');
+  K(52, 'Cliffswift', ['Gale'], 2, L(53, 38), 'fast', 'st2', 'Ledge Glider', { design: 'cliffswift' }, 'It sleeps on the wing and only lands to nest on sheer cliffs. Its forked tail steers it through the fiercest gusts.');
+  K(53, 'Squallcrest', ['Gale', 'Volt'], 3, null, 'mixed', 'st3', 'Storm Raptor', { design: 'squallcrest' }, 'A small thundercloud follows it everywhere. Sailors watch for its crest to know when a squall is coming.');
+  K(54, 'Dunelet', ['Terra'], 1, L(55, 26), 'tank', 'e1', 'Sand Roller', { design: 'dunelet' }, 'It rolls into a ball and lets the wind push it across the dunes. Its shell is the exact color of the sand it lives on.');
+  K(55, 'Hazeveil', ['Terra', 'Mind'], 2, null, 'spec', 'b2', 'Mirage Fox', { design: 'sandveil' }, 'The shimmering veil on its back bends the light. Travelers who follow one always end up somewhere they did not plan to go.');
+  K(56, 'Tumblet', ['Plain'], 1, L(57, 22), 'bal', 'e1', 'Scrub Sentry', { design: 'tumblet' }, 'It stands on its hind legs and keeps watch while the others eat. Its tumbleweed tail is stuck on so well it is basically part of it.');
+  K(57, 'Sentrybrush', ['Plain', 'Leaf'], 2, null, 'phys', 'e2', 'Thorn Sentry', { design: 'sentrybrush' }, 'A mane of thorny brush grows down its back. It will not let anyone past its patch of trail until they battle it.');
+  K(58, 'Cranklet', ['Tide'], 1, L(59, 27), 'phys', 'e1', 'Shore Crab', { design: 'cranklet' }, 'One claw is huge and one is tiny, and it is very proud of both. It waves the big one at anything that passes.');
+  K(59, 'Pincerlord', ['Tide', 'Brawl'], 2, null, 'phys', 'b2', 'Claw Champion', { design: 'pincerlord' }, 'It wins contests by raising both claws and rattling them. Beach crabs line up to challenge it, and it always accepts.');
+  K(60, 'Jellyp', ['Venom'], 1, L(61, 28), 'spec', 'e1', 'Moon Jelly', { design: 'jellyp', float: 1 }, 'It drifts into shore on the evening tide. Its glow is harmless, but the ends of its tentacles tingle.');
+  K(61, 'Stingbloom', ['Venom', 'Tide'], 2, null, 'spec', 'b2', 'Bloom Jelly', { design: 'stingbloom', float: 1 }, 'Petals grow around its bell like a flower opening at night. Fishers keep well away, because it stings as beautifully as it glows.');
+
   // ---------- stats ----------
   var BST = { f1: 360, f2: 515, st1: 315, st2: 410, st3: 530, e1: 255, e2: 420, b1: 310, b2: 480, bug1: 200, bug2: 285, bug3: 420, ps1: 300, ps2: 420, ps3: 600, single: 455, rare: 500, legend: 620, myth: 600 };
   var CATCH = { f1: 45, f2: 45, st1: 45, st2: 45, st3: 45, e1: 255, e2: 120, b1: 190, b2: 75, bug1: 255, bug2: 120, bug3: 45, ps1: 45, ps2: 30, ps3: 15, single: 90, rare: 45, legend: 3, myth: 3 };

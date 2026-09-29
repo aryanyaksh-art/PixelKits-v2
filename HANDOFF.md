@@ -10,7 +10,7 @@
 
 ## START HERE (status as of 2026-09-29)
 
-**Built and live:** Brookhollow → Willow Trail → Pinecrest (town + summit + 6 caves + 4-room Challenge Hall gym), 48 of 151 Kits, quests, character creator, fast day/night. **Next:** the next town (gym 2) and more Kits. The main story so far ends with Elder Morrow escaping with half the tablet; a note in the Summit Inn attic says the Accord's next stop is "by the sea" and the sibling is now trusted by the Elder. The cable car's far-side line (down the other side of Pinecrest) is "under repair" and is meant to open the route to the next town.
+**Built and live:** Brookhollow → Willow Trail → Pinecrest (town + summit + 6 caves + 4-room Challenge Hall gym) → **the Way Down** (built 2026-09-29: summit north gate opened by Guide Maren, `pc_far` Far Slope with wind ridge / rockfall floor / rope bridge / camp / Accord trap rescue, `pc_windpipe` + `pc_whisper` caves, `pc_trail` Windswept Trail with a Trail Station and food stall, `pc_beach` Gullshore with the sibling scene and a festival barricade), 61 of 151 Kits, quests (*The Far Side*, side quest *The Snapped Cable* for the far-side cable car), character creator, fast day/night. **Next:** Saltmarsh (replace the `barA..barD` barricade npcs on `pc_beach` with a real `n` edge, and set quest step `harbor` to complete on arrival), then gym 2. See the Saltmarsh plan below. The main story so far ends with Elder Morrow escaping with half the tablet; a note in the Summit Inn attic says the Accord's next stop is "by the sea" and the sibling is now trusted by the Elder. The cable car's far-side line (down the other side of Pinecrest) is "under repair" and is meant to open the route to the next town.
 
 **How to work with this user (Aryan) — important, they get frustrated fast:**
 - They want **speed and low token use**: short replies, no long explanations, batch tool calls, avoid extra screenshots and repeated test loops. They have said "hurry", "don't waste my tokens" more than once.
@@ -87,13 +87,21 @@ The Challenge Hall was originally one 40-row map; it's now **4 separate rooms** 
 
 ## Saltmarsh + Way Down plan (user answers, 2026-09-29)
 
-**Build order: the Way Down first, then Saltmarsh, then its gym.** Model tip: Sonnet 5.5 for building from spec; Opus only for a bug that survives one fix.
+**Build order: the Way Down (DONE), then Saltmarsh, then its gym.** Model tip: Sonnet 5.5 for building from spec; Opus only for a bug that survives one fix.
 
 **Way Down (Pinecrest summit → Saltmarsh):** a real walk, not just the cable car. Summit north edge → *Far Slope* (cliff switchbacks with stairs/ledge-drops) → trail → beach → Saltmarsh. 3 maps. A **guide NPC unlocks** the summit's north gate. Hazards: ledge-drops, rope bridge, wind gusts, rockfall. Two caves (one shortcut, one dark/secret). 6-8 trainers. Trailside camp rest stop (heals). Story: a rescue + a sibling scene. Wild Kits: mix of wind/sky, scrub/dune, marsh/coast (start introducing Volt/Venom/Mind). Secrets, all three: hidden cave with visible crack, a rare Kit glint spot, a hidden item trail. Weather: clear and sunny. The cable car far-side line gets repaired via a **side quest** (currently `pc_cable` says it is under repair).
 
 **Saltmarsh:** coastal harbor, mix layout (stilt boardwalks below, cliff lighthouse above, canals). Tone: cozy + lively, sometimes mysterious. Main quest: the harbor **festival is sabotaged**, a cover for a **smuggling mystery**; the Accord's Elder runs a front business. Character design and animation matter a lot (parade with dancers/floats, animated aquarium Kits). Music: sea shanty (and make **battle music more intense**). Buildings (put real thought into exteriors AND interiors, add more than listed): lighthouse, fish market + cannery, aquarium, shipyard, tide-pool lab, pier arcade, sailors' tavern, costume workshop. Full harbor food row. 4 side quests (festival-prep themed; some unlock secret items). Town features (all): festival parade, ferry between districts, time-of-day changes, tide clock. Shops (all): upgraded rod, bait shop, rare-item trader. New types: introduce Volt, Venom, Mind (maybe all). Story threads: the lighthouse keeper knew Grandpa (tablet clue); tense harbor scene with the sibling.
 
 **Gym 2 (Tide, lighthouse tower):** leader = a flashy **festival showman** who is **secretly helping the Accord**. 3 big rooms, each pairing two challenges: R1 light-beam mirrors + rope-and-crate pulleys; R2 current levers + fishing timing; R3 buoy memory + stage-show cues. Guards are a mix, some are undercover Accord. Leader: 5 Kits with a strong ace. Losing = full reset. Reward: **Raft** (+ side quests unlock secret items). Remember gym rules: 3-wide doors, guardRow events, a way back out of every room.
+
+## Way Down notes (built 2026-09-29)
+
+- Files: `src/data/v2/farpath.js` (maps, NPCs, trainers, quests, scripts, hazards) + `farpath_rows.js` (generated rows; the generator lived in the session scratchpad, edit the rows by hand from now on), `src/gfx/kitDesigns2.js` (Kit designs 49-61: Wirelet, Arcwhisk, Windlet, Cliffswift, Squallcrest, Dunelet, Hazeveil, Tumblet, Sentrybrush, Cranklet, Pincerlord, Jellyp, Stingbloom; design keys `zipwick` and `sandveil` are the old names for Wirelet and Hazeveil). This is where Volt, Venom and Mind first appear.
+- Engine: new tile `V` = cliff you hop up-over when moving north (mirror of `v`); validate.mjs and npcblock.mjs know it. `farStep` in farpath.js implements the wind ridge (gusts shove you sideways) and the rockfall floor (red highlighted tiles = a rock lands there when you step on it next; a hit sends you back to the start). Region map (`townmap.js`) grew to MH=420 with Brookhollow at y=370 so the northward chain fits.
+- Summit gate: rows 0-1 cols 19-21 of `pinecrest_peak` are open path; `fgate0..2` block them until flag `farpath`; `marenGate` (only after the Pinecrest main quest is done) opens it and starts *The Far Side*.
+- Cable car far-side line: three spool key items (`spoolA` slope, `spoolB` trail, `spoolC` Whisper Hollow, behind a cracked rock that needs the Pickaxe). `S.pc_cable` in farpath.js replaces the one in pinecrest.js.
+- Walk-tested with a BFS bot in the browser (all terraces, trap rescue, both caves, shortcut hop, gate scene, cable flow, sibling scene).
 
 ## Next up
 

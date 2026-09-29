@@ -13,7 +13,7 @@ for (const id in PK.MAPS) {
   const flood = (block) => {
     const seen = new Set(), q = [];
     for (const s of starts) { const k = s[0] + ',' + s[1]; if (!block.has(k) && walk(s[0], s[1])) { seen.add(k); q.push(s); } }
-    while (q.length) { const [x, y] = q.shift(); for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) { const nx = x + dx, ny = y + dy, k = nx + ',' + ny; if (seen.has(k) || block.has(k) || !walk(nx, ny)) continue; if (m.at(nx, ny) === 'v' && dy !== 1) continue; seen.add(k); q.push([nx, ny]); } }
+    while (q.length) { const [x, y] = q.shift(); for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) { const nx = x + dx, ny = y + dy, k = nx + ',' + ny; if (seen.has(k) || block.has(k) || !walk(nx, ny)) continue; if (m.at(nx, ny) === 'v' && dy !== 1) continue; if (m.at(nx, ny) === 'V' && dy !== -1) continue; seen.add(k); q.push([nx, ny]); } }
     return seen;
   };
   // NPCs that appear/disappear with story flags are intentional gates

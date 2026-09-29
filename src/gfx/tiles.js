@@ -7,7 +7,7 @@
   // Tile behaviour table (character -> properties)
   var TILE = {
     '.': {}, ',': {}, '"': { grass: 1 }, ':': {}, 'g': {}, 'd': {}, '=': {}, '|': {}, 'X': {}, 'O': {}, 'M': {},
-    'T': { solid: 1 }, '~': { solid: 1, water: 1 }, 'v': { solid: 1, ledge: 1 }, 'f': { solid: 1 },
+    'T': { solid: 1 }, '~': { solid: 1, water: 1 }, 'v': { solid: 1, ledge: 1 }, 'V': { solid: 1, ledge: 1 }, 'f': { solid: 1 },
     'S': { solid: 1, sign: 1 }, 'b': { solid: 1, cut: 1 }, 'r': { solid: 1, smash: 1 }, 'R': { solid: 1 },
     'W': { solid: 1 }, 'l': { solid: 1, lava: 1 }, 'i': { ice: 1 }, 'k': { solid: 1 }, 'L': { solid: 1 },
     'c': { solid: 1, counter: 1 }, 't': { solid: 1 }, 'B': { solid: 1 }, 'K': { solid: 1, shelf: 1 },
@@ -355,6 +355,17 @@
     for (var i = 1; i < 16; i += 4) fill(x, w[0], i, 12, 1, 2);
     fill(x, w[0], 0, 14, 16, 1);
     fill(x, g[0], 0, 15, 16, 1);
+  }
+
+  // 'V': a cliff drop you hop down when heading north (mirror of 'v')
+  function ledgeUp(x, P) {
+    var g = P.g, w = P.wall;
+    fill(x, g[0], 0, 0, 16, 1);
+    fill(x, w[0], 0, 1, 16, 1);
+    fill(x, w[1], 0, 2, 16, 3);
+    for (var i = 1; i < 16; i += 4) fill(x, w[0], i, 2, 1, 2);
+    fill(x, w[2], 0, 5, 16, 1);
+    fill(x, g[2], 0, 6, 16, 1);
   }
 
   function fence(x, P) {
@@ -760,6 +771,7 @@
         }
         break;
       case 'v': ledge(x, P); break;
+      case 'V': ledgeUp(x, P); break;
       case 'f': fence(x, P); break;
       case 'S': sign(x, P); break;
       case 'b': bush(x, P); break;

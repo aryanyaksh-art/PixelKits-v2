@@ -285,6 +285,11 @@
       if (PK.audio) PK.audio.sfx('jump');
       return;
     }
+    if (c === 'V' && d === 'up' && !W.blocked(nx, ny - 1)) {
+      p.moving = true; p.t = 0; p.dx = 0; p.dy = -2; p.jump = 1;
+      if (PK.audio) PK.audio.sfx('jump');
+      return;
+    }
     var pn = W.npcAt(nx, ny);
     if (pn && pn.d.push && !pn.moving) return W.pushBoulder(pn, d);
     if (W.blocked(nx, ny)) {

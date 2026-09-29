@@ -79,6 +79,9 @@
   it('goatcheese', 'Goat Cheese', 'items', 200, 'snack', 45, 'A wedge of tangy cheese. Restores 45 HP and makes a Kit happier.');
   it('campstew', 'Camp Stew', 'items', 450, 'heal', 110, "The mountain inn's famous stew. Restores 110 HP.");
   it('spicejerky', 'Spice Jerky', 'items', 300, 'boost', 3, "Chewy and hot! The Kit's TEC rises at the start of its next battle.");
+  it('spoolA', 'Ridge Spool', 'key', 0, 'key', 0, 'A spool of steel cable left on the Far Slope. Part of the far-side cable car repair.');
+  it('spoolB', 'Dune Spool', 'key', 0, 'key', 0, 'A spool of steel cable found on the Windswept Trail. Part of the far-side cable car repair.');
+  it('spoolC', 'Hollow Spool', 'key', 0, 'key', 0, 'A spool of steel cable hidden in Whisper Hollow. Part of the far-side cable car repair.');
   it('minerlamp', "Miner's Lamp", 'key', 0, 'key', 0, 'A sturdy oil lamp. Lights up pitch-black caves when you carry it.');
   it('grandpahelmet', "Grandpa's Helmet", 'key', 0, 'key', 0, "Grandpa's old mining helmet. A folded note is tucked inside the band.");
   it('tablethalf', 'Tablet Half', 'key', 0, 'key', 0, 'The left half of an ancient stone tablet covered in runes. The Ashen Accord has the other half.');

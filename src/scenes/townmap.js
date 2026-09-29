@@ -4,10 +4,10 @@
   'use strict';
   var PK = window.PK;
   var F = function () { return PK.font; };
-  var MW = 240, MH = 300, OY = 18, VH = 132; // world size (1 px per tile), top of the view on screen, view height (scrolls)
+  var MW = 240, MH = 420, OY = 18, VH = 132; // world size (1 px per tile), top of the view on screen, view height (scrolls)
 
   // Where each group of edge-connected areas sits on the map (world pixel = 1 tile)
-  var ROOTS = { brookhollow: [100, 250] };
+  var ROOTS = { brookhollow: [100, 370] };
   // Caves and other places without outdoor terrain are shown as icons
   var ICONS = {
     echo_cavern: [91, 34, 'cave'], ember_tunnels: [181, 74, 'cave'], frozen_depths: [175, 15, 'cave'], summit_road: [139, 12, 'cave'],
@@ -16,7 +16,7 @@
   };
   var FERRY = [['saltmarsh', 'emberisle']];
   // mainland between the playable areas (keeps Lumora one continent instead of separate islands)
-  var FILL = [[70, 184, 100, 104]];
+  var FILL = [[70, 304, 100, 104]];
   function fillDist(px, py) {
     var best = 1e9;
     FILL.forEach(function (r) {
@@ -100,7 +100,7 @@
       case ':': case 'X': case 'O': return P.path ? P.path[1] : P.g[1];
       case 'g': case 'd': case 'Q': case 'L': case 'k': return P.pave ? P.pave[2] : P.g[2];
       case 'W': return P.wall[odd ? 1 : 2];
-      case 'v': return P.wall[2];
+      case 'v': case 'V': return P.wall[2];
       case 'R': case 'r': return '#9a98a0';
       case 'b': return P.leaf ? PK.color.shade(P.leaf, -0.1) : P.g[0];
       case 'i': return '#c4e8f8';
