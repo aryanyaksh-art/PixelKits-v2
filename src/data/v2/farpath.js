@@ -335,6 +335,7 @@
     if (far && !g().flag('cable_far')) {
       return w.say('OPERATOR: The cable snapped in the blast, so this end of the line is dead. Three steel spools and it runs again. Guide Maren left spares along the old trail.');
     }
+    if (home && !g().state.defeated.pc_warden) return w.say('OPERATOR: The home line to Pinecrest only opens once someone beats Warden Harrow at the Pinecrest Challenge Hall. Come back after the Challenge, Keeper!');
     if (!g().flag('cable_ok') && !far) return w.say('OPERATOR: Sorry! The cable car is only for Summit Crest holders. Mountain rules. Win the Challenge Hall and hop on any time.');
     var opts = [];
     if (top) opts.push(['Down to Base Camp', function () { return riding(w, function () { w.load('pinecrest', 45, 67, 'down'); }); }]);
