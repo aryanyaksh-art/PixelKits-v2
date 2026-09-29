@@ -101,6 +101,7 @@ The Challenge Hall was originally one 40-row map; it's now **4 separate rooms** 
 - Engine: new tile `V` = cliff you hop up-over when moving north (mirror of `v`); validate.mjs and npcblock.mjs know it. `farStep` in farpath.js implements the wind ridge (gusts shove you sideways) and the rockfall floor (red highlighted tiles = a rock lands there when you step on it next; a hit sends you back to the start). Region map (`townmap.js`) grew to MH=420 with Brookhollow at y=370 so the northward chain fits.
 - Summit gate: rows 0-1 cols 19-21 of `pinecrest_peak` are open path; `fgate0..2` block them until flag `farpath`; `marenGate` (only after the Pinecrest main quest is done) opens it and starts *The Far Side*.
 - Cable car far-side line: three spool key items (`spoolA` slope, `spoolB` trail, `spoolC` Whisper Hollow, behind a cracked rock that needs the Pickaxe). `S.pc_cable` in farpath.js replaces the one in pinecrest.js.
+- Cable stations: Brookhollow now has `bh_cable` (home line to Pinecrest Base Camp, Summit Crest holders only); Pinecrest Base Camp has a "Home line: Brookhollow" option. The far-side (Trail Station) end is dead until `cable_far` (all three spools handed in): riding up from the Trail Station without spools used to work by mistake, fixed 2026-09-29. All cable logic is `S.pc_cable` in farpath.js.
 - Walk-tested with a BFS bot in the browser (all terraces, trap rescue, both caves, shortcut hop, gate scene, cable flow, sibling scene).
 
 ## Level cap (added 2026-09-29)

@@ -331,17 +331,21 @@
 
   // ================= Cable car: far-side line (side quest) =================
   S.pc_cable = async function (w) {
-    var mapId = w.map.id, top = mapId === 'pc_cable_top', far = mapId === 'pc_cable_far';
-    if (!g().flag('cable_ok') && !far) return w.say('OPERATOR: Sorry! The cable car is only for Summit Crest holders. Mountain rules. Win the Challenge Hall and hop on any time.');
-    var opts = far ? ['Up to the Summit', 'Stay here'] : [top ? 'Down to Base Camp' : 'Up to the Summit', 'The far-side line', 'Stay here'];
-    var pick = await w.ask('OPERATOR: Where to?', opts);
-    if (far) {
-      if (pick !== 0) return;
-      return riding(w, function () { w.load('pinecrest_peak', 31, 14, 'down'); });
+    var mapId = w.map.id, top = mapId === 'pc_cable_top', far = mapId === 'pc_cable_far', base = mapId === 'pc_cable_base', home = mapId === 'bh_cable';
+    if (far && !g().flag('cable_far')) {
+      return w.say('OPERATOR: The cable snapped in the blast, so this end of the line is dead. Three steel spools and it runs again. Guide Maren left spares along the old trail.');
     }
-    if (pick === 1) return farLine(w, top);
-    if (pick !== 0) return;
-    return riding(w, function () { if (top) w.load('pinecrest', 45, 67, 'down'); else w.load('pinecrest_peak', 31, 14, 'down'); });
+    if (!g().flag('cable_ok') && !far) return w.say('OPERATOR: Sorry! The cable car is only for Summit Crest holders. Mountain rules. Win the Challenge Hall and hop on any time.');
+    var opts = [];
+    if (top) opts.push(['Down to Base Camp', function () { return riding(w, function () { w.load('pinecrest', 45, 67, 'down'); }); }]);
+    if (base) opts.push(['Up to the Summit', function () { return riding(w, function () { w.load('pinecrest_peak', 31, 14, 'down'); }); }]);
+    if (far) opts.push(['Up to the Summit', function () { return riding(w, function () { w.load('pinecrest_peak', 31, 14, 'down'); }); }]);
+    if (base) opts.push(['Home line: Brookhollow', function () { return riding(w, function () { w.load('brookhollow', 28, 27, 'down'); }); }]);
+    if (home) opts.push(['To Pinecrest Base Camp', function () { return riding(w, function () { w.load('pinecrest', 45, 67, 'down'); }); }]);
+    if (!far && !home) opts.push(['The far-side line', function () { return farLine(w, top); }]);
+    opts.push(['Stay here', null]);
+    var pick = await w.ask('OPERATOR: Where to?', opts.map(function (o) { return o[0]; }));
+    if (opts[pick] && opts[pick][1]) return opts[pick][1]();
   };
   async function riding(w, go) {
     if (PK.audio) PK.audio.sfx('door');

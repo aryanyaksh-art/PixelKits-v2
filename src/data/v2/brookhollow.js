@@ -105,7 +105,8 @@
       { k: 'stall', at: [20, 19], goods: 'flowers', roof: '#6aaa58' },
       { k: 'cottage', at: [36, 14], to: 'bh_teller', roof: '#6a4a8a', icon: 'eye' },
       { k: 'school', at: [36, 22], to: 'bh_school' },
-      { k: 'boathouse', at: [20, 30], to: 'bh_boathouse' }
+      { k: 'boathouse', at: [20, 30], to: 'bh_boathouse' },
+      { k: 'cablecar', at: [27, 23], to: 'bh_cable', roof: '#3a78c8' }
     ],
     props: [["vegpatch", 4, 20, {"w": 3, "h": 2, "text": "Grandma's herb and berry garden. Everything is neatly labeled."}], ["flowerpots", 2, 13], ["lantern", 2, 18], ["lantern", 7, 27], ["laundry", 22, 2, {"text": "Mom's laundry. One of the shirts is {RIVAL}'s, and it's been patched a lot."}], ["kithouse", 36, 6, {"color": "#4a8ae0"}], ["kithouse", 37, 6, {"color": "#e8a040"}], ["toybox", 35, 8], ["banner", 44, 3, {"color": "#3a78c8", "icon": "star"}], ["lantern", 14, 11], ["lantern", 24, 11], ["lantern", 34, 11], ["lantern", 44, 11], ["banner", 15, 13, {"color": "#d83a3a", "icon": "fruit"}], ["banner", 33, 13, {"color": "#3a9a50", "icon": "bread"}], ["crate", 23, 15, {"icon": "fruit"}], ["crate", 23, 16], ["cart", 31, 17, {"text": "A cart full of vegetables from the farms up the valley."}], ["candles", 41, 16, {"text": "Candles on the doorstep, flickering even in the daylight."}], ["flowerpots", 35, 16], ["dummy", 43, 26, {"text": "A practice dummy for the pupils. It's covered in little scorch marks and leaf cuts."}], ["dummy", 44, 26, {"text": "Another practice dummy. This one has a drawn-on face."}], ["rope", 25, 31], ["crate", 25, 30, {"icon": "fish"}], ["haybale", 30, 30], ["haybale", 31, 30], ["haybale", 30, 31], ["wheelbarrow", 33, 32]],
     signsAt: [
@@ -150,6 +151,11 @@
   });
 
   // ================= Home =================
+  room('bh_cable', 'Home Station', 'lab', 12, ['............', '............', '............', '....M.......'], {
+    entry: [4, 5],
+    props: [['window', 1, 1], ['window', 3, 1], ['gearwall', 6, 1], ['counter', 8, 2, { w: 2 }], ['painting', 11, 1, { art: 'map', text: 'CABLE CAR: Brookhollow to Pinecrest Base Camp. A long, gentle line over the Willow. Summit Crest holders ride free.' }], ['plant', 1, 5]],
+    npcs: { ophome: { at: [9, 3], sprite: 'clerk', dir: 'down', talk: 'pc_cable' } }
+  });
   room('bh_home1f', 'Home', 'home', 14, [
     '.............X', '..............', '..............', '..............', '..............', '..............', '......M.......'
   ], {
