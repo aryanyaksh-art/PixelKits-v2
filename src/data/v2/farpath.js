@@ -65,8 +65,8 @@
       fa2: { at: [18, 43], sprite: 'birder', dir: 'down', keeper: 'fs_2', sight: 3 },
       fa3: { at: [9, 37], sprite: 'hiker', dir: 'right', keeper: 'fs_3', sight: 3 },
       fa4: { at: [9, 26], sprite: 'girl', dir: 'down', keeper: 'fs_4', sight: 3 },
-      trapA: { at: [24, 17], sprite: 'cinder', dir: 'down', keeper: 'cinder_5', sight: 3 },
-      trapB: { at: [31, 17], sprite: 'cinder2', dir: 'down', keeper: 'cinder_6', sight: 3 },
+      trapA: { at: [24, 17], sprite: 'cinder', dir: 'down', keeper: 'cinder_5', sight: 3, flee: 'uurrrrrrrrrruuu', cond: function () { return !beat('cinder_5'); } },
+      trapB: { at: [31, 17], sprite: 'cinder2', dir: 'down', keeper: 'cinder_6', sight: 3, flee: 'uurrruuu', cond: function () { return !beat('cinder_6'); } },
       net: { at: [27, 16], sprite: 'kit:52', noTurn: true, cond: notFlag('net_freed'), talk: 'far_net' },
       spare: { at: [30, 16], sprite: 'item', noTurn: true, talk: 'far_crates' },
       maren2: { at: [30, 26], sprite: 'guide', dir: 'left', cond: flag('farpath'), talk: 'far_camp' },
@@ -281,7 +281,7 @@
   D('pc_beach', {
     name: 'Gullshore', theme: 'coast', music: 'willow', region: 'Windward Coast',
     rows: R.pc_beach,
-    props: [['banner', 12, 5, { color: '#e85a3a', icon: 'anchor' }], ['banner', 17, 5, { color: '#3a8ae8', icon: 'anchor' }], ['crate', 9, 4, { text: 'FESTIVAL: bunting and lanterns. Delivered by the Lighthouse Trading Co.' }], ['boat', 33, 13, { w: 2, h: 1 }]],
+    props: [['banner', 12, 5, { color: '#e85a3a', icon: 'anchor' }], ['banner', 17, 5, { color: '#3a8ae8', icon: 'anchor' }], ['crate', 9, 4, { text: 'FESTIVAL: bunting and lanterns. Delivered by the Lighthouse Trading Co.' }], ['beachboat', 32, 13]],
     signsAt: [
       [20, 36, 'GULLSHORE - Sea breeze, salt air, and a very long queue for the harbor.'],
       [14, 20, 'NORTH: Saltmarsh Harbor - FESTIVAL WEEK! Come in, come in!'],

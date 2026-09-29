@@ -528,6 +528,7 @@
     else if (tr.intro) await PK.ui.say(tr.intro);
     var r = await W.battle(id, { rematch: rematch });
     if (r === 'win' && tr.after) await PK.ui.say(tr.after);
+    if (r === 'win' && n.d.flee) { await W.moveNpc(n, n.d.flee); n.hidden = true; }
     return r;
   };
 

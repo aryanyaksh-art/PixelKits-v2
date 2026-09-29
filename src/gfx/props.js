@@ -460,6 +460,22 @@
     a.f('#84c2f8', 6, 27, 36, 1); a.f('#e4f4ff', 12, 28, 10, 1);
     return a.c;
   } });
+  // a little rowboat hauled up on the sand: raised bow, blue stripe, oar leaning on the hull, rope coil, net bundle
+  def('beachboat', { w: 3, h: 2, text: 'A little rowboat hauled up on the sand. Painted on the bow: GULL AND SUN.', draw: function (o) {
+    var a = canvas(o, 32), x = a.x;
+    a.f('#d8c08a', 1, 24, 46, 6); a.f('#b89e6a', 5, 29, 38, 2); a.f('#efdcae', 9, 25, 14, 1); a.f('#f8ecc8', 26, 26, 8, 1);
+    x.fillStyle = OUT; x.beginPath(); x.moveTo(1, 8); x.lineTo(6, 13); x.lineTo(45, 12); x.lineTo(42, 27); x.lineTo(9, 27); x.lineTo(4, 19); x.closePath(); x.fill();
+    x.fillStyle = '#a8743e'; x.beginPath(); x.moveTo(3, 10); x.lineTo(7, 14); x.lineTo(44, 13); x.lineTo(41, 26); x.lineTo(10, 26); x.lineTo(6, 19); x.closePath(); x.fill();
+    a.f('#c8925a', 8, 14, 36, 2);
+    a.f('#8a5a30', 9, 19, 32, 1); a.f('#8a5a30', 10, 22, 30, 1); a.f('#8a5a30', 11, 24, 28, 1);
+    a.f('#3a7ac8', 7, 16, 37, 2); a.f('#7ab0ee', 7, 16, 37, 1);
+    a.f('#fcfcfc', 12, 20, 6, 2); a.f('#3a7ac8', 13, 21, 4, 1);
+    a.f('#5a3a1c', 10, 11, 32, 2); a.f('#c8925a', 20, 10, 12, 2); a.f(WOODD, 20, 12, 12, 1);
+    a.f('#7aa08a', 34, 8, 8, 5); a.f('#5a8068', 36, 9, 1, 3); a.f('#5a8068', 39, 8, 1, 4); a.f('#5a8068', 34, 10, 8, 1);
+    a.line(OUT, 26, 12, 44, 2, 2); a.line('#c8925a', 26, 12, 44, 2, 1); a.f(OUT, 43, 0, 5, 5); a.f('#e0a868', 44, 1, 3, 3);
+    a.line('#e8d8a0', 4, 10, 1, 24, 1); a.f('#e8d8a0', 1, 24, 3, 2);
+    return a.c;
+  } });
   def('workbench', { w: 2, h: 1, dh: 24, text: 'A workbench covered in wood shavings and half-carved oars.', draw: function (o) {
     var a = canvas(o, 24);
     a.f(OUT, 2, 14, 3, 10); a.f(OUT, 27, 14, 3, 10);
