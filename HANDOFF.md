@@ -6,7 +6,23 @@
 - **Local folder:** `C:\Users\aryan\OneDrive\Desktop\pixel_kits_v2` · v1 stays untouched in `Desktop\pixel_kits` (repo PixelKits).
 - Saves use their own keys (`pixelkits2_save_slot1..3`, `pixelkits2_options`) so v2 never touches v1 saves on the shared github.io origin.
 - **Before every push run `node tools/bump.mjs`** (stamps ?v= on index.html script links so browsers skip GitHub Pages' 10-minute cache).
-- Commit attribution: end every commit message with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`. The user asked to commit and push everything.
+- Commit attribution: end every commit message with the `Co-Authored-By:` line the session's system reminder gives (it has changed between sessions: Opus 5.5, Sonnet 5, Sonnet 5.5). The user asked to commit and push everything.
+
+## START HERE (status as of 2026-09-29)
+
+**Built and live:** Brookhollow → Willow Trail → Pinecrest (town + summit + 6 caves + 4-room Challenge Hall gym), 48 of 151 Kits, quests, character creator, fast day/night. **Next:** the next town (gym 2) and more Kits. The main story so far ends with Elder Morrow escaping with half the tablet; a note in the Summit Inn attic says the Accord's next stop is "by the sea" and the sibling is now trusted by the Elder. The cable car's far-side line (down the other side of Pinecrest) is "under repair" and is meant to open the route to the next town.
+
+**How to work with this user (Aryan) — important, they get frustrated fast:**
+- They want **speed and low token use**: short replies, no long explanations, batch tool calls, avoid extra screenshots and repeated test loops. They have said "hurry", "don't waste my tokens" more than once.
+- **Verify fixes by actually walking the path in the test harness**, not by debug-warping past the puzzle (warping skipped two real soft-locks last session). Never claim "fixed" without checking their real save's situation.
+- When they report "still stuck/didn't work", first check **caching**: read their save with the Claude-in-Chrome tools and check which script version they're on (`[...document.scripts].find(x=>x.src.includes('pinecrest')).src` shows the `?v=` stamp; compare with the last `bump.mjs` stamp). GitHub Pages caches ~10 min; tell them to close the tab and open the link fresh + Ctrl+Shift+R. Also fix their save directly (teleport them clear) so they aren't blocked waiting.
+- **Secrets/clues must always be a little visible** (a sprite, crack, glint) — never invisible spots.
+- **Keep everything original**; run `node tools/namecheck.mjs` for any new name. Never commit the reference name lists (they live in `Desktop\pixelkits_namelists`).
+- Work **town by town**: ask ~15 multiple-choice questions per town and many per gym before building (they answer in bulk, often with "add more", and ask for many unique buildings/props/quests). Give every town its own quest structure, unique buildings with picture icons instead of text labels, full multi-room interiors, food stalls, and a gym with its own mini-game challenges (a gym locks you in until you win; losing = full reset; no helpers/healing inside).
+- Shell tools sometimes fail with "auto mode classifier gave no verdict" (transient outage). Retry once; if it persists do read-only work or edits and come back. Edit-tool string surgery on map rows is error-prone (row width must stay exact): verify length with a quick node script, or do the edit by index in a script file.
+- Before every push: `node tools/validate.mjs`, `npcblock.mjs`, `propcheck.mjs`, `namecheck.mjs`, then `node tools/bump.mjs`, commit, push.
+
+**The user's save** (live site, `localStorage['pixelkits2_save_slot1']`, Aryan's Halorax-line starter): finished the Pinecrest gym, Grotto, all main Pinecrest quests; side quests: *Kids on the Cliffs* 3/4 (goat1 at (3,65) on the `pinecrest` map, then turn in to Nell at the barn), *Buried in Amber* done (dig2 at (22,4) in `pc_mine` still undug), *The Singing Cave* done. All 48 Kits were also placed in their storage box at Lv16 for testing (that is normal test data, not a bug).
 
 ## How v2 is being built
 
@@ -17,7 +33,7 @@ The user (Aryan) found v1 repetitive and asked for: the game filling the browser
 - **Full screen:** the canvas widens to the window (`PK.FW` up to 432 px wide, `PK.H` 160). Scenes flagged `wide` (overworld, battle, designs gallery) use the full width; others draw in a centered 240 px stage (`PK.BASE_W`, offset `PK.OX`) with a dark frame. Overlays take the width of the opaque scene below them (`PK.layout()` in core.js).
 - **Battle:** layout spreads over the wide screen; foe types are shown under the foe HP box.
 - **Kit art:** `src/gfx/kitDesigns.js`. Each Kit has its own `draw(d)` function (shaded ellipses/polys/strokes with auto outline; `d.eye`, `d.flame`, `d.speckle`, `d.cut`); views `front` (64 px), `back` (84 px, mirrored) and `icon` (32 px). `PK.KITS[id].art.design` names the design. Preview: `?gallery=designs`. The user approved this style.
-- **Roster (27 of 151):** 1-3 Mossip→Pebblom→Templith (Leaf), 4-6 Emberlet→Shardrake→Halorax (Blaze→Blaze/Wyrm), 7-9 Conchi→Glyphsquid→Galleoth (Tide→Tide/Shade), 10-11 Rushkin→Bulrusher, 12-14 Kitefinch→Streamlark→Festivane, 15-17 Caddle→Stonesheath→Caddira, 18-19 Puffhop→Dandeloft, 20-21 Acornet→Oaknight, 22-23 Skimble→Rapidfin, 24-25 Nocturr→Umbrowl (night), 26-27 Geodrop→Amethell (rare). Stats/learnsets are still generated from the name (kits.js); hand-made learnsets are a future task.
+- **Roster (48 of 151):** 1-3 Mossip→Pebblom→Templith (Leaf), 4-6 Emberlet→Shardrake→Halorax (Blaze→Blaze/Wyrm), 7-9 Conchi→Glyphsquid→Galleoth (Tide→Tide/Shade), 10-11 Rushkin→Bulrusher, 12-14 Kitefinch→Streamlark→Festivane, 15-17 Caddle→Stonesheath→Caddira, 18-19 Puffhop→Dandeloft, 20-21 Acornet→Oaknight, 22-23 Skimble→Rapidfin, 24-25 Nocturr→Umbrowl (night), 26-27 Geodrop→Amethell (rare). Pinecrest: 28-30 Crampling→Ledgeram→Peakhorn (Terra→Terra/Brawl), 31-32 Pebbeetle→Bouldrone, 33-35 Echip→Flittermaw→Stalagwing (bats), 36-37 Palewick→Gloamander, 38-39 Glowgrub→Wickmoth (design key `glimmoth`), 40-42 Quartzel→Facetail→Crystalisk, 43-44 Amberjaw→Runemaw (fossil), 45-46 Flurrip→Avalop, 47-48 Hailet→Rimecrown (design key `glacrown`). **No type in the roster yet uses Volt, Venom or Mind** — later towns should introduce them. Most lines are 3 stages; some 2, a couple 1 (the user's request). Stats/learnsets are still generated from the name (kits.js); hand-made learnsets are a future task.
 - **Character creator** (title.js `Creator`): body (pants/skirt/shorts), 6 skin tones, 9 hairstyles, hair color, hat (none/cap/beanie), hat/top/bottom/shoe colors. Stored in `state.player.look`, applied with `PK.chars.setPlayerLook`.
 - **Quests** (`src/systems/quests.js`): `PK.QUESTS[id] = {title, kind:'main'|'side', desc, steps:[{id,text}], reward}`; API `PK.quest.start/advance(id, stepId)/complete/at/past/has/done/current`. Quest bar on the map (hidden during scripts), NEW QUEST / QUEST UPDATED / QUEST COMPLETE toasts, QUESTS screen in the start menu, Options toggle.
 - **Maps by coordinates** (maps.js): `buildings: [{k, at:[x,y], to}]`, `npcs: {name: {at:[x,y], ...}}`, `signsAt`, `itemsAt`, `hiddenAt`, `eventsAt`, `warpsAt`. NPC options added: `startHidden`, sprite `'item'` (satchel), sprite `'tracks'`, `swept` path. `W.refreshNpcs()` re-checks NPC conditions after every script/interaction.
@@ -71,10 +87,14 @@ The Challenge Hall was originally one 40-row map; it's now **4 separate rooms** 
 
 ## Next up
 
-1. Ask the user ~15 questions about the next town (the cable car far-side line and the Accord's note point "by the sea"), then build it.
-2. Keep designing Kits for each new area (target 151) and consider hand-authored learnsets.
-3. Title screen and menus could be made wide like the overworld.
-4. `tools/balance.mjs` currently shows `elder_morrow` near 0% win rate at the suggested level — worth a rebalance pass (lower its team's levels or the AI tier) once there's time.
+1. **Next town (gym 2).** Ask the user ~15 multiple-choice questions about it, then ~many about its gym, then build it (new area file `src/data/v2/<town>.js`, add it to `index.html` + `tools/load.mjs` picks scripts up from index.html automatically; add a `ROOTS`/edge link in `townmap.js` so it shows on the region map; keep names original). Keep the v1 town names (v1 order was Pinecrest, Quarryton, Voltmere, Saltmarsh, Dunespire, Mirage City, Rimeholt, Shadefall) but rebuild each unique. Likely next per the story: something coastal ("by the sea") reached from the far side of Pinecrest via the cable car's repaired line (`pc_cable` script currently says the far-side line is under repair; unlock it when the next town exists). Gym 2's reward should keep the gates chain going (v1 gates: Machete, Pickaxe (done in Pinecrest), Trail Bike, Wayfinder, Raft, Rally Bell...).
+2. **Story threads to keep advancing:** the Ashen Accord wants both tablet halves (Aryan holds one: item `tablethalf`); Grandpa co-founded the Accord, hid the halves and vanished (his helmet + note are in the bag: keep the halves APART); the sibling is a double agent (bittersweet ending planned, Elder now trusts them); Dad is secretly the 8th Warden (reveal before the League); the third starter (loose in the hills) can show up; the crystal/fossil "sleeping thing under the mountain" idea is set up but unresolved (Runemaw/Amberjaw fossils, shrine keeper hints).
+3. Keep designing Kits for each new area (target 151; ~103 to go, many need new types Volt/Venom/Mind) and consider hand-authored learnsets (stats/learnsets are still generated from the name).
+4. Title screen, character creator and menus are still drawn in the centered 240px stage; making them wide like the overworld is optional polish.
+5. `tools/balance.mjs` shows `elder_morrow` near 0% win rate at the suggested level and Warden Harrow ~60%, cinder fights 64-100% — a rebalance pass would help.
+6. Small polish ideas the user liked: more stalls that sell food, picture-icon signs on every building, extra caves.
+
+**Suggested first message for the next chat:** "Continue PixelKits v2 (repo PixelKits-v2, folder C:\Users\aryan\OneDrive\Desktop\pixel_kits_v2). Read HANDOFF.md first, especially START HERE. Then ask me the questions for the next town and its gym, and build it. Keep it fast and cheap, keep everything original, walk-test every puzzle for real, and commit + push everything."
 
 ## Running and testing
 
