@@ -403,6 +403,7 @@
       if (li < 0) return;
       var lk = party[li];
       if (lk.level >= 100) return PK.ui.say("It won't have any effect.");
+      if (lk.level >= PK.levelCap()) return PK.ui.say(PK.stats.name(lk) + ' cannot grow past Lv. ' + PK.levelCap() + ' until you beat the next Warden.');
       PK.game.removeItem(id);
       var ups = PK.stats.addExp(lk, PK.stats.expFor(lk.level + 1) - lk.exp);
       if (PK.audio) PK.audio.jingle('levelup');

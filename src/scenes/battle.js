@@ -505,6 +505,7 @@
       if (x.part) await this.say(PK.stats.name(k) + ' gained ' + x.amt + ' EXP. Points!');
       else if (!sharedShown) { await this.say('The rest of your team gained EXP. Points too!', { auto: 60 }); sharedShown = true; }
       var ups = PK.stats.addExp(k, x.amt);
+      if (ups.capped && !this.capShown) { this.capShown = true; await this.say('Kits cannot grow past Lv. ' + PK.levelCap() + ' until you beat the next Warden!', { auto: 70 }); }
       if (holder && this.hud[holder.key]) {
         var h = this.hud[holder.key];
         if (PK.audio) PK.audio.sfx('exp');

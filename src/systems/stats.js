@@ -96,17 +96,30 @@
   }
 
   // Add EXP; returns array of {level} events (moves learned are checked separately per level)
+  // Level cap: Kits can't grow past the ace level of the next Warden you have not beaten yet.
+  // GYM_LEADERS lists the Warden trainer ids in order; GYM_CAPS[n] is the cap once n of them are beaten.
+  // Add a leader and a cap here whenever a new gym is built (past the last entry there is no cap).
+  PK.GYM_LEADERS = ['pc_warden', 'sm_showman'];
+  PK.GYM_CAPS = [14, 22, 100];
+  PK.levelCap = function () {
+    var st = PK.game && PK.game.state, n = 0;
+    if (!st) return 100;
+    PK.GYM_LEADERS.forEach(function (id) { if (st.defeated && st.defeated[id]) n++; });
+    return PK.GYM_CAPS[Math.min(n, PK.GYM_CAPS.length - 1)];
+  };
   function addExp(k, amount) {
-    var ev = [];
+    var ev = [], cap = PK.levelCap();
     if (k.level >= 100) return ev;
+    if (k.level >= cap) { ev.capped = true; return ev; }
     k.exp += amount;
-    while (k.level < 100 && k.exp >= expFor(k.level + 1)) {
+    while (k.level < cap && k.exp >= expFor(k.level + 1)) {
       var before = k.stats.slice();
       k.level++;
       recalc(k);
       ev.push({ level: k.level, before: before, after: k.stats.slice() });
     }
     if (k.level >= 100) k.exp = expFor(100);
+    if (k.level >= cap) { ev.capped = true; k.exp = Math.min(k.exp, expFor(k.level + 1) - 1); }
     return ev;
   }
 

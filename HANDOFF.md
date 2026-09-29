@@ -103,6 +103,10 @@ The Challenge Hall was originally one 40-row map; it's now **4 separate rooms** 
 - Cable car far-side line: three spool key items (`spoolA` slope, `spoolB` trail, `spoolC` Whisper Hollow, behind a cracked rock that needs the Pickaxe). `S.pc_cable` in farpath.js replaces the one in pinecrest.js.
 - Walk-tested with a BFS bot in the browser (all terraces, trap rescue, both caves, shortcut hop, gate scene, cable flow, sibling scene).
 
+## Level cap (added 2026-09-29)
+
+Kits cannot level past the ace level of the next Warden you have not beaten. `PK.GYM_LEADERS` (trainer ids in order) and `PK.GYM_CAPS` (cap after n leaders are beaten) live in `src/systems/stats.js`; `addExp` stops at the cap, battles and Level candies say so. Current: `[14, 22, 100]` = Harrow's ace is 14, the Saltmarsh showman (`sm_showman`, not built yet) must have his ace at **Lv 22**. **When each new gym is built, add its leader id to GYM_LEADERS and set the cap to his ace level, plus the following entry.** Debug menu (`?debug=1`) has "All Kits at cap" (gives every missing Kit at the current cap).
+
 ## Next up
 
 1. **Next town (gym 2).** Ask the user ~15 multiple-choice questions about it, then ~many about its gym, then build it (new area file `src/data/v2/<town>.js`, add it to `index.html` + `tools/load.mjs` picks scripts up from index.html automatically; add a `ROOTS`/edge link in `townmap.js` so it shows on the region map; keep names original). Keep the v1 town names (v1 order was Pinecrest, Quarryton, Voltmere, Saltmarsh, Dunespire, Mirage City, Rimeholt, Shadefall) but rebuild each unique. Likely next per the story: something coastal ("by the sea") reached from the far side of Pinecrest via the cable car's repaired line (`pc_cable` script currently says the far-side line is under repair; unlock it when the next town exists). Gym 2's reward should keep the gates chain going (v1 gates: Machete, Pickaxe (done in Pinecrest), Trail Bike, Wayfinder, Raft, Rally Bell...).

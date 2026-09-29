@@ -155,7 +155,7 @@
   PK.debugMenu = function () {
     return PK.run(async function () {
       var maps = Object.keys(PK.MAPS).filter(function (k) { return !PK.MAPS[k].interior; });
-      var i = await PK.ui.menu(['Warp', 'Heal party', 'Party Lv+10', 'All crests', 'Give items', 'Toggle encounters', 'Add Kit', 'Close'], { x: 4, y: 4 });
+      var i = await PK.ui.menu(['Warp', 'Heal party', 'Party Lv+10', 'All crests', 'Give items', 'Toggle encounters', 'Add Kit', 'All Kits at cap', 'Close'], { x: 4, y: 4 });
       var st = PK.game.state;
       if (i === 0) {
         var m = await PK.ui.menu(maps, { x: 4, y: 4, maxRows: 10 });
@@ -174,6 +174,13 @@
         ['machete', 'pickaxe', 'raft'].forEach(function (it) { PK.game.addItem(it, 1); });
         PK.ui.say('Items added.');
       } else if (i === 5) { PK.noEncounters = !PK.noEncounters; PK.ui.say('Encounters ' + (PK.noEncounters ? 'OFF' : 'ON')); }
+      else if (i === 7) {
+        var have = {}, all = st.party.concat(st.box || []);
+        all.forEach(function (k) { have[k.id] = 1; });
+        var made = 0;
+        Object.keys(PK.KITS).forEach(function (id) { if (!have[id]) { var nk = PK.stats.create(+id, PK.levelCap()); PK.game.giveKit(nk); made++; } });
+        PK.ui.say('Added ' + made + ' Kits at Lv. ' + PK.levelCap() + '.');
+      }
       else if (i === 6) {
         var ids = Object.keys(PK.KITS);
         var k2 = await PK.ui.menu(ids.map(function (id) { return id + ' ' + PK.KITS[id].name; }), { x: 4, y: 4, maxRows: 10 });
