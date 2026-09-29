@@ -1046,14 +1046,15 @@
     }
     // time-of-day tint for outdoor maps
     if (!m.interior && !m.dungeon && m.theme !== 'cave' && m.theme !== 'ice' && m.theme !== 'volcano') {
-      var tod = PK.game.timeOfDay();
-      var tint = { morning: 'rgba(255,190,140,0.08)', evening: 'rgba(255,120,60,0.16)', night: 'rgba(20,24,80,0.40)' }[tod];
-      if (tint) { ctx.fillStyle = tint; ctx.fillRect(0, 0, PK.W, PK.H); }
-      if (tod === 'night') {
-        // lamp glow
+      var dt = PK.game.dayTint();
+      if (dt.a > 0.004) { ctx.fillStyle = 'rgba(' + dt.r + ',' + dt.g + ',' + dt.b + ',' + dt.a.toFixed(3) + ')'; ctx.fillRect(0, 0, PK.W, PK.H); }
+      if (dt.dark > 0.05) {
+        // lamp glow, fading in as it gets dark
+        ctx.globalAlpha = dt.dark;
         for (var y = Math.max(0, Math.floor(cy / TS)); y < Math.min(m.h, Math.ceil((cy + PK.H) / TS) + 1); y++)
           for (var x = Math.max(0, Math.floor(cx / TS)); x < Math.min(m.w, Math.ceil((cx + PK.W) / TS) + 1); x++)
             if (m.at(x, y) === 'L') { ctx.fillStyle = 'rgba(255,230,140,0.18)'; ctx.beginPath(); ctx.arc(x * TS - cx + 8, y * TS - cy + 4, 22, 0, 6.3); ctx.fill(); }
+        ctx.globalAlpha = 1;
       }
     }
     if (m.dark) {
