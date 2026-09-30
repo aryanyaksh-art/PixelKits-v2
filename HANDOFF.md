@@ -115,6 +115,14 @@ The Challenge Hall was originally one 40-row map; it's now **4 separate rooms** 
 - **New Kits:** about 16 (ids 62+): storm/lightning sea Kits, tide-pool critters, harbor animals. **Three rare weather/sea Kits are the island key: one can be caught early after Saltmarsh's story, the other two later.**
 - **Music:** sea shanty (base), festival drum theme, calm night tune, Accord-front mystery theme, more intense gym/boss battle music.
 
+## Decisions after the Saltmarsh questions (2026-09-29 evening)
+
+- **Build all of Saltmarsh, with a lot of thought in every design** (Kits, buildings, interiors). Work in stages, commit each.
+- **Types switch to the standard 18 names.** Mapping: Plain→Normal, Blaze→Fire, Tide→Water, Leaf→Grass, Volt→Electric, Frost→Ice, Brawl→Fighting, Venom→Poison, Terra→Ground, Gale→Flying, Mind→Psychic, Swarm→Bug, Shade→Ghost, Lumen→Fairy, Metal→Steel, Wyrm→Dragon, plus **new Rock and Dark**. (User asked for "Add Dark, Lumen becomes Fairy"; Rock is added too so it is truly the standard 18.) ORIGINALITY.md must be updated: type names are now common English words used by the standard chart; everything else stays original.
+- **Legendaries: 2 instead of 3 rare Kits** (the island key). #1 (catch early, after Saltmarsh's story): **tidal oracle, a many-eyed sea serpent with a crown of floating eyes, Water/Dragon.** #2 (caught later): **storm-crowned heron, Psychic/Water.** Both hand-designed with a lot of thought.
+- **Removed:** the COLOR option in the Kit EDIT menu (no more recolouring your own Kit).
+- **Shiny Kits ("Prism") are rare: 1 in 2048.** Hand-picked alternate colours per Kit (not an automatic hue shift). Encounter effects: sparkle burst on entry, a special jingle, star mark in menus and battle, an overworld glint on the grass before the fight.
+
 ## Level cap (added 2026-09-29)
 
 Kits cannot level past the ace level of the next Warden you have not beaten. `PK.GYM_LEADERS` (trainer ids in order) and `PK.GYM_CAPS` (cap after n leaders are beaten) live in `src/systems/stats.js`; `addExp` stops at the cap, battles and Level candies say so. Current: `[14, 22, 100]` = Harrow's ace is 14, the Saltmarsh showman (`sm_showman`, not built yet) must have his ace at **Lv 22**. **When each new gym is built, add its leader id to GYM_LEADERS and set the cap to his ace level, plus the following entry.** Debug menu (`?debug=1`) has "All Kits at cap" (gives every missing Kit at the current cap).
