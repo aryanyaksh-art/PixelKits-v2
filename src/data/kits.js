@@ -78,6 +78,26 @@
   K(60, 'Jellyp', ['Poison'], 1, L(61, 28), 'spec', 'e1', 'Moon Jelly', { design: 'jellyp', float: 1 }, 'It drifts into shore on the evening tide. Its glow is harmless, but the ends of its tentacles tingle.');
   K(61, 'Stingbloom', ['Poison', 'Water'], 2, null, 'spec', 'b2', 'Bloom Jelly', { design: 'stingbloom', float: 1 }, 'Petals grow around its bell like a flower opening at night. Fishers keep well away, because it stings as beautifully as it glows.');
 
+  // ---- Saltmarsh: harbor animals, storm-sea Kits, tide-pool critters, a ghost lantern and the two legendaries ----
+  K(62, 'Buoypup', ['Water'], 1, L(63, 18), 'tank', 'st1', 'Buoy Pup', { design: 'buoypup' }, 'A pup that floats out of trouble. Its red and white buoy ring keeps it from ever sinking, even when it naps at sea.');
+  K(63, 'Quaysel', ['Water'], 2, L(64, 36), 'tank', 'st2', 'Harbor Seal', { design: 'quaysel' }, 'It balances on its tail and rings a brass bell to greet arriving boats. Sailors say a ringing Quaysel means a safe harbor.');
+  K(64, 'Anchormane', ['Water', 'Steel'], 3, null, 'tank', 'st3', 'Anchor Lion', { design: 'anchormane' }, 'An anchor-shaped crest crowns its rope-wound mane. When it roars, mooring chains ring along its shoulders and boats hold fast.');
+  K(65, 'Bilgekin', ['Dark'], 1, L(66, 26), 'fast', 'b1', 'Dock Kitten', { design: 'scupper' }, 'It drags a tin can everywhere, sure that it is treasure. The dark patch over its eye makes it look like a tiny pirate.');
+  K(66, 'Corsaircat', ['Dark', 'Steel'], 2, null, 'phys', 'b2', 'Corsair Cat', { design: 'corsaircat' }, 'Its tail curves like a cutlass and rings when struck. It patrols the docks at night, and no crate leaves without its say.');
+  K(67, 'Pouchbill', ['Flying'], 1, L(68, 25), 'bal', 'b1', 'Pouch Chick', { design: 'pouchbill' }, 'The pouch under its huge bill is far too big, and always full of something. Sometimes it is even a fish.');
+  K(68, 'Cargobeak', ['Flying', 'Water'], 2, null, 'tank', 'b2', 'Cargo Pelican', { design: 'cargobeak' }, 'It carries whatever fits in its pouch, from crates to coins. Harbor masters keep an eye out, because it never tells where it found them.');
+  K(69, 'Fizzeel', ['Water'], 1, L(70, 28), 'fast', 'b1', 'Spark Eel', { design: 'fizzeel', float: 1 }, 'It coils up in tide pools and crackles when startled. Small sparks light up the marks along its sides.');
+  K(70, 'Stormray', ['Electric', 'Water'], 2, null, 'spec', 'b2', 'Thunder Ray', { design: 'stormray', float: 1 }, 'It glides over the waves with bolts flickering along its wings. Fishers steer toward the flash when the sea grows wild.');
+  K(71, 'Nimbell', ['Water'], 1, L(72, 30), 'spec', 'b1', 'Cloud Nautilus', { design: 'nimbell', float: 1 }, 'A tiny raincloud follows its shell around. It can make drizzle fall on a single flower.');
+  K(72, 'Thundernaut', ['Water', 'Electric'], 2, null, 'spec', 'b2', 'Storm Nautilus', { design: 'thundernaut', float: 1 }, 'The swirl of its shell holds a whole storm. Lightning runs around the rim when it is angry.');
+  K(73, 'Twinklearm', ['Water'], 1, L(74, 28), 'bal', 'b1', 'Pool Star', { design: 'twinklearm' }, 'Dots glow on its arms after dusk, like stars coming out. Pools full of Twinklearm look like a night sky on the sand.');
+  K(74, 'Constellarm', ['Water', 'Psychic'], 2, null, 'spec', 'b2', 'Chart Star', { design: 'constellarm' }, 'Lines link the stars on its arms into charts. Old sailors say it can read the weather from them.');
+  K(75, 'Trinkrab', ['Water', 'Rock'], 1, L(76, 30), 'wall', 'b1', 'Trinket Crab', { design: 'trinkrab' }, 'It decorates its shell with anything shiny: bottle caps, buttons and a stolen ribbon. It defends the collection ferociously.');
+  K(76, 'Curiocrab', ['Water', 'Rock'], 2, null, 'wall', 'b2', 'Curio Crab', { design: 'curiocrab' }, 'Its shell holds a bell, a key and a telescope, all collected over decades. It peers at you through a monocle before it decides to trade.');
+  K(77, 'Wraithlamp', ['Ghost', 'Fire'], 1, null, 'spec', 'rare', 'Drowned Lantern', { design: 'wraithlamp', float: 1 }, 'A lantern that went down with a ship long ago. A pale flame still burns inside, and it sometimes leads sailors to the wreck.');
+  K(78, 'Argusalis', ['Water', 'Dragon'], 1, null, 'spec', 'legend', 'Tidal Oracle', { design: 'argusalis', float: 1 }, 'Many eyes float in bubbles around its head, and every one sees a different storm. Sailors call it the Tidal Oracle and follow its path across the waves.');
+  K(79, 'Tempestine', ['Psychic', 'Water'], 1, null, 'spec', 'legend', 'Storm Heron', { design: 'tempestine' }, 'A heron that wades where the storm meets the sea. The clouds on its head gather when it thinks, and lightning follows whatever it decides.');
+
   // ---------- stats ----------
   var BST = { f1: 360, f2: 515, st1: 315, st2: 410, st3: 530, e1: 255, e2: 420, b1: 310, b2: 480, bug1: 200, bug2: 285, bug3: 420, ps1: 300, ps2: 420, ps3: 600, single: 455, rare: 500, legend: 620, myth: 600 };
   var CATCH = { f1: 45, f2: 45, st1: 45, st2: 45, st3: 45, e1: 255, e2: 120, b1: 190, b2: 75, bug1: 255, bug2: 120, bug3: 45, ps1: 45, ps2: 30, ps3: 15, single: 90, rare: 45, legend: 3, myth: 3 };

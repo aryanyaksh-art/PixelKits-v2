@@ -74,6 +74,25 @@
     cranklet: { shell: '#e86a8a', belly: '#fff0e8', claw: '#40c8d0' },
     pincerlord: { shell: '#c03a70', plate: '#7a1a48', belly: '#fff0e0', claw: '#30c0d0', gold: '#e8e8f8', iris: '#40e8f0' },
     jellyp: { bell: '#a0e8d0', rim: '#40b898', tent: '#68d0b0', glow: '=#f0fff8', iris: '#1a6a4a' },
-    stingbloom: { bell: '#f4d0b0', petal: '#f0708a', petal2: '#b03a6a', tent: '#e890a0', glow: '=#fff8ee', iris: '#8a1a3a' }
+    stingbloom: { bell: '#f4d0b0', petal: '#f0708a', petal2: '#b03a6a', tent: '#e890a0', glow: '=#fff8ee', iris: '#8a1a3a' },
+    // Saltmarsh
+    buoypup: { fur: '#c8a4d8', belly: '#f6eefa', ring: '#3a9ae0', ringw: '#fff6d0', nose: '#3a2a4a', iris: '#2a1a3a' },
+    quaysel: { fur: '#b884b0', belly: '#f2e4f0', metal: '#e8d8a0', gold: '#7ad0f0', nose: '#3a1e3a', iris: '#2a1a34' },
+    anchormane: { fur: '#7a3a6a', belly: '#e8d0e4', mane: '#4a2244', rope: '#d8b8e0', metal: '#e0d8a8', metald: '#a8a06a', gold: '#7ad8f8', tusk: '#f8f0e0', iris: '#40e8f0' },
+    scupper: { fur: '#e8d8b8', belly: '#fffaf0', patch: '#b88a5a', nose: '#8a5a44', tin: '#e8c060', tind: '#a88428', iris: '#3a8ad8' },
+    corsaircat: { fur: '#e0d0b0', belly: '#fffaf0', patch: '#a87a4a', blade: '#f0d890', bladed: '#c8a850', sash: '#3a8ad0', sashd: '#1a5a98', gold: '#c8d0dc', nose: '#8a5a44', iris: '#3ab0f0' },
+    pouchbill: { down: '#f6d4c8', downd: '#d8a898', bill: '#f0d060', pouch: '#ffe6d0', fish: '#f0a878', fishd: '#c07850' },
+    cargobeak: { down: '#fae2d6', downd: '#dcb0a0', wing: '#a86a7a', wingd: '#7a4658', bill: '#f0d060', pouch: '#ffe6d0', crate: '#3a6aa8', crated: '#244a80', coin: '#c8f0ff', rope: '#e8b8c8', hat: '#7a2a4a', iris: '#3ac0e0' },
+    fizzeel: { skin: '#d86a9a', belly: '#ffe8f0', bolt: '#7af0ff', spark: '=#e8ffff', fin: '#a8407a', iris: '#2a1a34' },
+    stormray: { top: '#c88a5a', topd: '#8a5a34', under: '#fff0dc', bolt: '#7af0ff', cloud: '#e8b888', iris: '#7af0ff' },
+    nimbell: { shell: '#f4e0c0', shelld: '#d8b088', spiral: '#c88a58', skin: '#88d8c8', cloud: '#fff0dc', bolt: '#7af0ff' },
+    thundernaut: { shell: '#b8683a', shelld: '#8a4622', spiral: '#f0b878', cloud: '#fff0dc', skin: '#70c8b8', bolt: '#7af0ff', iris: '#7af0ff' },
+    twinklearm: { skin: '#e0a048', skind: '#b07424', dot: '=#a8f0ff', dots: '#ffe0a8', cheek: '#f08a6a' },
+    constellarm: { skin: '#c88030', skind: '#8a5418', star: '=#a8f0ff', line: '#ffd890', eyeg: '#a8f0d8', iris: '#e83a6a', orbit: '=#fff2b0' },
+    trinkrab: { shell: '#8ab8c8', shelld: '#5a8898', crab: '#4a9ad8', crabd: '#2a6aa8', cap: '#f0d040', btn: '#e85a8a', gold: '#c8d0dc', ribbon: '#e8a840' },
+    curiocrab: { shell: '#b88a5a', shelld: '#7a5634', crab: '#3a8ad0', crabd: '#1e5a98', brass: '#d8dce8', brassd: '#8a90a4', glass: '#ffd8a0', key: '#f0c860', ribbon: '#48c890' },
+    wraithlamp: { brass: '#a8b4c8', brassd: '#6a748a', glass: '#f0c8a0', flame: ['#5a1a2a', '#c8402a', '#ff8a3a', '#ffd070', '#fff6d0'], weed: '#8a4a5a', weedl: '#b87a8a' },
+    argusalis: { skin: '#8a3a70', skind: '#5a2048', belly: '#f0d0e4', fin: '#f0c860', fin2: '#ffe8a0', bubble: '#fff0f8', eyeo: '=#e8ffff', iris: '#28c8e8', pat: '#ffd870', horn: '#f8f0d8', glow: '=#ffe8a0' },
+    tempestine: { plume: '#c88a5a', plumed: '#8a5834', belly: '#fff0dc', neck: '#dcb080', bill: '#e8e0f0', cloud: '#ffe6c8', clouddk: '#c89a70', bolt: '#7af0ff', gem: '#3ad8d0', gem2: '=#d0fffa', leg: '#a8b0c4', iris: '#28c8e8' }
   };
 })();
