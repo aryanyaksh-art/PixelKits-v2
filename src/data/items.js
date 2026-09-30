@@ -30,7 +30,7 @@
   it('swiftroot', 'Swift Root', 'items', 4900, 'tp', 5, 'Adds Training Points to SPD.');
   // evolution shards
   it('voltshard', 'Electric Shard', 'items', 2100, 'evo', 0, 'A crackling shard. Makes certain Kits evolve.');
-  it('frostshard', 'Ice Shard', 'items', 2100, 'evo', 0, 'An icy shard. Makes certain Kits evolve.');
+  it('frostshard', 'Rime Shard', 'items', 2100, 'evo', 0, 'An icy shard. Makes certain Kits evolve.');
   it('radiantshard', 'Radiant Shard', 'items', 2100, 'evo', 0, 'A glowing shard. Makes certain Kits evolve.');
   it('umbralshard', 'Umbral Shard', 'items', 2100, 'evo', 0, 'A dark shard. Makes certain Kits evolve.');
   // held
