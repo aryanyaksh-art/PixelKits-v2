@@ -5,7 +5,7 @@
   var DESIGNS = window.PK.DESIGNS;
   function lower(y0) { return function (x, y) { return y > y0; }; }
 
-  // ===== coil hedgehog -> arc ferret (Volt) =====
+  // ===== coil hedgehog -> arc ferret (Electric) =====
   DESIGNS.zipwick = {
     pal: { fur: '#56648a', belly: '#e8dcc0', coil: '#c8783a', spark: '#ffe650', snout: '#d8b898', iris: '#e8a020' },
     draw: function (d) {
@@ -54,7 +54,7 @@
     }
   };
 
-  // ===== cliff swift: puffball -> forked-tail glider -> storm crest (Gale -> Gale/Volt) =====
+  // ===== cliff swift: puffball -> forked-tail glider -> storm crest (Flying -> Flying/Electric) =====
   DESIGNS.windlet = {
     pal: { fur: '#c4e4f6', wing: '#78b4de', beak: '#f2b84a', tuft: '#ffffff', iris: '#2a6ab8' },
     draw: function (d) {
@@ -111,7 +111,7 @@
     }
   };
 
-  // ===== dune armadillo -> veiled sand fox (Terra -> Terra/Mind) =====
+  // ===== dune armadillo -> veiled sand fox (Ground -> Ground/Psychic) =====
   DESIGNS.dunelet = {
     pal: { shell: '#d8b070', band: '#b88a48', skin: '#e8cfa0', horn: '#f4e4bc', iris: '#6a4a20' },
     draw: function (d) {
@@ -150,7 +150,7 @@
     }
   };
 
-  // ===== scrub meerkat -> thorn-maned sentry (Plain -> Plain/Leaf) =====
+  // ===== scrub meerkat -> thorn-maned sentry (Normal -> Normal/Grass) =====
   DESIGNS.tumblet = {
     pal: { fur: '#c8a470', belly: '#f0dcb0', weed: '#a8874a', dark: '#5a3e1c', iris: '#3a2a10' },
     draw: function (d) {
@@ -193,7 +193,7 @@
     }
   };
 
-  // ===== shore crab -> pincer champion (Tide -> Tide/Brawl) =====
+  // ===== shore crab -> pincer champion (Water -> Water/Fighting) =====
   DESIGNS.cranklet = {
     pal: { shell: '#3a9aa8', belly: '#e8f0d8', claw: '#f08a4a', iris: '#2a3a6a' },
     draw: function (d) {
@@ -230,7 +230,7 @@
     }
   };
 
-  // ===== moon jelly -> bloom jelly (Venom -> Venom/Tide) =====
+  // ===== moon jelly -> bloom jelly (Poison -> Poison/Water) =====
   DESIGNS.jellyp = {
     float: true,
     pal: { bell: '#d8b0f0', rim: '#a870d0', tent: '#c090e0', glow: '=#ffe8ff', iris: '#6a2a98' },

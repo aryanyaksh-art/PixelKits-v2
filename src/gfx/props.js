@@ -78,7 +78,7 @@
     a.f(OUT, 0, 1, W, 14); a.f(chalk ? '#8a6a3a' : '#b0b6c4', 1, 2, W - 2, 12); a.f(chalk ? '#2a4a3a' : '#fcfcfc', 2, 3, W - 4, 10);
     var ink = chalk ? '#e8f0e0' : '#3a5aa0';
     if (chalk) {
-      var ty = ['Leaf', 'Tide', 'Blaze'];
+      var ty = ['Grass', 'Water', 'Fire'];
       for (var i = 0; i < 3; i++) { var x = 5 + i * ((W - 10) / 3); a.f(PK.TYPES[ty[i]].color, x, 5, 5, 3); a.f(ink, x + 6, 6, 3, 1); a.p(ink, x + 8, 5); a.p(ink, x + 8, 7); }
       a.f(ink, 5, 10, W - 14, 1);
     } else {

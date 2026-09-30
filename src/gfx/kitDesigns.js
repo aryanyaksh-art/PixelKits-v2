@@ -119,7 +119,7 @@
   // ------------------------------------------------------------------ designs
   var DESIGNS = {};
 
-  // ===== Blaze starter line: eggshell hatchling -> shell-armored drakeling -> sun dragon =====
+  // ===== Fire starter line: eggshell hatchling -> shell-armored drakeling -> sun dragon =====
   DESIGNS.emberlet = {
     pal: { body: '#e85a36', belly: '#f8d6a0', shell: '#f2e8d2', speck: '#c8b48a', horn: '#f6e4b8', iris: '#e8a020' },
     draw: function (d) {
@@ -256,7 +256,7 @@
     }
   };
 
-  // ===== Tide starter line: shell-hat ink sprite -> rune reef squid -> shipwreck kraken =====
+  // ===== Water starter line: shell-hat ink sprite -> rune reef squid -> shipwreck kraken =====
   DESIGNS.conchi = {
     pal: { body: '#5a68d6', belly: '#b6c2ff', shell: '#f4c4a8', shelld: '#c8846a', shellin: '#ff9eb4', glow: '=#8ef4ff', iris: '#3a2a6a' },
     draw: function (d) {
@@ -364,7 +364,7 @@
     }
   };
 
-  // ===== Leaf starter line: moss blob -> mossy stone -> ancient ruin golem =====
+  // ===== Grass starter line: moss blob -> mossy stone -> ancient ruin golem =====
   DESIGNS.mossip = {
     pal: { moss: '#6aae48', mossd: '#3e7a32', stem: '#4c9a3a', petal: '#f8a6c6', pollen: '#f8d848', iris: '#2a3a1a' },
     draw: function (d) {
@@ -529,7 +529,7 @@
     }
   };
 
-  // ===== Willow Trail: kite bird line (Plain/Gale) =====
+  // ===== Willow Trail: kite bird line (Normal/Flying) =====
   DESIGNS.kitefinch = {
     pal: { body: '#5aa8e8', belly: '#f8f0e0', wing: '#f0c040', ribbon: '#e84848', beak: '#f0a030', iris: '#1c2a4a' },
     draw: function (d) {
@@ -603,7 +603,7 @@
     }
   };
 
-  // ===== Willow Trail: caddisfly line (Swarm) =====
+  // ===== Willow Trail: caddisfly line (Bug) =====
   DESIGNS.caddle = {
     pal: { case: '#9a8a78', pebble: '#bcae96', pebble2: '#7a8a8e', twig: '#7a5230', grub: '#dcecac', iris: '#1a2a14' },
     draw: function (d) {
@@ -660,7 +660,7 @@
     }
   };
 
-  // ===== Willow Trail: dandelion hare (Leaf -> Leaf/Gale) =====
+  // ===== Willow Trail: dandelion hare (Grass -> Grass/Flying) =====
   DESIGNS.puffhop = {
     pal: { fur: '#bcd48a', belly: '#f4f0d8', puff: '#fafaf4', seed: '#8a8a70', ear: '#f0a8b0', leaf: '#4caa46', iris: '#2a3a1a' },
     draw: function (d) {
@@ -708,7 +708,7 @@
     }
   };
 
-  // ===== Willow Trail: acorn beetle (Swarm -> Swarm/Metal) =====
+  // ===== Willow Trail: acorn beetle (Bug -> Bug/Steel) =====
   DESIGNS.acornet = {
     pal: { shell: '#6a8a44', cap: '#a87a44', capd: '#7a5230', head: '#3a3028', leg: '#2a2420' },
     draw: function (d) {
@@ -751,7 +751,7 @@
     }
   };
 
-  // ===== Willow Trail: skipping-stone fish (Tide -> Tide/Terra) =====
+  // ===== Willow Trail: skipping-stone fish (Water -> Water/Ground) =====
   DESIGNS.skimble = {
     float: true,
     pal: { body: '#8aa2b4', stripe: '#c8d8e0', fin: '#5a8ab0', water: '=#bfe6ff', iris: '#1a2a3a' },
@@ -791,7 +791,7 @@
     }
   };
 
-  // ===== Willow Trail: owl-cat (Shade -> Shade/Gale), night only =====
+  // ===== Willow Trail: owl-cat (Ghost -> Ghost/Flying), night only =====
   DESIGNS.nocturr = {
     pal: { body: '#5a4a78', face: '#9a8ab8', wing: '#44385e', talon: '#e8c060', glow: '=#ffd84a', ear: '#3a2e50' },
     draw: function (d) {
@@ -833,7 +833,7 @@
     }
   };
 
-  // ===== Willow Trail rare: geode snail (Terra/Lumen) =====
+  // ===== Willow Trail rare: geode snail (Ground/Fairy) =====
   DESIGNS.geodrop = {
     pal: { foot: '#d8c8e8', rock: '#8a7a6a', rockd: '#5a4e44', crys: '#a070e0', crys2: '#d8b8ff', eye: '#2a2030' },
     draw: function (d) {
@@ -868,7 +868,7 @@
   };
 
   // ================================================================ Pinecrest mountain
-  // ===== cliff goat: stone-browed kid -> curl-horned ram -> peak-horned summit goat (Terra -> Terra -> Terra/Brawl) =====
+  // ===== cliff goat: stone-browed kid -> curl-horned ram -> peak-horned summit goat (Ground -> Ground -> Ground/Fighting) =====
   DESIGNS.crampling = {
     pal: { fur: '#c8b490', tuft: '#f2eadc', rock: '#8e8a86', hoof: '#4a3a30', iris: '#6a4a2a' },
     draw: function (d) {
@@ -954,7 +954,7 @@
     }
   };
 
-  // ===== boulder beetle: pebble-backed beetle -> boulder-shelled pickaxe beetle (Swarm/Terra) =====
+  // ===== boulder beetle: pebble-backed beetle -> boulder-shelled pickaxe beetle (Bug/Ground) =====
   DESIGNS.pebbeetle = {
     pal: { shell: '#a09a90', shelld: '#6e685f', moss: '#6a9a48', body: '#3a3440', leg: '#2a2430', iris: '#e0b040' },
     draw: function (d) {
@@ -993,7 +993,7 @@
     }
   };
 
-  // ===== cave bat: fuzzy sonar pup -> big-mouthed flier -> stalactite-winged bat (Gale/Shade) =====
+  // ===== cave bat: fuzzy sonar pup -> big-mouthed flier -> stalactite-winged bat (Flying/Ghost) =====
   DESIGNS.echip = {
     pal: { fur: '#6e5c82', ear: '#f0a8b8', wing: '#4a3e5e', fang: '=#ffffff' },
     draw: function (d) {
@@ -1063,7 +1063,7 @@
     }
   };
 
-  // ===== blind cave salamander: wick-tailed newt -> lantern-spotted salamander (Tide -> Tide/Lumen) =====
+  // ===== blind cave salamander: wick-tailed newt -> lantern-spotted salamander (Water -> Water/Fairy) =====
   DESIGNS.palewick = {
     pal: { body: '#f2dce0', belly: '#fff4f0', spot: '#e0a8b8', glow: '=#fff2a0', halo: '=#fffbe8' },
     draw: function (d) {
@@ -1106,7 +1106,7 @@
     }
   };
 
-  // ===== glow moth: ringed glowgrub -> lantern-winged moth (Swarm/Lumen) =====
+  // ===== glow moth: ringed glowgrub -> lantern-winged moth (Bug/Fairy) =====
   DESIGNS.glowgrub = {
     pal: { body: '#ece2b8', band: '=#c8ff7a', head: '#d8b890', iris: '#4a3a2a' },
     draw: function (d) {
@@ -1144,7 +1144,7 @@
     }
   };
 
-  // ===== crystal lizard: quartz-backed lizard -> crystal-spined lizard -> crystal-frilled basilisk (Terra -> Terra/Lumen) =====
+  // ===== crystal lizard: quartz-backed lizard -> crystal-spined lizard -> crystal-frilled basilisk (Ground -> Ground/Fairy) =====
   DESIGNS.quartzel = {
     pal: { skin: '#78aca0', belly: '#e2ead0', crys: '#e4eeff', crys2: '=#ffffff', iris: '#e8a030' },
     draw: function (d) {
@@ -1211,7 +1211,7 @@
     }
   };
 
-  // ===== fossil Kit: amber-studded jaw beast -> rune-armored titan (Terra/Wyrm) =====
+  // ===== fossil Kit: amber-studded jaw beast -> rune-armored titan (Ground/Dragon) =====
   DESIGNS.amberjaw = {
     pal: { skin: '#8e6c4c', skind: '#5e4630', amber: '#f0a02a', bone: '#e8dcbc', iris: '#f0d060' },
     draw: function (d) {
@@ -1264,7 +1264,7 @@
     }
   };
 
-  // ===== snow hare: icicle-eared lop -> snowdrift-maned hare (Frost -> Frost/Gale) =====
+  // ===== snow hare: icicle-eared lop -> snowdrift-maned hare (Ice -> Ice/Flying) =====
   DESIGNS.flurrip = {
     pal: { fur: '#f4f8ff', ice: '#a8dcf4', nose: '#f0a0b0', iris: '#4a90d0' },
     draw: function (d) {
@@ -1307,7 +1307,7 @@
     }
   };
 
-  // ===== frost owl: snowball owlet -> icicle-crowned owl (Frost/Gale) =====
+  // ===== frost owl: snowball owlet -> icicle-crowned owl (Ice/Flying) =====
   DESIGNS.hailet = {
     pal: { fur: '#eef4fa', feather: '#b8cfe6', beak: '#e8b040', iris: '#58a8e8', ice: '=#cfeeff' },
     draw: function (d) {

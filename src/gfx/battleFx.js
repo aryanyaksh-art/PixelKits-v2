@@ -29,22 +29,24 @@
   }
 
   var STYLE = {
-    Plain: { c: ['#ffffff', '#f8e8a0'], kind: 'impact' },
-    Brawl: { c: ['#ffd060', '#ff8040', '#ffffff'], kind: 'impact' },
-    Blaze: { c: ['#ffd040', '#ff8020', '#e04010'], kind: 'fire' },
-    Tide: { c: ['#a8dcff', '#4a9aef', '#ffffff'], kind: 'water' },
-    Leaf: { c: ['#8ae060', '#3ea04a', '#d8f8a0'], kind: 'leaf' },
-    Volt: { c: ['#fff080', '#ffd020', '#ffffff'], kind: 'bolt' },
-    Frost: { c: ['#e0f8ff', '#8ad8f0', '#ffffff'], kind: 'ice' },
-    Venom: { c: ['#c070e0', '#8a40b0', '#e0a0f8'], kind: 'bubble' },
-    Terra: { c: ['#b89060', '#7a5a38', '#d8b888'], kind: 'rock' },
-    Gale: { c: ['#ffffff', '#c8e0ff'], kind: 'wind' },
-    Mind: { c: ['#ff90d0', '#e050a8', '#ffd0f0'], kind: 'ring' },
-    Swarm: { c: ['#c0e040', '#80a020', '#f0ff90'], kind: 'swarm' },
-    Shade: { c: ['#5a3a8a', '#2a1a4a', '#a070e0'], kind: 'orb' },
-    Lumen: { c: ['#fffbe0', '#fff080', '#ffffff'], kind: 'ray' },
-    Metal: { c: ['#e0e6f0', '#9aa4b8', '#ffffff'], kind: 'impact' },
-    Wyrm: { c: ['#8a7aff', '#5040d0', '#c8b8ff'], kind: 'fire' }
+    Normal: { c: ['#ffffff', '#f8e8a0'], kind: 'impact' },
+    Fighting: { c: ['#ffd060', '#ff8040', '#ffffff'], kind: 'impact' },
+    Fire: { c: ['#ffd040', '#ff8020', '#e04010'], kind: 'fire' },
+    Water: { c: ['#a8dcff', '#4a9aef', '#ffffff'], kind: 'water' },
+    Grass: { c: ['#8ae060', '#3ea04a', '#d8f8a0'], kind: 'leaf' },
+    Electric: { c: ['#fff080', '#ffd020', '#ffffff'], kind: 'bolt' },
+    Ice: { c: ['#e0f8ff', '#8ad8f0', '#ffffff'], kind: 'ice' },
+    Poison: { c: ['#c070e0', '#8a40b0', '#e0a0f8'], kind: 'bubble' },
+    Ground: { c: ['#d8b468', '#9a7a3a', '#f0d898'], kind: 'rock' },
+    Rock: { c: ['#b89060', '#7a5a38', '#d8b888'], kind: 'rock' },
+    Dark: { c: ['#5a4a6a', '#1a1220', '#9a80b0'], kind: 'orb' },
+    Flying: { c: ['#ffffff', '#c8e0ff'], kind: 'wind' },
+    Psychic: { c: ['#ff90d0', '#e050a8', '#ffd0f0'], kind: 'ring' },
+    Bug: { c: ['#c0e040', '#80a020', '#f0ff90'], kind: 'swarm' },
+    Ghost: { c: ['#5a3a8a', '#2a1a4a', '#a070e0'], kind: 'orb' },
+    Fairy: { c: ['#fffbe0', '#fff080', '#ffffff'], kind: 'ray' },
+    Steel: { c: ['#e0e6f0', '#9aa4b8', '#ffffff'], kind: 'impact' },
+    Dragon: { c: ['#8a7aff', '#5040d0', '#c8b8ff'], kind: 'fire' }
   };
 
   function P(scene, o) {
@@ -55,7 +57,7 @@
 
   // Plays the attack animation. from/to are {x,y} centers. Returns a promise.
   async function playMove(scene, move, from, to, targetKey, userKey) {
-    var st = STYLE[move.type] || STYLE.Plain;
+    var st = STYLE[move.type] || STYLE.Normal;
     var c = st.c;
     var i;
     if (move.cat === 'S') {

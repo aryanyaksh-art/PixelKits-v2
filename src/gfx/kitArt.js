@@ -709,6 +709,7 @@
 
   var cache = {};
   function get(id, view, prism, tint) {
+    tint = 0; // recolouring your own Kit was removed; Prism (shiny) Kits are the only alternate colours
     var key = id + '|' + view + '|' + (prism ? 1 : 0) + '|' + (tint || 0);
     if (cache[key]) return cache[key];
     var k = PK.KITS[id];
@@ -723,6 +724,7 @@
   }
   // Small party icon (32x32) via scaled render
   function icon(id, prism, tint) {
+    tint = 0;
     var key = id + '|icon|' + (prism ? 1 : 0) + '|' + (tint || 0);
     if (cache[key]) return cache[key];
     var k = PK.KITS[id];

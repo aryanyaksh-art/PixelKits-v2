@@ -338,7 +338,7 @@
     warps: [['bh_school_bell', 0, 3, 'down']],
     warpsAt: [[14, 1, 'bh_school_gym', 5, 6, 'up']],
     props: [
-      ['window', 2, 1], ['window', 3, 1], ['board', 5, 1, { w: 3, variant: 'chalk', text: 'The chalkboard: "TYPES! Leaf beats Tide, Tide beats Blaze, Blaze beats Leaf. Check the foe\'s type under its HP bar!"' }],
+      ['window', 2, 1], ['window', 3, 1], ['board', 5, 1, { w: 3, variant: 'chalk', text: 'The chalkboard: "TYPES! Grass beats Water, Water beats Fire, Fire beats Grass. Check the foe\'s type under its HP bar!"' }],
       ['desk', 9, 2, { text: 'Ms. Pell\'s desk. A stack of homework titled "My Favorite Kit". Seven of them are about Rushkin.' }], ['bookcase', 12, 2, { talk: 'bh_lore' }], ['globe', 15, 4],
       ['schooldesk', 3, 5], ['schooldesk', 5, 5], ['schooldesk', 7, 5], ['schooldesk', 9, 5], ['schooldesk', 3, 7], ['schooldesk', 9, 7], ['plant', 15, 8]
     ],
@@ -826,7 +826,7 @@
       await w.say('MS. PELL: Thank you, {PLAYER}. Here\'s a little something from the school supply cupboard.');
       await w.give('hushspray', 2);
       await w.say('MS. PELL: Pip and Juniper have been begging for a practice battle. They\'re in the training room through the back door.');
-      await w.say('MS. PELL: Remember your types. Leaf beats Tide, Tide beats Blaze, Blaze beats Leaf. The foe\'s types show under its HP bar in battle.');
+      await w.say('MS. PELL: Remember your types. Grass beats Water, Water beats Fire, Fire beats Grass. The foe\'s types show under its HP bar in battle.');
       await checkRecovery(w);
       return;
     }

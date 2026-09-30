@@ -8,8 +8,8 @@
   var STAT_NAME = { 1: 'ATK', 2: 'DEF', 3: 'TEC', 4: 'RES', 5: 'SPD' };
   var ST_NAME = { brn: 'BRN', psn: 'PSN', par: 'PAR', slp: 'SLP', frz: 'FRZ' };
   var INFLICT = ['brn', 'psn', 'par', 'slp', 'frz', 'conf'];
-  var ABSORB = { soakup: 'Tide', conductor: 'Volt', sapeater: 'Leaf', kindling: 'Blaze' };
-  var PINCH = { greenfury: 'Leaf', lastember: 'Blaze', undertow: 'Tide', hivefury: 'Swarm' };
+  var ABSORB = { soakup: 'Water', conductor: 'Electric', sapeater: 'Grass', kindling: 'Fire' };
+  var PINCH = { greenfury: 'Grass', lastember: 'Fire', undertow: 'Water', hivefury: 'Bug' };
 
   // ---------------- Battler (one active slot) ----------------
   function Battler(side, slot, idx) {
@@ -305,7 +305,7 @@
   };
 
   B.effectiveness = function (m, target) {
-    if (m.type === 'Terra' && target.ability() === 'hover') return 0;
+    if (m.type === 'Ground' && target.ability() === 'hover') return 0;
     return PK.typeEff(m.type, PK.stats.types(target.kit()));
   };
 
@@ -326,8 +326,8 @@
     var eff = this.effectiveness(m, tg);
     var mod = stab * eff * (crit ? 1.5 : 1) * (0.85 + Math.random() * 0.15);
     if (PINCH[ab] === m.type && k.hp <= k.stats[0] / 3) mod *= 1.5;
-    if (ab === 'kindling' && bt.vol.kindled && m.type === 'Blaze') mod *= 1.5;
-    if (tab === 'insulated' && (m.type === 'Blaze' || m.type === 'Frost')) mod *= 0.5;
+    if (ab === 'kindling' && bt.vol.kindled && m.type === 'Fire') mod *= 1.5;
+    if (tab === 'insulated' && (m.type === 'Fire' || m.type === 'Ice')) mod *= 0.5;
     if (spread) mod *= 0.75;
     if (k.held === 'powerband') mod *= 1.1;
     return { dmg: eff === 0 ? 0 : Math.max(1, Math.floor(base * mod)), eff: eff };
@@ -454,7 +454,7 @@
       if (absorbType && absorbType === m.type) {
         if (!animDone) { ev.push({ t: 'anim', side: bt.key, move: m.id, target: tb.key }); animDone = true; }
         var abName = PK.ABILITIES[tb.ability()].name;
-        if (tb.ability() === 'kindling') { tb.vol.kindled = true; ev.push({ t: 'msg', text: tname + "'s " + abName + ' powered up its Blaze moves!' }); }
+        if (tb.ability() === 'kindling') { tb.vol.kindled = true; ev.push({ t: 'msg', text: tname + "'s " + abName + ' powered up its Fire moves!' }); }
         else if (t.hp < t.stats[0]) {
           t.hp = Math.min(t.stats[0], t.hp + Math.floor(t.stats[0] / 4));
           ev.push({ t: 'heal', side: tb.key, hp: t.hp });

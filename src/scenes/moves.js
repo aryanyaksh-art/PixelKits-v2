@@ -149,44 +149,12 @@
     if (PK.stats.name(k) !== old) await PK.ui.say(old + ' will now be known as ' + PK.stats.name(k) + '!');
   }
 
-  function TintPicker(k, done) {
-    this.opaque = true; this.k = k; this.done = done;
-    this.i = k.tint || 0;
-  }
-  TintPicker.prototype.update = function () {
-    var inp = PK.input, n = PK.kitArt.TINTS.length;
-    if (inp.rep('left') || inp.rep('up')) { this.i = (this.i - 1 + n) % n; if (PK.audio) PK.audio.sfx('move'); }
-    if (inp.rep('right') || inp.rep('down')) { this.i = (this.i + 1) % n; if (PK.audio) PK.audio.sfx('move'); }
-    if (inp.ok()) { if (PK.audio) PK.audio.sfx('select'); PK.pop(this); this.done(this.i); }
-    else if (inp.cancel()) { if (PK.audio) PK.audio.sfx('back'); PK.pop(this); this.done(-1); }
-  };
-  TintPicker.prototype.draw = function (ctx) {
-    var t = T(), k = this.k, tn = PK.kitArt.TINTS[this.i];
-    bg(ctx);
-    PK.ui.box(ctx, 4, 4, 232, 18);
-    F().draw(ctx, 'Choose a color for ' + F().fit(PK.stats.name(k), 100), 12, 9, t.text, t.shadow);
-    PK.ui.box(ctx, 64, 26, 112, 100);
-    ctx.fillStyle = '#dfe9f6'; ctx.fillRect(68, 30, 104, 92);
-    ctx.drawImage(PK.kitArt.get(k.id, 'front', k.prism, this.i), 88, 44);
-    if ((PK.frame >> 4) & 1) { F().draw(ctx, '◀', 50, 72, '#ffffff', '#28304c'); F().draw(ctx, '▶', 184, 72, '#ffffff', '#28304c'); }
-    PK.ui.box(ctx, 4, 128, 232, 28);
-    F().center(ctx, tn.name + (this.i === 0 ? ' (original colors)' : ''), 120, 134, t.text, t.shadow);
-    F().center(ctx, '◀ ▶ change   A: keep   B: cancel', 120, 144, t.dim);
-  };
-
   async function editKit(k) {
     for (;;) {
-      var c = await PK.ui.menu(['RENAME', 'MOVES', 'COLOR', 'CANCEL'], { right: 236, bottom: 136, title: 'EDIT' });
+      var c = await PK.ui.menu(['RENAME', 'MOVES', 'CANCEL'], { right: 236, bottom: 136, title: 'EDIT' });
       if (c === 0) await rename(k);
       else if (c === 1) await moveList({ kit: k, mode: 'edit', title: PK.stats.name(k) + "'s moves", hint: 'A: swap or forget the selected move.  B: back' });
-      else if (c === 2) {
-        var ti = await new Promise(function (res) { PK.push(new TintPicker(k, res)); });
-        if (ti >= 0 && ti !== (k.tint || 0)) {
-          k.tint = ti || undefined;
-          if (!ti) delete k.tint;
-          await PK.ui.say(PK.stats.name(k) + ' looks great in ' + PK.kitArt.TINTS[ti].name + '!');
-        }
-      } else return;
+      else return;
     }
   }
 

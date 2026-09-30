@@ -37,7 +37,7 @@
     ctx.drawImage(ic, x, y + bob, size || 24, size || 24);
   }
   PK.drawCrest = function (ctx, x, y, i, earned) {
-    var types = ['Leaf', 'Terra', 'Volt', 'Tide', 'Blaze', 'Mind', 'Frost', 'Shade'];
+    var types = ['Rock', 'Water', 'Electric', 'Grass', 'Fire', 'Psychic', 'Ice', 'Ghost'];
     var c = earned ? PK.TYPES[types[i]].color : '#4a4e60';
     var d = PK.color.shade(c, -0.5), l = PK.color.shade(c, 0.45);
     ctx.fillStyle = d;

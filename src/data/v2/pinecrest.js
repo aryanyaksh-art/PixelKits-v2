@@ -495,7 +495,7 @@
   }
 
   D('pc_gym1', {
-    name: 'Challenge Hall: Boulders', interior: true, theme: 'gym_Terra', music: 'challenge',
+    name: 'Challenge Hall: Boulders', interior: true, theme: 'gym_Rock', music: 'challenge',
     rows: [
       'WWWWWW...WWWWWW',
       'W.............W',
@@ -524,7 +524,7 @@
   });
 
   D('pc_gym2', {
-    name: 'Challenge Hall: Minecart', interior: true, theme: 'gym_Terra', music: 'challenge',
+    name: 'Challenge Hall: Minecart', interior: true, theme: 'gym_Rock', music: 'challenge',
     rows: [
       'WWWWWW...WWWWWW',
       'W.............W',
@@ -550,7 +550,7 @@
   });
 
   D('pc_gym3', {
-    name: 'Challenge Hall: Memory Floor', interior: true, theme: 'gym_Terra', music: 'challenge',
+    name: 'Challenge Hall: Memory Floor', interior: true, theme: 'gym_Rock', music: 'challenge',
     rows: [
       'WWWWWW...WWWWWW',
       'WqqqqqqqqqqqqqW',
@@ -581,7 +581,7 @@
   });
 
   D('pc_gym4', {
-    name: 'Challenge Hall: Warden\'s Chamber', interior: true, theme: 'gym_Terra', music: 'challenge',
+    name: 'Challenge Hall: Warden\'s Chamber', interior: true, theme: 'gym_Rock', music: 'challenge',
     rows: [
       'WWWWWWWWWWWWWWW',
       'W.............W',

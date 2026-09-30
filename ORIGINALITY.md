@@ -9,7 +9,7 @@ PixelKits v2 borrows the *genre*, not anybody's *expression*. Game mechanics and
 - **Music and sound** — every track is an original composition written in MML (`src/data/music.js`) and played by the game's own synthesizer. Sound effects are synthesized at runtime.
 - **World and story** — the continent of Lumora, its towns (Brookhollow, Willow Trail, Pinecrest and more to come), characters and plot (the flood, the sibling's double-agent arc, the Ashen Accord) are original.
 - **Systems vocabulary** — the game uses its own terms: *Kits*, *Keepers*, *Kit Capsules*, *KitLog*, *Kit Clinic*, *Crests*, *Wardens*, *Skill Discs*, *Tonics*, *Prism* variants, *Temperaments*, *Training Points*.
-- **Type system** — 16 original types with their own effectiveness chart (`src/data/types.js`).
+- **Type system** — the standard 18 types (Normal, Fire, Water, Grass, Electric, Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Dragon, Dark, Steel, Fairy) with the conventional effectiveness chart (`src/data/types.js`). These are ordinary English words and game rules, not creative expression; everything else (creatures, moves, names, art, music) stays original. Changed on the owner's request on 2026-09-29; the game previously used 16 custom type names.
 
 ## How names were checked
 

@@ -1,43 +1,47 @@
-// PixelKits' own 16-type system and effectiveness chart.
+// PixelKits type system: the standard 18 types and their effectiveness chart.
 (function () {
   'use strict';
   var PK = window.PK = window.PK || {};
   var TYPES = {
-    Plain: { color: '#a8a492' },
-    Blaze: { color: '#ee6a2c' },
-    Tide: { color: '#3c8ce0' },
-    Leaf: { color: '#4cb04a' },
-    Volt: { color: '#f2c428' },
-    Frost: { color: '#7cd0ea' },
-    Brawl: { color: '#c0443a' },
-    Venom: { color: '#9c52b8' },
-    Terra: { color: '#b88a4a' },
-    Gale: { color: '#8ab4e8' },
-    Mind: { color: '#ec5f9c' },
-    Swarm: { color: '#9aba2c' },
-    Shade: { color: '#5a4a78' },
-    Lumen: { color: '#f4dc7a' },
-    Metal: { color: '#9aa4b4' },
-    Wyrm: { color: '#5a5ad8' }
+    Normal: { color: '#a8a492' },
+    Fire: { color: '#ee6a2c' },
+    Water: { color: '#3c8ce0' },
+    Grass: { color: '#4cb04a' },
+    Electric: { color: '#f2c428' },
+    Ice: { color: '#7cd0ea' },
+    Fighting: { color: '#c0443a' },
+    Poison: { color: '#9c52b8' },
+    Ground: { color: '#c8a45a' },
+    Flying: { color: '#8ab4e8' },
+    Psychic: { color: '#ec5f9c' },
+    Bug: { color: '#9aba2c' },
+    Rock: { color: '#a08a4c' },
+    Ghost: { color: '#5a4a78' },
+    Dragon: { color: '#5a5ad8' },
+    Dark: { color: '#4c3e4e' },
+    Steel: { color: '#9aa4b4' },
+    Fairy: { color: '#f4b0e0' }
   };
   // attacker -> { defender: multiplier }
   var CHART = {
-    Plain: { Metal: 0.5, Terra: 0.5 },
-    Blaze: { Leaf: 2, Frost: 2, Swarm: 2, Metal: 2, Tide: 0.5, Terra: 0.5, Blaze: 0.5, Wyrm: 0.5 },
-    Tide: { Blaze: 2, Terra: 2, Metal: 2, Tide: 0.5, Leaf: 0.5, Frost: 0.5, Wyrm: 0.5 },
-    Leaf: { Tide: 2, Terra: 2, Blaze: 0.5, Leaf: 0.5, Venom: 0.5, Gale: 0.5, Swarm: 0.5, Metal: 0.5, Wyrm: 0.5 },
-    Volt: { Tide: 2, Gale: 2, Metal: 2, Volt: 0.5, Leaf: 0.5, Wyrm: 0.5, Terra: 0 },
-    Frost: { Leaf: 2, Terra: 2, Gale: 2, Wyrm: 2, Blaze: 0.5, Frost: 0.5, Metal: 0.5, Tide: 0.5 },
-    Brawl: { Plain: 2, Frost: 2, Metal: 2, Shade: 2, Venom: 0.5, Gale: 0.5, Mind: 0.5, Swarm: 0.5, Lumen: 0.5 },
-    Venom: { Leaf: 2, Lumen: 2, Venom: 0.5, Terra: 0.5, Shade: 0.5, Metal: 0 },
-    Terra: { Blaze: 2, Volt: 2, Venom: 2, Metal: 2, Leaf: 0.5, Swarm: 0.5, Gale: 0 },
-    Gale: { Leaf: 2, Brawl: 2, Swarm: 2, Volt: 0.5, Terra: 0.5, Metal: 0.5 },
-    Mind: { Brawl: 2, Venom: 2, Mind: 0.5, Metal: 0.5, Shade: 0 },
-    Swarm: { Leaf: 2, Mind: 2, Shade: 2, Blaze: 0.5, Brawl: 0.5, Gale: 0.5, Metal: 0.5, Lumen: 0.5 },
-    Shade: { Mind: 2, Lumen: 2, Brawl: 0.5, Metal: 0.5 },
-    Lumen: { Shade: 2, Wyrm: 2, Blaze: 0.5, Lumen: 0.5, Metal: 0.5 },
-    Metal: { Frost: 2, Lumen: 2, Blaze: 0.5, Tide: 0.5, Volt: 0.5, Metal: 0.5 },
-    Wyrm: { Wyrm: 2, Gale: 2, Metal: 0.5 }
+    Normal: { Rock: 0.5, Steel: 0.5, Ghost: 0 },
+    Fire: { Grass: 2, Ice: 2, Bug: 2, Steel: 2, Fire: 0.5, Water: 0.5, Rock: 0.5, Dragon: 0.5 },
+    Water: { Fire: 2, Ground: 2, Rock: 2, Water: 0.5, Grass: 0.5, Dragon: 0.5 },
+    Electric: { Water: 2, Flying: 2, Electric: 0.5, Grass: 0.5, Dragon: 0.5, Ground: 0 },
+    Grass: { Water: 2, Ground: 2, Rock: 2, Fire: 0.5, Grass: 0.5, Poison: 0.5, Flying: 0.5, Bug: 0.5, Dragon: 0.5, Steel: 0.5 },
+    Ice: { Grass: 2, Ground: 2, Flying: 2, Dragon: 2, Fire: 0.5, Water: 0.5, Ice: 0.5, Steel: 0.5 },
+    Fighting: { Normal: 2, Ice: 2, Rock: 2, Dark: 2, Steel: 2, Poison: 0.5, Flying: 0.5, Psychic: 0.5, Bug: 0.5, Fairy: 0.5, Ghost: 0 },
+    Poison: { Grass: 2, Fairy: 2, Poison: 0.5, Ground: 0.5, Rock: 0.5, Ghost: 0.5, Steel: 0 },
+    Ground: { Fire: 2, Electric: 2, Poison: 2, Rock: 2, Steel: 2, Grass: 0.5, Bug: 0.5, Flying: 0 },
+    Flying: { Grass: 2, Fighting: 2, Bug: 2, Electric: 0.5, Rock: 0.5, Steel: 0.5 },
+    Psychic: { Fighting: 2, Poison: 2, Psychic: 0.5, Steel: 0.5, Dark: 0 },
+    Bug: { Grass: 2, Psychic: 2, Dark: 2, Fire: 0.5, Fighting: 0.5, Poison: 0.5, Flying: 0.5, Ghost: 0.5, Steel: 0.5, Fairy: 0.5 },
+    Rock: { Fire: 2, Ice: 2, Flying: 2, Bug: 2, Fighting: 0.5, Ground: 0.5, Steel: 0.5 },
+    Ghost: { Psychic: 2, Ghost: 2, Dark: 0.5, Normal: 0 },
+    Dragon: { Dragon: 2, Steel: 0.5, Fairy: 0 },
+    Dark: { Psychic: 2, Ghost: 2, Fighting: 0.5, Dark: 0.5, Fairy: 0.5 },
+    Steel: { Ice: 2, Rock: 2, Fairy: 2, Fire: 0.5, Water: 0.5, Electric: 0.5, Steel: 0.5 },
+    Fairy: { Fighting: 2, Dragon: 2, Dark: 2, Fire: 0.5, Poison: 0.5, Steel: 0.5 }
   };
   PK.TYPES = TYPES;
   PK.TYPE_LIST = Object.keys(TYPES);
@@ -50,5 +54,5 @@
     return m;
   };
   // Status immunities by type
-  PK.STATUS_IMMUNE = { brn: ['Blaze'], psn: ['Venom', 'Metal'], par: ['Volt'], frz: ['Frost'] };
+  PK.STATUS_IMMUNE = { brn: ['Fire'], psn: ['Poison', 'Steel'], par: ['Electric'], frz: ['Ice'] };
 })();

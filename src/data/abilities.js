@@ -5,12 +5,12 @@
   var PK = window.PK = window.PK || {};
 
   var ABILITIES = {
-    greenfury: { name: 'Green Fury', desc: 'Powers up Leaf moves when HP is low.' },
-    lastember: { name: 'Last Ember', desc: 'Powers up Blaze moves when HP is low.' },
-    undertow: { name: 'Undertow', desc: 'Powers up Tide moves when HP is low.' },
-    hivefury: { name: 'Hive Fury', desc: 'Powers up Swarm moves when HP is low.' },
+    greenfury: { name: 'Green Fury', desc: 'Powers up Grass moves when HP is low.' },
+    lastember: { name: 'Last Ember', desc: 'Powers up Fire moves when HP is low.' },
+    undertow: { name: 'Undertow', desc: 'Powers up Water moves when HP is low.' },
+    hivefury: { name: 'Hive Fury', desc: 'Powers up Bug moves when HP is low.' },
     menace: { name: 'Menace', desc: 'Lowers the foes\' ATK when it enters battle.' },
-    hover: { name: 'Hover', desc: 'Floats, so Terra moves miss it.' },
+    hover: { name: 'Hover', desc: 'Floats, so Ground moves miss it.' },
     sparkskin: { name: 'Sparkskin', desc: 'Physical attackers may be paralyzed.' },
     emberhide: { name: 'Ember Hide', desc: 'Physical attackers may be burned.' },
     toxicbarbs: { name: 'Toxic Barbs', desc: 'Physical attackers may be poisoned.' },
@@ -18,11 +18,11 @@
     bedrock: { name: 'Bedrock', desc: 'Survives any hit from full HP.' },
     grit: { name: 'Grit', desc: 'ATK rises by half when it has a status problem.' },
     nimble: { name: 'Nimble', desc: 'SPD rises by half when it has a status problem.' },
-    insulated: { name: 'Insulated', desc: 'Halves damage from Blaze and Frost moves.' },
-    soakup: { name: 'Soak Up', desc: 'Tide moves heal it instead of hurting.' },
-    conductor: { name: 'Conductor', desc: 'Volt moves heal it instead of hurting.' },
-    sapeater: { name: 'Sap Eater', desc: 'Leaf moves heal it instead of hurting.' },
-    kindling: { name: 'Kindling', desc: 'Blaze moves power it up instead of hurting.' },
+    insulated: { name: 'Insulated', desc: 'Halves damage from Fire and Ice moves.' },
+    soakup: { name: 'Soak Up', desc: 'Water moves heal it instead of hurting.' },
+    conductor: { name: 'Conductor', desc: 'Electric moves heal it instead of hurting.' },
+    sapeater: { name: 'Sap Eater', desc: 'Grass moves heal it instead of hurting.' },
+    kindling: { name: 'Kindling', desc: 'Fire moves power it up instead of hurting.' },
     selfmend: { name: 'Self-Mend', desc: 'Status problems heal when it switches out.' },
     steadfast: { name: 'Unbending', desc: 'Foes can\'t lower its stats.' },
     imposing: { name: 'Imposing', desc: 'Foes use 2 charges per move against it.' },
@@ -50,26 +50,27 @@
 
   // Two ability options per species, chosen from its primary type, role and body plan.
   var BY_TYPE = {
-    Plain: ['forager', 'nimble'], Blaze: ['emberhide', 'kindling'], Tide: ['soakup', 'insulated'],
-    Leaf: ['regrowth', 'sapeater'], Volt: ['sparkskin', 'conductor'], Frost: ['insulated', 'vigilant'],
-    Brawl: ['grit', 'unshakable'], Venom: ['toxicbarbs', 'purity'], Terra: ['bedrock', 'ironskull'],
-    Gale: ['keenedge', 'momentum'], Mind: ['specialist', 'selfmend'], Swarm: ['hivefury', 'sharpshot'],
-    Shade: ['menace', 'escapeartist'], Lumen: ['selfmend', 'regrowth'], Metal: ['steadfast', 'bedrock'],
-    Wyrm: ['menace', 'specialist']
+    Normal: ['forager', 'nimble'], Fire: ['emberhide', 'kindling'], Water: ['soakup', 'insulated'],
+    Grass: ['regrowth', 'sapeater'], Electric: ['sparkskin', 'conductor'], Ice: ['insulated', 'vigilant'],
+    Fighting: ['grit', 'unshakable'], Poison: ['toxicbarbs', 'purity'], Ground: ['bedrock', 'grit'],
+    Rock: ['bedrock', 'ironskull'], Dark: ['menace', 'escapeartist'],
+    Flying: ['keenedge', 'momentum'], Psychic: ['specialist', 'selfmend'], Bug: ['hivefury', 'sharpshot'],
+    Ghost: ['escapeartist', 'hover'], Fairy: ['selfmend', 'regrowth'], Steel: ['steadfast', 'bedrock'],
+    Dragon: ['menace', 'specialist']
   };
-  var STARTER = { Leaf: 'greenfury', Blaze: 'lastember', Tide: 'undertow' };
+  var STARTER = { Grass: 'greenfury', Fire: 'lastember', Water: 'undertow' };
 
   function assign(k) {
     if (k.abilities) return;
-    var t = k.types[0], a = (BY_TYPE[t] || BY_TYPE.Plain).slice();
+    var t = k.types[0], a = (BY_TYPE[t] || BY_TYPE.Normal).slice();
     if (k.tier && /^st/.test(k.tier)) a = [STARTER[t] || a[0], STARTER[t] || a[0]];
     else if (k.tier === 'legend' || k.tier === 'myth') a = ['imposing', 'imposing'];
     else {
       var plan = k.art && k.art.p;
       if (plan === 'ghost' || plan === 'ray') a[1] = 'hover';
-      if (k.role === 'fast' && t !== 'Gale') a[1] = 'nimble';
-      if (k.art && (k.art.x || []).indexOf('spikes') >= 0 && t !== 'Venom') a[1] = 'thornhide';
-      if (k.types[1] === 'Gale' && t !== 'Gale') a[1] = 'keenedge';
+      if (k.role === 'fast' && t !== 'Flying') a[1] = 'nimble';
+      if (k.art && (k.art.x || []).indexOf('spikes') >= 0 && t !== 'Poison') a[1] = 'thornhide';
+      if (k.types[1] === 'Flying' && t !== 'Flying') a[1] = 'keenedge';
     }
     k.abilities = a;
   }

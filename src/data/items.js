@@ -29,8 +29,8 @@
   it('calmroot', 'Calm Root', 'items', 4900, 'tp', 4, 'Adds Training Points to RES.');
   it('swiftroot', 'Swift Root', 'items', 4900, 'tp', 5, 'Adds Training Points to SPD.');
   // evolution shards
-  it('voltshard', 'Volt Shard', 'items', 2100, 'evo', 0, 'A crackling shard. Makes certain Kits evolve.');
-  it('frostshard', 'Frost Shard', 'items', 2100, 'evo', 0, 'An icy shard. Makes certain Kits evolve.');
+  it('voltshard', 'Electric Shard', 'items', 2100, 'evo', 0, 'A crackling shard. Makes certain Kits evolve.');
+  it('frostshard', 'Ice Shard', 'items', 2100, 'evo', 0, 'An icy shard. Makes certain Kits evolve.');
   it('radiantshard', 'Radiant Shard', 'items', 2100, 'evo', 0, 'A glowing shard. Makes certain Kits evolve.');
   it('umbralshard', 'Umbral Shard', 'items', 2100, 'evo', 0, 'A dark shard. Makes certain Kits evolve.');
   // held
@@ -98,7 +98,7 @@
   PK.POCKETS = [['items', 'ITEMS'], ['capsules', 'CAPSULES'], ['discs', 'DISCS'], ['key', 'KEY ITEMS']];
   PK.discCompatible = function (kit, moveId) {
     var m = PK.MOVES[moveId], sp = PK.KITS[kit.id];
-    if (m.type === 'Plain') return true;
+    if (m.type === 'Normal') return true;
     if (sp.types.indexOf(m.type) >= 0) return true;
     return sp.learn.some(function (e) { return PK.MOVES[e[1]].type === m.type; });
   };

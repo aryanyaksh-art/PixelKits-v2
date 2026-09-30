@@ -70,8 +70,8 @@
       // gyms also need outdoor-style entries for grass/water/etc used as puzzle features
       var base = TH.vale;
       for (var k in base) if (!t[k]) t[k] = base[k];
-      if (name === 'gym_Frost') t.water = TH.snow.water;
-      if (name === 'gym_Blaze') t.water = TH.volcano.water;
+      if (name === 'gym_Ice') t.water = TH.snow.water;
+      if (name === 'gym_Fire') t.water = TH.volcano.water;
       TH[name] = t;
       return t;
     }
