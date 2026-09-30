@@ -214,6 +214,46 @@
     }
   });
 
+  room('sm_home4', "The Glass Sisters' Loft", 'bedroom', 12, [
+    '............', '............', '............', '............', '............', '.....M......'
+  ], {
+    music: 'harbor', entry: [5, 7],
+    props: [
+      ['window', 2, 1], ['window', 9, 1], ['table', 1, 3, { w: 3, text: 'A workbench of sea glass sorted by colour, wire, pliers and half-finished necklaces. A card reads "Not for sale until the festival."' }], ['cabinet', 5, 2, { text: 'Jars of glass: green, blue, white, and one jar of pink that is labelled "DO NOT ASK".' }], ['bed', 10, 2, { color: '#e870a0' }], ['bed', 10, 4, { color: '#3a78b8' }], ['rug', 4, 5, { w: 4, h: 1, color: '#e870a0' }], ['plant', 0, 7], ['lantern', 7, 1]
+    ],
+    npcs: {
+      sis1: { at: [4, 4], sprite: 'girl', dir: 'down', text: 'Sea glass is just trash the ocean has been polishing for fifty years. I like that. I think that is the nicest thing about the ocean.', textIf: [[AF, 'We sold out of necklaces at the festival. My sister cried. I cried. The Trinkrab stole one. Everyone was happy.']] },
+      sis2: { at: [7, 4], sprite: 'villager1', dir: 'left', text: 'My sister makes them and I make up the stories that go with them. "Found by a sailor, lost by a pirate, returned by a crab." Sells every time.' },
+      crab: { at: [2, 6], sprite: 'kit:75', move: 'wander', text: 'A Trinkrab pushes a bottle cap around the floor with great pride. It is definitely a prize.' }
+    },
+    itemsAt: [['boostcandy', 1, 0, 3]]
+  });
+  room('sm_home5', "Captain Bellweather's Cabin", 'cottage', 12, [
+    '............', '............', '............', '............', '............', '.....M......'
+  ], {
+    music: 'harbor', entry: [5, 7],
+    props: [
+      ['window', 3, 1], ['window', 8, 1], ['starmap', 5, 1], ['shipmodel', 1, 2], ['shipmodel', 10, 2], ['bookcase', 0, 2], ['desk', 8, 3, { text: 'A ferry logbook. Every entry ends the same way: "No sinkings. Mostly." The last page is blank except for a drawing of a very large eye.' }], ['rug', 3, 5, { w: 5, h: 1, color: '#3a78b8' }], ['lifering', 11, 4], ['barrel', 0, 6], ['plant', 0, 7]
+    ],
+    npcs: {
+      cap: { at: [5, 4], sprite: 'sailor', dir: 'down', text: 'Forty years on the harbor ferry. Never lost a passenger. Lost a hat, a thermos, and once a pilot whale, but never a passenger.', textIf: [[AF, 'They named the new ferry after me. The Bellweather. It leaks. I am so proud.']] },
+      bird: { at: [3, 4], sprite: 'kit:67', dir: 'right', text: 'A Pouchbill sits on the back of a chair. It has a little captain\'s hat on, and it is not sorry.' }
+    }
+  });
+  room('sm_home6', "The Tidewatcher's Islet", 'cottage', 12, [
+    '............', '............', '............', '............', '............', '.....M......'
+  ], {
+    music: 'saltmarsh_calm', entry: [5, 7],
+    props: [
+      ['window', 3, 1], ['window', 8, 1], ['starmap', 6, 1], ['bookcase', 0, 2], ['desk', 10, 2, { text: 'A tide table covering forty years, in very small handwriting. The high tides that never came in on time are circled in red. There are a lot of red circles lately.' }], ['shipmodel', 2, 2], ['rug', 3, 5, { w: 5, h: 1, color: '#7ac8b0' }], ['buoy', 0, 6], ['plant', 0, 7]
+    ],
+    npcs: {
+      hermit: { at: [5, 4], sprite: 'oldman', dir: 'down', text: 'I live on a rock in the middle of the harbor so I can hear the tide come in. You can see the whole bay from here. You can also see that nobody visits. That is also the point.', textIf: [[AF, 'Someone rowed out to say thank you. I have not had a visitor in nine years. I made tea. I did not know what to do with my hands.']] },
+      glow: { at: [8, 4], sprite: 'kit:73', move: 'wander', text: 'A Twinklearm drifts along the floor, leaving faint blue footprints that fade as you watch.' }
+    },
+    itemsAt: [['pluscapsule', 1, 10, 5]]
+  });
+
   // =============== SHOPS ===============
   room('sm_shop', 'Harbor Chandlery', 'shop', 12, ['............', '..cccccc....', '............', '............', '.....M......'], {
     music: 'shop', entry: [5, 6], wall1: 'WWWWWWWWWWWW',

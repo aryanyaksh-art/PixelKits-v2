@@ -236,7 +236,7 @@
     var names = STOPS.filter(function (s, i) { return i !== here; }).map(function (s) { return s.name; });
     names.push('Stay here');
     var pick = await w.ask('Where to?', names);
-    if (pick >= names.length - 1) return;
+    if (pick < 0 || pick >= names.length - 1) return;
     var dest = STOPS.filter(function (s, i) { return i !== here; })[pick];
     if (PK.audio) PK.audio.sfx('door');
     await PK.fx.fadeOut(20);

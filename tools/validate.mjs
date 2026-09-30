@@ -65,6 +65,8 @@ for (const id in PK.MAPS) {
     PK.buildMap(t);
     if (!walk(t, w.x, w.y)) err('map', id, 'warp', k, '->', w.to, w.x, w.y, 'lands on blocked tile', JSON.stringify(t.at(w.x, w.y)));
   }
+  // a building drawn with a door must lead somewhere (players walk up to it and nothing happens otherwise)
+  (m.buildings || []).forEach(b => { const K = PK.BUILDINGS[b.k]; if (K && K.door != null && !b.prop && !b.to && !b.decor) err('map', id, 'building', b.k, 'at', b.at.join(','), 'has a door but no interior'); });
   // count O/X without warp
   m.grid.forEach((r, y) => [...r].forEach((c, x) => { if ((c === 'O' || c === 'X') && !m.warpDefs[x + ',' + y]) err('map', id, 'unlinked', c, 'at', x, y); }));
   // doors

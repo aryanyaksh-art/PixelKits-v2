@@ -387,7 +387,7 @@
     var wp = m.warpDefs[key];
     if (wp) return W.warp(wp.to, wp.x, wp.y, wp.dir || p.dir, { sfx: m.at(p.x, p.y) === 'X' ? 'stairs' : 'door' });
     var c = m.at(p.x, p.y);
-    if (m.onStep) { W.busy++; var stepR = await m.onStep(W, p.x, p.y); W.busy--; if (stepR) return; }
+    if (m.onStep) { W.busy++; var stepR; try { stepR = await m.onStep(W, p.x, p.y); } finally { W.busy--; } if (stepR) return; }
     if (c === 'M' && m.exit && W.lastDir === 'down') return W.exitInterior();
     // ice
     if (c === 'i') {
@@ -438,6 +438,11 @@
     if (PK.audio) PK.audio.music('encounter');
     for (var i = 0; i < 3; i++) { PK.fx.flash(6, '#ffffff'); await PK.wait(7); }
     await PK.fx.fadeOut(10);
+  };
+  // A script crashed mid-scene: never leave the player on a black screen or frozen
+  W.recover = function () {
+    W.busy = 0;
+    if (PK.fx && PK.fx.setFade) PK.fx.setFade(0);
   };
   W.wildBattle = async function (id, lvl, opts) {
     opts = opts || {};
@@ -953,7 +958,7 @@
     if (W.busy || PK.top() !== this) return;
     if (p.turnT > 0) { p.turnT--; }
     if (inp.p('start')) { W.busy++; PK.run(function () { return PK.menus.start(); }).then(function () { W.busy--; }); return; }
-    if (inp.p('a')) { W.busy++; PK.run(W.interact).then(function () { W.busy--; W.refreshNpcs(); }); return; }
+    if (inp.p('a')) { W.busy++; var e0 = PK.lastError; PK.run(W.interact).then(function () { W.busy--; if (PK.lastError !== e0) W.recover(); W.refreshNpcs(); }); return; }
     var d = inp.dir();
     if (!d) return;
     if (d !== p.dir && inp.held(d) < 4) { p.dir = d; p.turnT = 5; return; }

@@ -410,6 +410,7 @@
     var win = Math.floor(Math.random() * 3);
     await w.say('The cups slide. Left, right, over, under. Faster, faster, a blur of red...');
     var pick = await w.ask('Which cup hides the Kit?', ['Left', 'Middle', 'Right']);
+    if (pick < 0) return;
     if (pick === win) { await w.say('You lifted the right cup! A tiny Kit blinks up at you.'); money(180); await w.say('You won 180!'); }
     else await w.say('Wrong cup! The Kit was under the ' + ['left', 'middle', 'right'][win] + ' one, laughing.');
   };
