@@ -292,10 +292,10 @@
       be1: { at: [22, 19], sprite: 'swimmer', dir: 'right', keeper: 'gs_1', sight: 4 },
       be2: { at: [19, 12], sprite: 'sailor', dir: 'left', keeper: 'gs_2', sight: 4 },
       sibB: { at: [17, 9], sprite: 'rival', dir: 'left', startHidden: true, cond: function () { return PK.quest.at('farside', 'harbor'); } },
-      barA: { at: [13, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barB: { at: [14, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barC: { at: [15, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barD: { at: [16, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barA: { at: [13, 2], sprite: 'gate', noTurn: true, cond: function () { return !(g().flag('harbor_open') || g().flag('sib_beach')); }, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barB: { at: [14, 2], sprite: 'gate', noTurn: true, cond: function () { return !(g().flag('harbor_open') || g().flag('sib_beach')); }, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barC: { at: [15, 2], sprite: 'gate', noTurn: true, cond: function () { return !(g().flag('harbor_open') || g().flag('sib_beach')); }, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barD: { at: [16, 2], sprite: 'gate', noTurn: true, cond: function () { return !(g().flag('harbor_open') || g().flag('sib_beach')); }, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
       beachcomber: { at: [30, 32], sprite: 'oldwoman', move: 'wander', text: 'I collect sea glass. Blue for luck, green for the ocean, and this one is the color of the Accord\'s smoke. Odd, isn\'t it?' }
     },
     eventsAt: [
