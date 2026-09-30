@@ -17,7 +17,7 @@
     'A': { grass: 1, reeds: 1 }, 'E': { solid: 1, berry: 1 }, 'G': { solid: 1 }, 'I': {}, 'J': { solid: 1 },
     'N': {}, 'P': { solid: 1 }, 'U': { solid: 1 }, '&': { solid: 1 }, '$': { solid: 1 }, '-': { solid: 1 },
     '_': { solid: 1 }, '/': { solid: 1 }, '^': {}, 'F': { solid: 1 }, '<': { solid: 1 }, '(': { solid: 1, water: 1 },
-    '+': { solid: 1 }, '%': {}, 'o': { solid: 1, pit: 1 }, 'q': {}, 'y': { solid: 1 }, 'j': { solid: 1 }
+    '+': { solid: 1 }, ';': { tide: 1 }, '%': {}, 'o': { solid: 1, pit: 1 }, 'q': {}, 'y': { solid: 1 }, 'j': { solid: 1 }
   };
   PK.TILE = TILE;
 
@@ -577,6 +577,17 @@
     }
     fill(x, w[3], 0, 13 + (frame % 2), 16, 1); fill(x, '#ffffff', (frame * 5) % 14, 14, 3, 1);
   }
+  // Tide flat: wet sand with ripples, shells and pebbles (the overworld lays rising water over it)
+  function tideFlat(x, P, r) {
+    var p = P.path || P.g;
+    fill(x, p[1]);
+    for (var i = 0; i < 7; i++) { var px = (r() * 14) | 0, py = (r() * 14) | 0; fill(x, p[0], px, py, 2 + ((r() * 3) | 0), 1); }
+    for (var j = 0; j < 4; j++) dot(x, p[2], (r() * 16) | 0, (r() * 16) | 0);
+    var k = r();
+    if (k < 0.22) { fill(x, '#f4e8d8', 5, 7, 4, 2); fill(x, '#d8b8a0', 6, 8, 2, 1); }
+    else if (k < 0.34) { dot(x, '#e8784a', 8, 8); dot(x, '#e8784a', 7, 9); dot(x, '#e8784a', 9, 9); dot(x, '#e8784a', 8, 10); dot(x, '#f8c8a0', 8, 9); }
+    else if (k < 0.46) { fill(x, '#8a8478', 4, 10, 3, 2); fill(x, '#a8a294', 4, 10, 2, 1); }
+  }
   function dock(x, P) {
     var wd = ramp('#a8743e');
     fill(x, wd[0]);
@@ -816,6 +827,7 @@
       case 'I': steppingStone(x, P, frame, r); break;
       case 'J': waterfall(x, P, frame); break;
       case 'N': dock(x, P); break;
+      case ';': tideFlat(x, P, r); break;
       case 'P': groundBase(x, P, r); herbBed(x, P, r); break;
       case 'U': well(x); break;
       case '&': barrel(x); break;

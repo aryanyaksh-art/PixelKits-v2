@@ -292,10 +292,10 @@
       be1: { at: [22, 19], sprite: 'swimmer', dir: 'right', keeper: 'gs_1', sight: 4 },
       be2: { at: [19, 12], sprite: 'sailor', dir: 'left', keeper: 'gs_2', sight: 4 },
       sibB: { at: [17, 9], sprite: 'rival', dir: 'left', startHidden: true, cond: function () { return PK.quest.at('farside', 'harbor'); } },
-      barA: { at: [13, 2], sprite: 'gate', noTurn: true, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barB: { at: [14, 2], sprite: 'gate', noTurn: true, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barC: { at: [15, 2], sprite: 'gate', noTurn: true, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
-      barD: { at: [16, 2], sprite: 'gate', noTurn: true, text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barA: { at: [13, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barB: { at: [14, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barC: { at: [15, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
+      barD: { at: [16, 2], sprite: 'gate', noTurn: true, cond: notFlag('harbor_open'), text: 'A barricade of crates and ropes. A painted sign: HARBOR CLOSED - FESTIVAL SET-UP. OPENING SOON!' },
       beachcomber: { at: [30, 32], sprite: 'oldwoman', move: 'wander', text: 'I collect sea glass. Blue for luck, green for the ocean, and this one is the color of the Accord\'s smoke. Odd, isn\'t it?' }
     },
     eventsAt: [
@@ -303,7 +303,7 @@
       { at: [15, 11], run: 'far_sib', cond: function () { return PK.quest.at('farside', 'coast') || PK.quest.at('farside', 'harbor'); } }
     ],
     onEnter: 'beach_enter',
-    edges: { s: { to: 'pc_trail', off: 0 } },
+    edges: { s: { to: 'pc_trail', off: 0 }, n: { to: 'saltmarsh', off: 17 } },
     enc: {
       grass: [[58, 19, 21, 30], [51, 19, 21, 18], [56, 19, 21, 14], [54, 19, 21, 12], [52, 20, 22, 6]],
       water: [[60, 19, 22, 55], [58, 20, 22, 25], [61, 21, 23, 4]]
@@ -324,6 +324,7 @@
     await w.say('{RIVAL}: See the smoke over the harbor? That is not festival fireworks. The Elder who got away is there. So are the crates you found on the slope.');
     await w.say('{RIVAL}: Do not trust anyone who smiles too much in Saltmarsh. Especially the ones who are very, very nice.');
     await w.say('{RIVAL}: The Accord already trusts me. Better if they never see the two of us together. Understand?');
+    w.setFlag('harbor_open');
     await w.moveNpc(sib, 'llll');
     sib.hidden = true;
     w.playMapMusic();

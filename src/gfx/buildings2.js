@@ -651,7 +651,7 @@
     var K = PK.BUILDINGS[kind];
     var fr = K.anim ? (opts.frame || 0) : 0;
     var w = opts.w || K.w, h = opts.h || K.h;
-    var key = [kind, opts.roof, opts.goods, w, h, opts.color, opts.icon, opts.art, opts.variant, fr].join('|');
+    var key = [kind, opts.roof, opts.goods, w, h, opts.color, opts.icon, opts.art, opts.variant, opts.bunting, opts.seed, opts.doorStyle, opts.lit, fr].join('|');
     if (!cache[key]) cache[key] = K.draw(Object.assign({}, opts, { frame: fr, w: w, h: h }));
     return cache[key];
   }

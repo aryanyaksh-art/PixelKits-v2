@@ -79,6 +79,26 @@
   it('goatcheese', 'Goat Cheese', 'items', 200, 'snack', 45, 'A wedge of tangy cheese. Restores 45 HP and makes a Kit happier.');
   it('campstew', 'Camp Stew', 'items', 450, 'heal', 110, "The mountain inn's famous stew. Restores 110 HP.");
   it('spicejerky', 'Spice Jerky', 'items', 300, 'boost', 3, "Chewy and hot! The Kit's TEC rises at the start of its next battle.");
+  // v2: Saltmarsh harbor food, rods, baits and story items
+  it('chowder', 'Harbor Chowder', 'items', 350, 'heal', 90, 'Thick, creamy and full of clams. Restores 90 HP.');
+  it('fishcake', 'Fishcake', 'items', 220, 'heal', 65, 'Crispy on the outside, soft in the middle. Restores 65 HP.');
+  it('grillskewer', 'Grilled Skewer', 'items', 160, 'snack', 40, 'Smoky harbor skewers. Restores 40 HP and makes a Kit happier.');
+  it('shavedice', 'Shaved Ice', 'items', 300, 'boost', 4, "Cold and sweet! The Kit's RES rises at the start of its next battle.");
+  it('sugarwhirl', 'Sugar Whirl', 'items', 200, 'joy', 30, 'Spun sugar on a stick. Makes a Kit much happier.');
+  it('goodrod', 'Harbor Rod', 'key', 0, 'key', 0, 'A sturdy rod with a proper reel. Reaches the deep water off the piers.');
+  it('sparkbait', 'Spark Bait', 'items', 400, 'bait', 1, 'Buzzes faintly. The next cast draws Electric sea Kits.');
+  it('glowbait', 'Glow Bait', 'items', 400, 'bait', 2, 'Glows in the dark. The next cast draws Fairy, Psychic and Ghost Kits.');
+  it('shellbait', 'Shell Bait', 'items', 400, 'bait', 3, 'Crushed shell and brine. The next cast draws Rock and Steel shore Kits.');
+  it('seaglass', 'Sea Glass', 'items', 0, 'none', 0, 'A frosted piece of glass, worn smooth by the tide. The trader in Saltmarsh collects them.');
+  it('dockvest', 'Dockhand Vest', 'key', 0, 'key', 0, 'An orange vest with a small lighthouse stitched on the pocket. Lighthouse Trading Co. staff wear these.');
+  it('paradecostume', 'Parade Costume', 'key', 0, 'key', 0, 'A feathered, glittering troupe costume. Nobody looks twice at anyone wearing one at the Great Catch.');
+  it('mappiece1', 'Map Piece (Lighthouse)', 'key', 0, 'key', 0, 'A torn piece of a sea chart in Grandpa\'s handwriting. The rest of the map is somewhere else.');
+  it('manifest', "Smuggler's Manifest", 'key', 0, 'key', 0, 'A shipping ledger: crates of live Kits, routed to a place marked only with a storm symbol.');
+  it('camera', 'Press Camera', 'key', 0, 'key', 0, 'Junie\'s battered press camera. Face a suspicious crate and use it to take a photo.');
+  it('covemap1', 'Map Scrap (Shipyard)', 'key', 0, 'key', 0, 'A torn scrap of treasure map, found stuck in a shipyard plank.');
+  it('covemap2', 'Map Scrap (Wreck)', 'key', 0, 'key', 0, 'A torn scrap of treasure map from the captain of the ghost ship.');
+  it('covemap3', 'Map Scrap (Market)', 'key', 0, 'key', 0, 'A torn scrap of treasure map, tucked behind a fish crate in the market.');
+  it('goldenreel', 'Golden Reel', 'key', 0, 'key', 0, 'The trophy of the Great Catch Rod Contest. A solid gold fishing reel. It weighs more than it looks.');
   it('spoolA', 'Ridge Spool', 'key', 0, 'key', 0, 'A spool of steel cable left on the Far Slope. Part of the far-side cable car repair.');
   it('spoolB', 'Dune Spool', 'key', 0, 'key', 0, 'A spool of steel cable found on the Windswept Trail. Part of the far-side cable car repair.');
   it('spoolC', 'Hollow Spool', 'key', 0, 'key', 0, 'A spool of steel cable hidden in Whisper Hollow. Part of the far-side cable car repair.');

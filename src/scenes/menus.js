@@ -398,6 +398,13 @@
       if (PK.audio) PK.audio.sfx('statup');
       return PK.ui.say(PK.stats.name(pk) + "'s " + PK.STAT_NAMES[stat] + ' training went up!');
     }
+    if (it.use === 'bait') {
+      var bst = PK.game.state;
+      if (bst.bait) return PK.ui.say('A bait is already on the line. Cast first!');
+      PK.game.removeItem(id);
+      bst.bait = id;
+      return PK.ui.say(PK.game.state.player.name + ' baited the hook with ' + it.name + '. The next cast will use it.');
+    }
     if (it.use === 'level') {
       var li = await PK.menus.party({ mode: 'item' });
       if (li < 0) return;

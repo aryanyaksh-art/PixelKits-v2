@@ -185,10 +185,14 @@
   W.fish = async function () {
     var p = W.p, v = DIRS[p.dir], c = W.map.at(p.x + v[0], p.y + v[1]);
     if (!c || !(PK.TILE[c] && PK.TILE[c].water)) return PK.ui.say('There\'s no water to fish in here. Face the water first.');
-    var list = W.map.enc && W.map.enc.water;
+    var enc = W.map.enc || {}, bst = PK.game.state, baitUsed = null;
+    var list = enc.water;
+    if (PK.game.count('goodrod') && enc.deep) list = enc.deep;
+    if (bst.bait && enc.bait && enc.bait[bst.bait]) { list = enc.bait[bst.bait]; baitUsed = bst.bait; }
     if (!list) return PK.ui.say('The water looks empty.');
     W.busy++;
-    await PK.ui.say(PK.game.state.player.name + ' cast the Reed Rod...', { auto: 50 });
+    await PK.ui.say(PK.game.state.player.name + ' cast the ' + (PK.game.count('goodrod') && enc.deep ? 'Harbor Rod' : 'Reed Rod') + (baitUsed ? ' with ' + PK.ITEMS[baitUsed].name : '') + '...', { auto: 50 });
+    if (baitUsed) bst.bait = null;
     await PK.wait(40 + PK.rnd(60));
     W.busy--;
     if (Math.random() > 0.72) return PK.ui.say('Not even a nibble...');
@@ -263,6 +267,7 @@
     if (c == null) return true;
     if (m.solid[y][x]) return true;
     var t = PK.TILE[c] || {};
+    if (t.tide) t = PK.game.tideHigh() ? { solid: 1, water: 1 } : {};
     if (t.water) { if (forNpc || !W.p.surf) return true; }
     else if (t.solid) return true;
     if (W.npcAt(x, y)) return true;
@@ -406,9 +411,9 @@
   W.tryEncounter = function (c) {
     var m = W.map;
     if (PK.noEncounters || !m.enc) return;
-    var kind = W.p.surf ? 'water' : c === 'A' ? (m.enc.reeds ? 'reeds' : 'grass') : c === '"' ? 'grass' : (m.enc.cave && (c === '.' || c === ',' || c === 'd' || c === 'i')) ? 'cave' : null;
+    var kind = W.p.surf ? 'water' : c === ';' ? 'pool' : c === 'A' ? (m.enc.reeds ? 'reeds' : 'grass') : c === '"' ? 'grass' : (m.enc.cave && (c === '.' || c === ',' || c === 'd' || c === 'i')) ? 'cave' : null;
     if (!kind || !m.enc[kind]) return;
-    var rate = { grass: 1 / 9, reeds: 1 / 8, cave: 1 / 14, water: 1 / 11 }[kind] * (m.enc.rate || 1);
+    var rate = { grass: 1 / 9, reeds: 1 / 8, cave: 1 / 14, water: 1 / 11, pool: 1 / 9 }[kind] * (m.enc.rate || 1);
     if (Math.random() > rate) return;
     var tod = PK.game.timeOfDay();
     var list = m.enc[kind].filter(function (e) {
@@ -870,6 +875,7 @@
   Overworld.prototype.update = function () {
     var p = W.p, inp = PK.input;
     if (W.bumpT > 0) W.bumpT--;
+    if (!W.busy && (PK.frame & 127) === 0) W.refreshNpcs();   // NPCs whose condition just became true (evening parade, tide) appear
     if (W.nameT > 0) W.nameT--;
     // NPC movement
     for (var i = 0; i < W.npcs.length; i++) {
@@ -884,7 +890,22 @@
         }
       } else if (!W.busy && !n.hidden) {
         var mv = n.d.move;
-        if (mv === 'wander' || mv === 'look') {
+        if (mv === 'dance') {
+          // festival dancers: turn in a little square and hop on the beat
+          if (--n.timer <= 0) { n.timer = 14 + (n.d.beat || 0); n.dn = ((n.dn || 0) + 1) % 4; n.dir = ['down', 'left', 'down', 'right'][n.dn]; }
+          n.hop = n.timer < 7 ? 1 : 0;
+        } else if (mv === 'patrol' && n.d.path) {
+          // walks a fixed loop of u/d/l/r steps, e.g. path: 'rrrrllll'
+          if (--n.timer <= 0) {
+            n.timer = 10 + (n.d.pause || 0);
+            var pc = n.d.path.charAt((n.pi || 0) % n.d.path.length), pd = { u: 'up', d: 'down', l: 'left', r: 'right' }[pc], pv = DIRS[pd];
+            n.pi = (n.pi || 0) + 1;
+            n.dir = pd;
+            var pnx = n.x + pv[0], pny = n.y + pv[1];
+            var pblk = n.d.water ? (W.map.at(pnx, pny) !== '~' || W.npcAt(pnx, pny) || (W.p.x === pnx && W.p.y === pny)) : W.blocked(pnx, pny, true);
+            if (!pblk) W.stepNpc(n, pd);
+          }
+        } else if (mv === 'wander' || mv === 'look') {
           if (--n.timer <= 0) {
             n.timer = 80 + PK.rnd(160);
             var ds = ['up', 'down', 'left', 'right'], d = PK.pick(ds);
@@ -964,6 +985,26 @@
     ctx.fillRect(0, 0, PK.W, PK.H);
     var f = W.frames.length > 1 ? Math.floor(PK.frame / 20) % W.frames.length : 0;
     ctx.drawImage(W.frames[f], -cx, -cy);
+    // rising and falling tide over any tide flats (';')
+    if (m.tideTiles === undefined) {
+      m.tideTiles = [];
+      for (var ty0 = 0; ty0 < m.h; ty0++) for (var tx0 = 0; tx0 < m.w; tx0++) if (m.at(tx0, ty0) === ';') m.tideTiles.push([tx0, ty0]);
+    }
+    if (m.tideTiles.length) {
+      var tl = PK.game.tideLevel(), wt = (PK.THEMES[m.theme] || PK.THEMES.coast).water;
+      if (tl > 0.03) {
+        var ta = Math.min(0.92, 0.1 + tl * 0.9);
+        m.tideTiles.forEach(function (tt) {
+          var sx = tt[0] * TS - cx, sy = tt[1] * TS - cy;
+          if (sx < -TS || sy < -TS || sx > PK.W || sy > PK.H) return;
+          ctx.fillStyle = wt[1]; ctx.globalAlpha = ta; ctx.fillRect(sx, sy, TS, TS);
+          ctx.fillStyle = wt[3]; ctx.globalAlpha = ta * 0.8;
+          ctx.fillRect(sx + ((PK.frame >> 2) + tt[0] * 5) % 14, sy + 3 + (tt[1] & 3) * 3, 3, 1);
+          ctx.fillRect(sx + 14 - ((PK.frame >> 3) + tt[1] * 3) % 14, sy + 12, 2, 1);
+        });
+        ctx.globalAlpha = 1;
+      }
+    }
     // items
     var st = PK.game.state;
     m.itemDefs.forEach(function (it) { if (!st.picked[it.key]) drawSatchel(ctx, it.x * TS - cx, it.y * TS - cy); });
@@ -1016,6 +1057,12 @@
         [[3, 11], [9, 6], [5, 1]].forEach(function (t) { ctx.fillRect(sx + t[0], sy + t[1] + 2, 3, 3); ctx.fillRect(sx + t[0] - 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 1, sy + t[1], 1, 1); ctx.fillRect(sx + t[0] + 3, sy + t[1], 1, 1); });
         return;
       }
+      if (n.sprite.indexOf('bld:') === 0) {
+        var bimg = PK.buildings2.draw(n.sprite.slice(4), Object.assign({ frame: (PK.frame >> 4) % 3 }, n.d.art || {}, PK.BUILDINGS[n.sprite.slice(4)].w ? { w: PK.BUILDINGS[n.sprite.slice(4)].w, h: PK.BUILDINGS[n.sprite.slice(4)].h } : {}));
+        ctx.drawImage(bimg, sx - Math.floor((bimg.width - 16) / 2), sy + 16 - bimg.height);
+        return;
+      }
+      if (n.sprite === 'crate') { ctx.drawImage(PK.buildings2.draw('fishcrate', { frame: 0, w: 1, h: 1 }), sx, sy - 2); return; }
       if (n.sprite.indexOf('kit:') === 0) {
         var id = +n.sprite.slice(4);
         var ic = PK.kitArt.icon(id);
@@ -1032,7 +1079,7 @@
       }
       var spr = PK.chars.sprite(n.sprite)[n.dir];
       var fr = n.moving ? (n.t < 8 ? 1 + ((n.x + n.y) & 1) : 0) : 0;
-      ctx.drawImage(spr[fr], sx, sy - 6 - (fr ? 1 : 0));
+      ctx.drawImage(spr[fr], sx, sy - 6 - (fr ? 1 : 0) - (n.hop ? 2 : 0));
       if (n.emote) PK.chars.emote(ctx, sx + 2, sy - 24, n.emote);
     });
     // tall grass overlay on the player
@@ -1083,6 +1130,7 @@
       grd.addColorStop(0, 'rgba(0,0,0,0)'); grd.addColorStop(1, lit ? 'rgba(0,0,0,' + (m.dark === 'deep' ? 0.9 : 0.75) + ')' : 'rgba(0,0,0,0.97)');
       ctx.fillStyle = grd; ctx.fillRect(0, 0, PK.W, PK.H);
     }
+    if (m.drawOver) m.drawOver(ctx, cx, cy);
     W.drawWeather(ctx);
     // map name banner
     if (W.nameT > 0) {

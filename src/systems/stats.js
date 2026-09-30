@@ -100,7 +100,7 @@
   // GYM_LEADERS lists the Warden trainer ids in order; GYM_CAPS[n] is the cap once n of them are beaten.
   // Add a leader and a cap here whenever a new gym is built (past the last entry there is no cap).
   PK.GYM_LEADERS = ['pc_warden', 'sm_showman'];
-  PK.GYM_CAPS = [14, 22, 100];
+  PK.GYM_CAPS = [14, 22, 30, 100];
   PK.levelCap = function () {
     var st = PK.game && PK.game.state, n = 0;
     if (!st) return 100;

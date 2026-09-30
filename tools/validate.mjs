@@ -111,7 +111,8 @@ for (const id in PK.MAPS) {
   // encounters
   for (const kind in (m.enc || {})) {
     if (kind === 'rate' || kind === 'cave' && !Array.isArray(m.enc.cave)) continue;
-    (m.enc[kind] || []).forEach(e => { if (!PK.KITS[e[0]]) err('map', id, 'bad encounter kit', e[0]); if (e[1] > e[2]) err('map', id, 'bad level range', e); });
+    const lists = kind === 'bait' ? Object.values(m.enc.bait) : [m.enc[kind] || []];
+    lists.forEach(list => list.forEach(e => { if (!PK.KITS[e[0]]) err('map', id, 'bad encounter kit', e[0]); if (e[1] > e[2]) err('map', id, 'bad level range', e); }));
   }
   if (m.music && typeof m.music !== 'function' && !PK.MUSIC[m.music]) err('map', id, 'unknown music', m.music);
 }

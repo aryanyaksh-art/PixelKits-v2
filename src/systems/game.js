@@ -183,6 +183,12 @@
       G.PHASES.forEach(function (ph) { if (p >= ph[1]) r = ph[0]; });
       return r;
     },
+    // Tide: 0 (lowest) .. 1 (highest), two full cycles per day. PK.forceTide (0..1) pins it for tests.
+    tideLevel: function () {
+      if (PK.forceTide != null) return PK.forceTide;
+      return 0.5 - 0.5 * Math.cos(G.dayPos() * 4 * Math.PI);
+    },
+    tideHigh: function () { return G.tideLevel() > 0.5; },
     // jump the clock to the start of a phase ('morning', 'day', 'evening', 'night')
     setTime: function (name) {
       var ph = G.PHASES.filter(function (p) { return p[0] === name; })[0];
