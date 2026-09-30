@@ -303,7 +303,7 @@
     props: [['breadrack', 1, 2], ['breadrack', 2, 2], ['window', 4, 1], ['painting', 6, 1, { art: 'hills' }], ['window', 8, 1], ['cakecase', 9, 2], ['plant', 0, 5], ['table', 10, 5, { w: 2, icon: 'bread' }]],
     npcs: {
       hobb: { at: [5, 3], sprite: 'baker', dir: 'down', cond: qdone('flour'), talk: 'shop', stock: ['capsule', 'tonic', 'remedy', 'honeybun', 'kittreat'] },
-      hobbsad: { at: [5, 3], sprite: 'baker', dir: 'down', cond: function () { return !PK.quest.done('flour'); }, text: 'BAKER HOBB: No flour, no bread. No bread, no bakery. The sacks must be out in the reeds somewhere.' },
+      hobbsad: { at: [5, 3], sprite: 'baker', dir: 'down', cond: function () { return !PK.quest.done('flour'); }, talk: 'bh_baker' },
       customer: { at: [9, 5], sprite: 'oldwoman', dir: 'up', text: 'I come here every morning for a Honey Bun. My Kits like them even more than I do!' }
     }
   });
@@ -775,7 +775,7 @@
   S.bh_baker = async function (w) {
     var q = PK.quest;
     if (!q.has('flour')) {
-      if (!q.past('after', 'lab')) return w.say('BAKER HOBB: Not now, little one. I\'m counting what the river left me. It isn\'t much.');
+      if (!q.past('after', 'lab')) return w.say('BAKER HOBB: Not now, little one. I\'m counting what the river left me. It isn\'t much. Prof. Vale at the river lab was asking for you, go and see him first.');
       await w.say('BAKER HOBB: Oh, {PLAYER}. My storeroom flooded and the current took three sacks of flour clean out the door.');
       await w.say('BAKER HOBB: Without flour, no bread. Without bread, no market. They\'re probably stuck somewhere along the river. Would you look for them?');
       q.start('flour');
