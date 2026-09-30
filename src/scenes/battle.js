@@ -127,6 +127,7 @@
       await this.tween(e0, 'dx', 0, 40);
       await this.tween(e0, 'dark', 0, 12);
       if (PK.audio) PK.audio.cry(b.e.kit().id);
+      if (b.e.kit().prism) await this.prismBurst('e0');
       this.hud.e0.vis = true; this.hud.e0.hp = b.e.kit().hp;
       await this.say((o.legend ? 'The legendary ' : 'A wild ') + PK.stats.name(b.e.kit()) + ' appeared!');
       if (this.safari) {
@@ -153,6 +154,18 @@
     await this.finish(outcome);
   };
 
+  // Prism (shiny) Kits arrive in a burst of stars with their own jingle
+  S.prismBurst = async function (key) {
+    var c = this.center(key);
+    if (PK.audio) PK.audio.jingle('prism');
+    var cols = ['#fff8a0', '#ffffff', '#a8f0ff', '#ffc8f0'];
+    for (var i = 0; i < 30; i++) {
+      var a = Math.random() * 6.28, sp = 0.6 + Math.random() * 1.8;
+      PK.bfx.spawn(this, { x: c.x, y: c.y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 0.4, col: cols[i % 4], life: 40 + PK.rnd(24), shape: 'star', size: i % 3 === 0 ? 3 : 2, delay: (i / 4) | 0 });
+    }
+    await PK.wait(50);
+  };
+
   S.sendOut = async function (key, first) {
     var sh = this.show[key] = blankShow();
     var bt = this.bt(key), k = bt.kit();
@@ -173,6 +186,7 @@
     await this.tween(sh, 'scale', 1, 12);
     await this.tween(sh, 'white', 0, 10);
     if (PK.audio) PK.audio.cry(k.id);
+    if (k.prism) await this.prismBurst(key);
     var h = this.hud[key];
     h.vis = true; h.hp = k.hp;
     if (key[0] === 'p') h.exp = PK.stats.expProgress(k);
@@ -754,7 +768,9 @@
     var lv = 'Lv' + k.level;
     var tagW = k.status ? 22 : 0;
     var nameW = w - 16 - F().width(lv) - 4 - tagW;
-    F().draw(ctx, F().fit(PK.stats.name(k), nameW), x + 6, y + 4, T.text, T.shadow);
+    var nmTxt = F().fit(PK.stats.name(k), nameW - (k.prism ? 8 : 0));
+    F().draw(ctx, nmTxt, x + 6, y + 4, T.text, T.shadow);
+    if (k.prism && ((PK.frame >> 3) % 6)) F().draw(ctx, '★', x + 8 + F().width(nmTxt), y + 4, '#e0a020', '#6a4a00');
     F().right(ctx, lv, x + w - 7, y + 4, T.text, T.shadow);
     if (k.status) {
       var sx = x + w - 7 - F().width(lv) - 21;

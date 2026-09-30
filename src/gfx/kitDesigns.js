@@ -24,6 +24,9 @@
     this.pal = [];
     this.float = false;
     var all = Object.assign({}, STD, pal);
+    // Prism (shiny) Kits use a hand-picked palette; a design without one falls back to a hue shift
+    var shiny = opts.prism && window.PK.SHINY && window.PK.SHINY[opts.seed];
+    if (shiny) { Object.assign(all, shiny); opts = Object.assign({}, opts, { prism: false }); }
     for (var k in all) this.addMat(k, all[k], opts);
     this.rnd = PK.seeded(PK.hash(opts.seed || 'kit'));
   }

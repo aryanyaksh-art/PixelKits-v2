@@ -55,7 +55,7 @@
       moves: [],
       status: null,
       sleep: 0,
-      prism: opts.prism != null ? opts.prism : (!opts.noPrism && Math.random() < 1 / 512),
+      prism: opts.prism != null ? opts.prism : (!opts.noPrism && Math.random() < 1 / 2048),
       held: opts.held || null,
       friend: 70,
       temper: opts.temper != null ? opts.temper : PK.rnd(PK.TEMPERAMENTS.length),

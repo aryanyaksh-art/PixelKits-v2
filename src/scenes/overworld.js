@@ -437,8 +437,9 @@
   W.wildBattle = async function (id, lvl, opts) {
     opts = opts || {};
     W.busy++;
-    await W.battleTransition();
     var kit = PK.stats.create(id, lvl, { noPrism: opts.noPrism });
+    if (kit.prism) await W.prismGlint();
+    await W.battleTransition();
     var night = !W.map.interior && PK.game.timeOfDay() === 'night';
     var outcome = await PK.startBattle(Object.assign({ wild: true, enemy: [kit], theme: W.map.theme, night: night, place: W.map.name }, opts));
     await W.afterBattle(outcome, opts);
@@ -446,6 +447,13 @@
     if (opts.safari && st.safari && st.safari.balls <= 0) await W.safariOver('You ran out of Safari Capsules!');
     W.busy--;
     return outcome;
+  };
+  // A rare Prism (shiny) Kit: stars swirl around the player before the battle starts
+  W.prismGlint = async function () {
+    W.glint = { t: 70 };
+    if (PK.audio) PK.audio.jingle('prism');
+    await PK.wait(74);
+    W.glint = null;
   };
   W.safariOver = async function (why) {
     W.busy++;
@@ -1043,6 +1051,16 @@
       W.hl.t--;
       ctx.fillStyle = W.hl.color || 'rgba(140,255,170,0.5)';
       W.hl.tiles.forEach(function (q) { ctx.fillRect(q[0] * TS - cx + 2, q[1] * TS - cy + 2, 12, 12); });
+    }
+    if (W.glint && W.glint.t > 0) {
+      var gt = W.glint.t--;
+      for (var gi = 0; gi < 12; gi++) {
+        var ga = gi * 0.52 + gt * 0.1, gr = 6 + (70 - gt) * 0.5 + (gi % 3) * 4;
+        var gx = Math.round(p.px - cx + 8 + Math.cos(ga) * gr), gy = Math.round(p.py - cy + 8 + Math.sin(ga) * gr * 0.8);
+        if ((gt + gi * 5) % 14 > 9) continue;
+        ctx.fillStyle = ['#fff8a0', '#ffffff', '#a8f0ff', '#ffc8f0'][gi % 4];
+        ctx.fillRect(gx, gy - 2, 1, 5); ctx.fillRect(gx - 2, gy, 5, 1);
+      }
     }
     // time-of-day tint for outdoor maps
     if (!m.interior && !m.dungeon && m.theme !== 'cave' && m.theme !== 'ice' && m.theme !== 'volcano') {

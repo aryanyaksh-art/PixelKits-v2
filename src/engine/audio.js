@@ -246,6 +246,7 @@
     keyitem: 'o4 l8 @2 v12 g >c e g e c e g >c4.',
     save: 'o5 l16 @1 v12 c e g >c4',
     evolved: 'o5 l8 @2 v13 c e g >c< b >d g4 e4 c2',
+    prism: 'o5 l32 @2 v12 c e g >c e g >c e g >c8 r32 >e g >c4',
     crest: 'o4 l8 @1 v13 g >c e g c e g >c4 r8 <g >c2'
   };
   var jingleCache = {};
